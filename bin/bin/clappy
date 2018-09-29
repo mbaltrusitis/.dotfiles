@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+"""Make your strings sassier.
+"""
+
+import argparse
+import sys
+
+
+def make_it_clappy(phrase: str, r_char: str="👏") -> str:
+    return r_char + r_char.join(phrase) + r_char + "\n"
+
+
+if __name__ == "__main__":
+    description = make_it_clappy("Make some sassy strings.".split(' '))
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument("string", nargs="+")
+    parser.add_argument("-e", dest="emoji", default="👏")
+    args = parser.parse_args()
+    sys.stdout.write(make_it_clappy(args.string, args.emoji))

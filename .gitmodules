@@ -1,0 +1,33 @@
+[submodule "vim/.vim/bundle/base16-vim"]
+	path = vim/.vim/bundle/base16-vim
+	url = https://github.com/chriskempson/base16-vim.git
+[submodule "vim/.vim/bundle/nerdcommenter"]
+	path = vim/.vim/bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter
+[submodule "vim/.vim/bundle/nerdtree"]
+	path = vim/.vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vim/.vim/bundle/vim-gitgutter"]
+	path = vim/.vim/bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "vim/.vim/bundle/vim-json"]
+	path = vim/.vim/bundle/vim-json
+	url = https://github.com/elzr/vim-json.git
+[submodule "vim/.vim/bundle/vim-pathogen"]
+	path = vim/.vim/bundle/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "vim/.vim/bundle/vim-yaml"]
+	path = vim/.vim/bundle/vim-yaml
+	url = https://github.com/avakhov/vim-yaml.git
+[submodule "vim/.vim/pack/dist/start/vim-airline"]
+	path = vim/.vim/pack/dist/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "vim/.vim/pack/dist/start/vim-airline-themes"]
+	path = vim/.vim/pack/dist/start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "config/.config/base16-shell"]
+	path = config/.config/base16-shell
+	url = https://github.com/chriskempson/base16-shell.git
+[submodule "vim/.vim/bundle/editorconfig-vim"]
+	path = vim/.vim/bundle/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim.git

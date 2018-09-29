@@ -1,0 +1,30 @@
+# editors
+*.iml
+*.iws
+*.sublime-project
+*.sublime-workspace
+.*.sw?
+*~
+.idea/
+.tags
+
+# macOS
+.DS_Store
+Icon
+
+# environments
+.env
+.envrc
+.venv
+
+# testing
+*.cover
+.cache
+.coverage
+.coverage.*
+coverage.xml
+coverage/
+junit_results.xml
+
+# packaging
+dist/

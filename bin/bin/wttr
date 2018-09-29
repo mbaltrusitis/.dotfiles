@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -sH "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-new_york_city}"?"${2:-''}" | head -n -2;

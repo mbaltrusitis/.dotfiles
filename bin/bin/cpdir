@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# mac only
+pwd | pbcopy && echo "Copied current path."

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+SESSION_NAME=${1-scratch}
+
+#  if ! tmux has-session -t $SESSION_NAME; then
+#  	echo new
+#  	tmux new-session -s $SESSION_NAME -n stats -d
+#  	tmux split-window -h -p 30 -t $SESSION_NAME
+#  	tmux split-window -v -t $SESSION_NAME
+#  	tmux split-window -v -t $SESSION_NAME
+#  	tmux resize-pane -t $SESSION_NAME:0.1 -y 5
+#  	tmux send-keys -t $SESSION_NAME:0.0 'htop' C-m
+#  	tmux send-keys -t $SESSION_NAME:0.1 'watch dropbox status' C-m
+#  	tmux send-keys -t $SESSION_NAME:0.2 'sudo iftop -i enp5s0' C-m
+#  	tmux send-keys -t $SESSION_NAME:0.3 'while true; do wttr new_york qQn1; sleep 6000; done' C-m
+#  	tmux new-window -t $SESSION_NAME -n bash -c $HOME
+#  	tmux select-window -t $SESSION_NAME:0
+#  	echo exit
+#  fi
+
+if ! tmux has-session -t $SESSION_NAME; then
+	echo new
+	tmux new-session -s $SESSION_NAME -n stats -d
+	tmux split-window -h -p 30 -t $SESSION_NAME
+	tmux split-window -v -t $SESSION_NAME
+	tmux split-window -v -t $SESSION_NAME
+	tmux resize-pane -t $SESSION_NAME:0.1 -y 5
+	tmux resize-pane -t $SESSION_NAME:0.3 -y 16
+	tmux send-keys -t $SESSION_NAME:0.0 'htop' C-m
+	tmux send-keys -t $SESSION_NAME:0.1 'watch dropbox status' C-m
+	tmux send-keys -t $SESSION_NAME:0.2 'sudo iftop -i enp5s0' C-m
+	tmux send-keys -t $SESSION_NAME:0.3 'while true; do wttr new_york qQn1; sleep 6000; done' C-m
+	tmux new-window -t $SESSION_NAME -n bash -c $HOME
+	tmux select-window -t $SESSION_NAME:0
+	echo exit
+fi
+
+tmux attach -d -t $SESSION_NAME

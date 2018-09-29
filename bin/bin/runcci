@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z $1 ] || [ -z $2 ] || [ $1 == '-h' ]; then
+	echo "runcci <config file path> <job>" && exit 1;
+fi
+REMOTE=$(git remote show origin -n | grep h.URL | sed 's/.*://;s/.git$//')
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+curl --user ${CIRCLE_API_TOKEN}: \
+	--request POST \
+	--form revision=$(git log -1 --pretty=%H) \
+	--form config=@$1 \
+	--form notify=false \
+	--form build_parameters[CIRCLE_JOB]=$2 \
+	https://circleci.com/api/v1.1/project/bitbucket/$REMOTE/tree/$BRANCH;

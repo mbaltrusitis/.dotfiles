@@ -1,0 +1,16 @@
+#!/bin/bash
+
+VERB=$1
+NET_ID=$2
+
+echo "$VERB";
+
+if [ -z $1 ] || [ -z $2 ] || [ "$VERB" != "up" ] || [ "$VERB" != "down" ]; then
+	echo "Usage: ssvpn {up|down} <id>" && exit 1;
+fi
+
+if nmcli con "$VERB" id schireson; then
+	echo "SUCCESS!" && exit 1;
+else
+	echo "DRATS!" && exit 0;
+fi
