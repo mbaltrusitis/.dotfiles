@@ -93,3 +93,6 @@ endfunction
 
 nnoremap <Leader>ws :call ToggleShowWhitespace()<CR>
 highlight ExtraWhitespace ctermbg=9
+
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!

@@ -31,3 +31,9 @@
 [submodule "vim/.vim/bundle/editorconfig-vim"]
 	path = vim/.vim/bundle/editorconfig-vim
 	url = https://github.com/editorconfig/editorconfig-vim.git
+[submodule "vim/.vim/pack/dist/start/goyo.vim"]
+	path = vim/.vim/pack/dist/start/goyo.vim
+	url = https://github.com/junegunn/goyo.vim.git
+[submodule "vim/.vim/pack/dist/start/limelight.vim"]
+	path = vim/.vim/pack/dist/start/limelight.vim
+	url = https://github.com/junegunn/limelight.vim.git
