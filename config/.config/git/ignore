@@ -25,6 +25,3 @@ Icon
 coverage.xml
 coverage/
 junit_results.xml
-
-# packaging
-dist/

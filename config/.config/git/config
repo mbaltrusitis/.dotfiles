@@ -1,8 +1,10 @@
 [user]
 	name = mbaltrusitis
 	email = matthew@baltrusitis.com
+	signingkey = 4B5181CCE528F0ACC592F2B0F7ADC46A56F27040
 [alias]
 	b  = branch
+	cached = diff --cached
 	cm = commit
 	co = checkout
 	dn = diff --name-only
@@ -10,17 +12,28 @@
 	dump = cat-file -p
 	g = grep
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	last = log -1 --stat
+	lol = log --graph --pretty=oneline
 	plog = log --all --decorate --graph --oneline
 	rb = rebase
-	st = status
+	st = status -sb
 	type = cat-file -t
+[branch]
+	autoSetupRebase = always
 [color]
 	ui = auto
 [diff]
 	tool = vimdiff
+[difftool]
+	prompt = false
+[gpg]
+	program = gpg
+[help]
+	autoCorrect = -1
 [hub]
 	protocol = https
 [pull]
 	ff = only
 [rerere]
 	enabled = false
+	autoUpdate = true
