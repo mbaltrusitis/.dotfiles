@@ -56,5 +56,6 @@ apt-get install --show-progress --assume-yes \
 	vim \
 	virtualbox \
 	wireshark \
+	xclip \
 	youtube-dl \
 	zeal;
