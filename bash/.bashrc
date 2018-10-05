@@ -150,6 +150,13 @@ export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
 # noodenv end
 
+# npm start
+export NPM_PACKAGES="$HOME/.npm-global"
+export PATH="$NPM_PACKAGES/bin:$PATH"
+unset -v MANPATH
+export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+# npm end
+
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects

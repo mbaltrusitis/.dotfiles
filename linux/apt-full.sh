@@ -39,6 +39,7 @@ apt-get install --show-progress --assume-yes \
 	netcat-openbsd \
 	nginx \
 	nodejs \
+	npm \
 	ocaml \
 	openssh-client \
 	openssh-server \

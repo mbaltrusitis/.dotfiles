@@ -33,6 +33,7 @@ flatpak:
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 font-cache:
+	$(info Resetting system font-cache)
 	$(shell fc-cache -f)
 
 git-init:
