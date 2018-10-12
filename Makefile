@@ -1,4 +1,5 @@
-.PHONY: all apt backup-bash darwin git-init git-installs help install link linux nodejs-dev profile-source python-dev stow unlink venv-wrapper
+.PHONY: all apt backup-bash brew-sync darwin git-init git-installs help install link linux nodejs-dev profile-source \
+	python-dev stow unlink venv-wrapper
 
 SHELL		= /bin/bash
 DOTFILE_DIR	:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
@@ -22,6 +23,9 @@ darwin: brew
 
 brew: /usr/local/Homebrew/bin/brew
 	brew bundle --file=$(DOTFILE_DIR)/darwin/.Brewfile
+
+brew-sync:
+	brew bundle dump --force --file=$(DOTFILE_DIR)/darwin/.Brewfile
 
 /usr/local/Homebrew/bin/brew:
 	xcode-select --install
