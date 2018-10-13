@@ -37,3 +37,6 @@
 [submodule "vim/.vim/pack/dist/start/limelight.vim"]
 	path = vim/.vim/pack/dist/start/limelight.vim
 	url = https://github.com/junegunn/limelight.vim.git
+[submodule "vim/.vim/pack/dist/start/vim-javascript"]
+	path = vim/.vim/pack/dist/start/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
