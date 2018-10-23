@@ -136,6 +136,12 @@ if [[ "$SSH_AGENT_PID" == "" ]]; then
 fi
 # run ssh-agen end
 
+# run gpg-agent start
+if [ -z "$(pgrep -u "$USER" gpg-agent)" ]; then
+    eval "$(gpg-agent --daemon ~/.gnupg/.gpg-agent-info)"
+fi
+# run gpg-agent end
+
 # my editor
 export EDITOR='/usr/bin/vim'
 
@@ -211,8 +217,8 @@ PS1+="\[\e[37m\]"
 PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
-PS1+="🔥 "
-# PS1+="👻 " # happy halloween
+#PS1+="🔥 "
+PS1+="🦃 "  # happy thanksgiving
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
