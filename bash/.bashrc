@@ -178,6 +178,10 @@ elif [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 # virtualenvwrapper end
 
+# pipenv start
+eval "$(pipenv --completion)"
+# pipenv end
+
 # rustup start
 export PATH="$HOME/.cargo/bin:$PATH"
 # rustup end
