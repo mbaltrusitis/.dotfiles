@@ -22,6 +22,8 @@
 	autoSetupRebase = always
 [color]
 	ui = auto
+[commit]
+	gpgsign = true
 [diff]
 	tool = vimdiff
 [difftool]
