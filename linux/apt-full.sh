@@ -15,6 +15,7 @@ apt-get install --show-progress --assume-yes \
 	cmake \
 	dbus \
 	direnv \
+	duplicity \
 	docker-compose \
 	docker.io \
 	emacs \

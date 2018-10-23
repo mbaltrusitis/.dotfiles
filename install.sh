@@ -3,16 +3,33 @@
 set -u
 
 setup() {
+	INSTALL_LIST=""
 	if [ -z "$(which curl)" ]; then
-		echo "Installing necessary tooling..."
-		apt-get install curl
+		INSTALL_LIST+="curl"
 	fi
+
+	if [ -z "$(which curl)" ]; then
+		INSTALL_LIST=" unzip"
+	fi
+
+	if ! [ -z "$INSTALL_LIST" ]; then
+		echo "I: Installing necessary tooling..."
+		apt-get install --show-progress --assume-yes "$INSTALL_LIST"
+	else
+		echo "I: Requirements met."
+	fi
+	unset -v INSTALL_LIST
 }
 
 fetch_dots() {
-	echo "Fetching zipped repo and unzipping..."
-	curl -Lo /tmp/dotfiles.zip https://github.com/mbaltrusitis/.dotfiles/archive/master.zip
-	unzip /tmp/dotfiles.zip -d /tmp/dotfiles
+	echo "I: Fetching zipped repo..."
+	if curl -sLo /tmp/dotfiles.zip https://github.com/mbaltrusitis/.dotfiles/archive/master.zip; then
+		echo "I: Unzipping..."
+		unzip -qf /tmp/dotfiles.zip -d /tmp/dotfiles;
+	else
+		echo "E: Download failed."
+	fi
+	echo "I: Great success!"
 }
 
 main() {
@@ -21,3 +38,4 @@ main() {
 }
 
 main
+echo "I: Done."
