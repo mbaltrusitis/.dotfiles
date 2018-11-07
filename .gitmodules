@@ -40,3 +40,6 @@
 [submodule "vim/.vim/pack/dist/start/vim-javascript"]
 	path = vim/.vim/pack/dist/start/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
+[submodule "vim/.vim/pack/default/start/vim-polyglot"]
+	path = vim/.vim/pack/default/start/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot

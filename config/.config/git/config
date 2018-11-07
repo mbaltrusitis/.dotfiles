@@ -23,7 +23,7 @@
 [color]
 	ui = auto
 [commit]
-	gpgsign = true
+	gpgsign = false
 [diff]
 	tool = vimdiff
 [difftool]
