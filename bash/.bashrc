@@ -104,6 +104,9 @@ fi
 
 # my edits start
 
+# super user bin start
+export PATH="/usr/local/sbin:$PATH"
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
 	PATH="$HOME/bin:$PATH"
@@ -112,6 +115,11 @@ fi
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
 	PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH to include cargo-built binaries
+if [ -d "$HOME/.cargo/bin" ] ; then
+	PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # some FUNctions

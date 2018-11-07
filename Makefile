@@ -1,5 +1,6 @@
 .PHONY: all apt backup-bash brew-sync darwin git-init git-installs help install link linux nodejs-dev profile-source \
 	python-dev stow unlink venv-wrapper
+.ONESHELL:
 
 SHELL		= /bin/bash
 DOTFILE_DIR	:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
@@ -27,11 +28,15 @@ brew: /usr/local/Homebrew/bin/brew
 brew-sync:
 	brew bundle dump --force --file=$(DOTFILE_DIR)/darwin/.Brewfile
 
-/usr/local/Homebrew/bin/brew:
-	xcode-select --install
-	if [ -z $(which brew) ]; then
-	    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
-	fi
+/usr/local/Homebrew/bin/brews:
+	{ \
+	set -e ;\
+	if hash brew 2> /dev/null; then \
+		echo "Brew is already installed."; \
+	else \
+		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; \
+	fi ;\
+	}
 
 flatpak:
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
