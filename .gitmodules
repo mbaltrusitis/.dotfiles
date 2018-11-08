@@ -43,3 +43,6 @@
 [submodule "vim/.vim/pack/default/start/vim-polyglot"]
 	path = vim/.vim/pack/default/start/vim-polyglot
 	url = https://github.com/sheerun/vim-polyglot
+[submodule "vim/.vim/pack/dist/start/csv.vim"]
+	path = vim/.vim/pack/dist/start/csv.vim
+	url = https://github.com/chrisbra/csv.vim.git
