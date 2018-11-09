@@ -42,6 +42,9 @@ let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o$', 
 let g:airline_powerline_fonts = 1
 set laststatus=2  " puts airline in the right spot when used with NERDTree
 
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
 " Highlight whitespace problems.
 " flags is '' to clear highlighting, or is a string to
 " specify what to highlight (one or more characters):

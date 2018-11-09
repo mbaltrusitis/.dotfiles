@@ -18,6 +18,7 @@ apt-get install --show-progress --assume-yes \
 	duplicity \
 	docker-compose \
 	docker.io \
+	editorconfig \
 	emacs \
 	erlang \
 	fail2ban \
