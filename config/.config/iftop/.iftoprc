@@ -1,0 +1,5 @@
+interface: enp5s0
+show-bars: yes
+line-display: one-line-both
+sort: destination
+promiscuous: yes
