@@ -9,13 +9,12 @@ if filereadable(expand("~/.vimrc_background"))  " requires base16-bash to be ins
 endif
 
 " general settings
-syntax on
 filetype plugin indent on
-map <F2> :echo 'Current time is ' . strftime('%c')<CR>
+syntax on
 " line numbers
 set number
 " Highlight columns 80 and 120
-let &colorcolumn='80,120'
+let &colorcolumn='80,100,120,140'
 " highlight active column
 set cursorcolumn
 highlight CursorColumn cterm=NONE ctermbg=232
@@ -23,6 +22,7 @@ highlight CursorColumn cterm=NONE ctermbg=232
 set backspace=indent,eol,start
 
 "function key assignments
+map <F2> :echo 'Current time is ' . strftime('%c')<CR>
 map <F3> :noh<CR>
 map <F4> :set paste! nopaste?<CR>
 map <F5> :setlocal spell spelllang=en_us<CR>
