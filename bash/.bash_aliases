@@ -24,3 +24,5 @@ alias tcopy='tmux loadb -'
 
 # docker
 alias dls='docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
+
+alias cdlast='cd !$'

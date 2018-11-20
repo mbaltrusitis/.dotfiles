@@ -127,6 +127,10 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+# mail
+export MAILCHECK=60
+export MAILPATH="/var/spool/mail/$USER"
+
 # run ssh-agen start
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
     ssh-agent > ~/.ssh-agent-proc
