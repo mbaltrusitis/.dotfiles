@@ -7,17 +7,19 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Some necessary Unix tools
-apt-get install --show-progress --assume-yes \
+apt-get install --fix-broken --show-progress --assume-yes \
+	asciinema \
 	aspell aspell-en \
 	bash-completion \
+	build-essential \
 	cargo \
 	clang \
 	cmake \
 	dbus \
 	direnv \
-	duplicity \
 	docker-compose \
 	docker.io \
+	duplicity \
 	editorconfig \
 	emacs \
 	erlang \
@@ -25,14 +27,23 @@ apt-get install --show-progress --assume-yes \
 	ffmpeg \
 	flatpak \
 	ghc \
+	gnome-software-plugin-flatpak \
 	golang \
 	gpg \
-	gnome-software-plugin-flatpak \
 	haskell-stack \
 	htop \
 	iftop \
 	jq \
 	keepassxc \
+	libbz2-dev \
+	libffi-dev \
+	libncurses5-dev \
+	libreadline-dev \
+	libsqlite3-dev \
+	libssl-dev \
+	libxml2-dev \
+	libxmlsec1-dev \
+	llvm \
 	lua5.1 \
 	lxd \
 	magic-wormhole \
@@ -40,8 +51,6 @@ apt-get install --show-progress --assume-yes \
 	mycli \
 	netcat-openbsd \
 	nginx \
-	nodejs \
-	npm \
 	ocaml \
 	openssh-client \
 	openssh-server \
@@ -55,10 +64,15 @@ apt-get install --show-progress --assume-yes \
 	rustc \
 	shellcheck \
 	stow \
+	tk-dev \
 	tree \
 	vim \
 	virtualbox \
+	wget \
 	wireshark \
 	xclip \
+	xz-utils \
 	youtube-dl \
-	zeal;
+	zeal \
+	zfsutils-linux \
+	zlib1g-dev;
