@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# This file should be read-only by your user and root! Run something like:
+#     $ chmod 0600 thisfile.sh
+
+# You could schedule this backup regularly in your crontab. An example:
+#
+# :13 of every even hour
+# 13 */2 * * * /path/to/local-backup.sh >> /var/log/duplicity.local.log 2>&1
+
+
+# some local vars no to be forwarded to base-backup
+B2_ACCOUNT="123"
+B2_BUCKET="a-bucket-name"
+B2_APP_KEY="123myAppKey"
+
+# vars to be exported to base-backup *and unset* after use.
+# where to backup to
+export DEST="b2://$B2_ACCOUNT:$B2_APP_KEY@$B2_BUCKET/backups/"
+# what key to use to encrypt your backups
+export GPG_KEY="1234567890abcdef"
+# how long between full backups
+export OLDEST_FULL_TIME="7D"
+# your GPG key's passphrase
+export PASSPHRASE="a-gpg-password"
+# how long to save previous backups
+export RETENTION_TIME="1M"
+# same as above but used when generating a signed manifest file
+export SIGN_PASSPHRASE="$PASSPHRASE"
+# where to backup
+export SRC="/home/heatmiser"
+
+bash "$HOME/.dotfiles/bin/backup/base-backup.sh"
