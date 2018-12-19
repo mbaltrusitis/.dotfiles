@@ -222,7 +222,7 @@ PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
 #PS1+="🔥 "
-PS1+="🦃 "  # happy thanksgiving
+PS1+="🎄 "  # merry christmas
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
