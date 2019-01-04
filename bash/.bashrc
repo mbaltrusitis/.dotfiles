@@ -94,11 +94,11 @@ fi
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
+        source /usr/share/bash-completion/bash_completion
     elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
+        source /etc/bash_completion
     elif [ -f /usr/local/etc/bash_completion ]; then
-        . /usr/local/etc/bash_completion
+        source /usr/local/etc/bash_completion
     fi
 fi
 
@@ -191,10 +191,6 @@ fi
 # pipenv start
 eval "$(pipenv --completion)"
 # pipenv end
-
-# rustup start
-export PATH="$HOME/.cargo/bin:$PATH"
-# rustup end
 
 # visuals start
 # PS1 nonsense
