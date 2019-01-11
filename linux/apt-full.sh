@@ -8,6 +8,8 @@ fi
 
 # Some necessary Unix tools
 apt-get install --fix-broken --show-progress --assume-yes \
+	autoconf \
+	automake \
 	asciinema \
 	aspell aspell-en \
 	bash-completion \
@@ -34,13 +36,14 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	htop \
 	iftop \
 	jq \
-	keepassxc \
+	kazam \
 	libbz2-dev \
 	libffi-dev \
 	libncurses5-dev \
 	libreadline-dev \
 	libsqlite3-dev \
 	libssl-dev \
+	libtool \
 	libxml2-dev \
 	libxmlsec1-dev \
 	llvm \
