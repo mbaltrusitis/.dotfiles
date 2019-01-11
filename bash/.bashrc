@@ -86,7 +86,7 @@ fi
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    source ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -146,6 +146,22 @@ if [ -z "$(pgrep -u "$USER" gpg-agent)" ]; then
 fi
 # run gpg-agent end
 
+# private tokens start
+if [ -f "$HOME/.tokens" ]; then
+	source "$HOME/.tokens";
+fi
+# private tokens end
+
+# kube configs start
+if [ -d "$HOME/.kube" ]; then
+	KUBECONFIG="";
+	# append config-y files to the KUBECONFIG path
+	for configFile in $HOME/.kube/*config; do
+		export KUBECONFIG="$configFile:$KUBECONFIG";
+	done
+fi
+# kube configs end
+
 # my editor
 export EDITOR='/usr/bin/vim'
 
@@ -178,7 +194,7 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
-export VIRTUALENVWRAPPER_PYTHON=python3
+export VIRTUALENVWRAPPER_PYTHON=python3.6
 if [ -f $HOME/.local/bin/virtualenvwrapper.sh ]; then
 	# Linux
 	source $HOME/.local/bin/virtualenvwrapper.sh;
@@ -188,9 +204,11 @@ elif [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 # virtualenvwrapper end
 
-# pipenv start
-eval "$(pipenv --completion)"
-# pipenv end
+# poetry start
+if [ -d "$HOME/.poetry/bin" ]; then
+	export PATH="$HOME/.poetry/bin:$PATH"
+fi
+# poetry end
 
 # visuals start
 # PS1 nonsense

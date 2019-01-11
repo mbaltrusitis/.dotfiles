@@ -23,8 +23,8 @@ if hash duplicity 2>/dev/null; then
 		--full-if-older-than="$OLDEST_FULL_TIME" \
 		"$SRC" \
 		"$DEST"; then
-		echo "I: B2 Backup complete";
-		echo "I: Verifying B2 backup";
+		echo "I: Backup complete";
+		echo "I: Verifying backup";
 	else
 		echo "E: Backup error"
 		cleanup
@@ -39,7 +39,7 @@ if hash duplicity 2>/dev/null; then
 		"$SRC"; then
 		echo "I: Verify complete."
 	else
-		echo "E: Could not verify B2 backup."
+		echo "E: Could not verify backup."
 		cleanup
 		exit 1;
 	fi

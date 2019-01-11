@@ -26,3 +26,7 @@ alias tcopy='tmux loadb -'
 alias dls='docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
 
 alias cdlast='cd !$'
+
+# kube
+alias k='kubectl'
+alias mk='microk8s.kubectl'

@@ -67,7 +67,7 @@ $(HOME)/.pyenv/plugins/pyenv-virtualenv:
 	git clone https://github.com/pyenv/pyenv-virtualenv.git $(HOME)/.pyenv/plugins/pyenv-virtualenv
 
 venv-wrapper:
-	pip3 install virtualenvwrapper
+	pip3 install --user -U virtualenvwrapper virtualenv
 
 profile-source:
 	source $(HOME)/.bash_profile

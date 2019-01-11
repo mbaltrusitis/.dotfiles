@@ -1,10 +1,11 @@
 [user]
-	name = mbaltrusitis
+	name = Matthew Baltrusitis
 	email = matthew@baltrusitis.com
 	signingkey = 4B5181CCE528F0ACC592F2B0F7ADC46A56F27040
 [alias]
 	b  = branch
 	cached = diff --cached
+	ch = rev-parse --verify HEAD
 	cm = commit
 	co = checkout
 	dn = diff --name-only
@@ -16,6 +17,9 @@
 	lol = log --graph --pretty=oneline
 	plog = log --all --decorate --graph --oneline
 	rb = rebase
+	sls = stash list
+	spop = stash pop
+	spush = stash push
 	st = status -sb
 	type = cat-file -t
 [branch]
