@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
@@ -16,7 +18,7 @@ shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
-HISTFILESIZE=2000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -39,22 +41,6 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
@@ -73,7 +59,11 @@ esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    if test -r ~/.dircolors; then
+		eval "$(dircolors -b ~/.dircolors)";
+	else
+		eval "$(dircolors -b)";
+	fi
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -172,6 +162,14 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 # base16-shell end
 
+# direnv start
+if hash direnv 2>/dev/null; then
+	shell_env="$(echo "$SHELL" | rev | cut -d'/' -f1 | rev)"
+	eval "$(direnv hook "$shell_env")"
+	unset shell_env
+fi
+# direnv end
+
 # pyenv start
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -195,9 +193,9 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
 export VIRTUALENVWRAPPER_PYTHON=python3.6
-if [ -f $HOME/.local/bin/virtualenvwrapper.sh ]; then
+if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
 	# Linux
-	source $HOME/.local/bin/virtualenvwrapper.sh;
+	source "$HOME/.local/bin/virtualenvwrapper.sh";
 elif [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 	# Darwin
 	source /usr/local/bin/virtualenvwrapper.sh;
