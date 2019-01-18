@@ -23,7 +23,7 @@ darwin: brew
 	softwareupdate -aiR
 
 brew: /usr/local/Homebrew/bin/brew
-	brew bundle --file=$(DOTFILE_DIR)/darwin/.Brewfile
+	-brew bundle --file=$(DOTFILE_DIR)/darwin/.Brewfile
 
 brew-sync:
 	brew bundle dump --force --file=$(DOTFILE_DIR)/darwin/.Brewfile

@@ -30,3 +30,6 @@ alias cdlast='cd !$'
 # kube
 alias k='kubectl'
 alias mk='microk8s.kubectl'
+
+# common things
+alias ssh-heat='sudo ssh -F ~/.ssh/config heat.nyc -i ~/.ssh/id_rsa'
