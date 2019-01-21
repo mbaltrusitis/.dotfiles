@@ -199,6 +199,8 @@ if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
 elif [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 	# Darwin
 	source /usr/local/bin/virtualenvwrapper.sh;
+else
+	echo "W: Coudn't find virtualenvwrapper.sh"
 fi
 # virtualenvwrapper end
 
@@ -234,7 +236,7 @@ PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
 #PS1+="🔥 "
-PS1+="❄️ "  # brrrrr
+PS1+="❄️  "  # brrrrr
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
