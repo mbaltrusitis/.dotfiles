@@ -16,7 +16,6 @@ function cleanup() {
 echo "I: Starting backup."
 if hash duplicity 2>/dev/null; then
 	if duplicity \
-		--verbosity=info \
 		--asynchronous-upload \
 		--encrypt-sign-key="$GPG_KEY" \
 		--exclude-if-present=.nobackup \
@@ -32,7 +31,6 @@ if hash duplicity 2>/dev/null; then
 	fi;
 
 	if duplicity verify \
-		--verbosity=info \
 		--encrypt-sign-key="$GPG_KEY" \
 		--exclude-if-present=.nobackup \
 		"$DEST" \
