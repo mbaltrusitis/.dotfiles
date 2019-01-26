@@ -10,6 +10,9 @@ alias go='git checkout'
 alias grb='git rb'
 alias gs='git status'
 
+# allows you to "go back" via popd
+# alias cd='pushd'
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
