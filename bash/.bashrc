@@ -173,8 +173,9 @@ fi
 # pyenv start
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if hash pyenv 2>/dev/null; then
+	eval "$(pyenv init -)"
+fi
 # pyenv end
 
 # nodenv start
@@ -192,7 +193,7 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
 	# Linux
 	source "$HOME/.local/bin/virtualenvwrapper.sh";
@@ -236,7 +237,7 @@ PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
 #PS1+="🔥 "
-PS1+="❄️  "  # brrrrr
+PS1+="❄️"  # brrrrr
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
