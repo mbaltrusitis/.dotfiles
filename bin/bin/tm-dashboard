@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tmux select-layout "$(cat $HOME/.tmux/dashboard)"
