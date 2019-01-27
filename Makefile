@@ -10,7 +10,7 @@ OS			:= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 all: install
 install: $(OS)
 linux: apt flatpak git-init stow git-installs profile-source font-cache
-darwin: brew git-init stow git-installs profile-source
+darwin: brew brew-upgrade git-init stow git-installs profile-source
 
 
 apt:
@@ -27,6 +27,9 @@ brew: /usr/local/Homebrew/bin/brew
 
 brew-sync:
 	brew bundle dump --force --file=$(DOTFILE_DIR)/darwin/.Brewfile
+
+brew-upgrade:
+	brew upgrade
 
 /usr/local/Homebrew/bin/brews:
 	{ \
