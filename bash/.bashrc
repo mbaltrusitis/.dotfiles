@@ -212,6 +212,18 @@ if [ -d "$HOME/.poetry/bin" ]; then
 fi
 # poetry end
 
+# OPAM start
+if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
+	if source "$HOME/.opam/opam-init/init.sh" > /dev/null 2> /dev/null; then
+		:  # pass // no-op
+	else
+		true;
+	fi
+else
+	echo "W: OPAM seems not to be configured // installed.";
+fi
+# OPAM end
+
 # visuals start
 # PS1 nonsense
 PS1="\[\e[37m\]"
@@ -237,8 +249,7 @@ PS1+="\[\e[37m\]"
 PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
-#PS1+="🔥 "
-PS1+="❄️ "  # brrrrr
+PS1+="🔥 "
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
