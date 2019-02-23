@@ -238,11 +238,13 @@ PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
 #PS1+="🔥 "
-PS1+="❄️"  # brrrrr
+PS1+="❄️ "  # brrrrr
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
 export LS_COLORS='di=1;36:fi=0:ln=34:pi=5:so=33:bd=5:cd=5:or=37:mi=37:ex=32:*.rpm=1;31:*.zip=1;31'
 # visuals end
+
+export WINIT_HIDPI_FACTOR="1.6"
 
 # my edits end

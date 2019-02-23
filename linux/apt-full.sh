@@ -30,6 +30,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	flatpak \
 	ghc \
 	gnome-software-plugin-flatpak \
+	gnome-tweak-tool \
 	golang \
 	gpg \
 	haskell-stack \
@@ -57,17 +58,19 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	ocaml \
 	openssh-client \
 	openssh-server \
+	openvpn \
 	pandoc \
 	pgcli \
 	postgresql \
 	python3 \
 	python3-pip \
-	rust-doc \
-	rust-src \
-	rustc \
 	shellcheck \
 	stow \
+	synapse \
 	tk-dev \
+	thermald \
+	tlp \
+	tlp-rdw \
 	tree \
 	vim \
 	virtualbox \
