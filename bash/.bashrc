@@ -224,6 +224,18 @@ else
 fi
 # OPAM end
 
+#kubectx // kubens start
+if [ -d "$HOME/.kubectx" ]; then
+	export PATH="$HOME/.kubectx:$PATH"
+fi
+#kubectx // kubens end
+
+# flatpak start
+if [ -d "/var/lib/flatpak/exports/share" ]; then
+	export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
+fi
+# flatpak end
+
 # visuals start
 # PS1 nonsense
 PS1="\[\e[37m\]"

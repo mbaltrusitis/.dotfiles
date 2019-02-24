@@ -36,3 +36,7 @@ alias mk='microk8s.kubectl'
 
 # common things
 alias ssh-heat='sudo ssh -F ~/.ssh/config heat.nyc -i ~/.ssh/id_rsa'
+
+# wireguard
+alias wgup='wg-quick up us-ny1'
+alias wgdn='wg-quick down us-ny1'
