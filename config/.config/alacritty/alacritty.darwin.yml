@@ -279,8 +279,9 @@ live_config_reload: true
 # Entries in `shell.args` are passed unmodified as arguments to the shell.
 #
 shell:
-  program: login
-  args: ["-fp", "$USER"]
+  program: "/usr/local/Cellar/bash/5.0.2/bin/bash"
+  args:
+    - --login
 
 # Key bindings
 #

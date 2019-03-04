@@ -131,10 +131,8 @@ fi
 # run ssh-agen end
 
 # run gpg-agent start
-if [ -z "$(pgrep -u "$USER" gpg-agent)" ]; then
-	eval "$(gpg-agent --daemon ~/.gnupg/.gpg-agent-info)"
-	export GPG_TTY="$(tty)"
-fi
+gpg-agent --daemon 2> /dev/null
+export GPG_TTY="$(tty)"
 # run gpg-agent end
 
 # private tokens start
@@ -183,6 +181,17 @@ fi
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
 # noodenv end
+
+# nvm start
+export NVM_DIR="$HOME/.nvm"
+if [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
+	source "/usr/local/opt/nvm/nvm.sh";
+fi
+
+if [ -s "/usr/local/opt/nvm/etc/bash_completion" ]; then
+	source "/usr/local/opt/nvm/etc/bash_completion";
+fi
+# nvm end
 
 # npm start
 export NPM_PACKAGES="$HOME/.npm-global"
