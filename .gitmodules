@@ -10,15 +10,9 @@
 [submodule "vim/.vim/bundle/vim-gitgutter"]
 	path = vim/.vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
-[submodule "vim/.vim/bundle/vim-json"]
-	path = vim/.vim/bundle/vim-json
-	url = https://github.com/elzr/vim-json.git
 [submodule "vim/.vim/bundle/vim-pathogen"]
 	path = vim/.vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
-[submodule "vim/.vim/bundle/vim-yaml"]
-	path = vim/.vim/bundle/vim-yaml
-	url = https://github.com/avakhov/vim-yaml.git
 [submodule "vim/.vim/pack/dist/start/vim-airline"]
 	path = vim/.vim/pack/dist/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline
@@ -37,9 +31,6 @@
 [submodule "vim/.vim/pack/dist/start/limelight.vim"]
 	path = vim/.vim/pack/dist/start/limelight.vim
 	url = https://github.com/junegunn/limelight.vim.git
-[submodule "vim/.vim/pack/dist/start/vim-javascript"]
-	path = vim/.vim/pack/dist/start/vim-javascript
-	url = https://github.com/pangloss/vim-javascript.git
 [submodule "vim/.vim/pack/default/start/vim-polyglot"]
 	path = vim/.vim/pack/default/start/vim-polyglot
 	url = https://github.com/sheerun/vim-polyglot
