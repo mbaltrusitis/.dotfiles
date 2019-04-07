@@ -25,6 +25,8 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	editorconfig \
 	emacs \
 	erlang \
+	exfat-fuse \
+	exfat-utils \
 	fail2ban \
 	ffmpeg \
 	flatpak \
