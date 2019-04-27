@@ -203,7 +203,7 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=python3
 if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
 	# Linux
 	source "$HOME/.local/bin/virtualenvwrapper.sh";

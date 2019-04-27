@@ -6,7 +6,7 @@ echo "Moving or unlinking Bash-related files in $TARGET_DIR"
 echo ""
 
 for file in $TARGET_DIR; do
-	if [ "$file" == "*.bash_history" ]; then
+	if [ "$file" == "*.bash_history*" ]; then
 		echo "Skipping .bash_history";
 	elif [ -h "$file" ]; then
 		echo "Unlinking symbolic link: $file"
