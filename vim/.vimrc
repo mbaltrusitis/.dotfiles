@@ -45,6 +45,9 @@ set laststatus=2  " puts airline in the right spot when used with NERDTree
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+" YouCompleteMe
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
 " Highlight whitespace problems.
 " flags is '' to clear highlighting, or is a string to
 " specify what to highlight (one or more characters):
