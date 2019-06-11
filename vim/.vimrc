@@ -9,8 +9,8 @@ if filereadable(expand("~/.vimrc_background"))  " requires base16-bash to be ins
 endif
 
 " general settings
-filetype plugin indent on
 syntax on
+filetype plugin indent on
 " line numbers
 set number
 " Highlight columns 80 and 120
