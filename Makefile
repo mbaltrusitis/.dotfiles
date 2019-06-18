@@ -55,6 +55,13 @@ git-installs: python-dev nodejs-dev
 
 python-dev: $(HOME)/.pyenv venv-wrapper
 nodejs-dev: $(HOME)/.nodenv $(HOME)/.nodenv/plugins/node-build
+scala-dev:  $(HOME)/.scalaenv $(HOME)/.sbtenv
+
+$(HOME)/.scalaenv:
+	git clone git://github.com/scalaenv/scalaenv.git $(HOME)/.scalaenv
+
+$(HOME)/.sbtenv:
+	git clone git://github.com/sbtenv/sbtenv.git ~/.sbtenv
 
 $(HOME)/.nodenv:
 	git clone https://github.com/nodenv/nodenv.git $(HOME)/.nodenv

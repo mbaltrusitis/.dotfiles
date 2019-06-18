@@ -169,6 +169,20 @@ if hash direnv 2>/dev/null; then
 fi
 # direnv end
 
+# scalaenv start
+if [ -d "$HOME/.sbtenv/bin" ]; then
+	export PATH="$HOME/.sbtenv/bin:$PATH";
+	eval "$(sbtenv init -)"
+fi
+# scalaenv end
+
+# scalaenv start
+if [ -d "$HOME/.scalaenv/bin" ]; then
+	export PATH="$HOME/.scalaenv/bin:$PATH";
+	eval "$(scalaenv init -)"
+fi
+# scalaenv end
+
 # pyenv start
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
