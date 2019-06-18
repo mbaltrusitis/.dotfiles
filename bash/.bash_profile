@@ -8,5 +8,3 @@ if [ -n "$BASH_VERSION" ]; then
 	fi
 fi
 
-# opam configuration
-test -r /Users/mbaltrusitis/.opam/opam-init/init.sh && . /Users/mbaltrusitis/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true

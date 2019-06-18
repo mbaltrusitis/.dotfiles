@@ -58,6 +58,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	netcat-openbsd \
 	nginx \
 	ocaml \
+	opam \
 	openssh-client \
 	openssh-server \
 	openvpn \
