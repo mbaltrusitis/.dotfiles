@@ -152,7 +152,7 @@ fi
 # kube configs end
 
 # my editor
-export EDITOR='/usr/bin/vim'
+export EDITOR="/usr/local/bin/vim"
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -214,6 +214,12 @@ unset -v MANPATH
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # npm end
 
+# erlang start
+if [ -d "/usr/local/opt/erlang/lib/erlang/man" ]; then
+	export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
+fi
+# erlang end
+
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
@@ -221,9 +227,10 @@ export VIRTUALENVWRAPPER_PYTHON=python3
 if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
 	# Linux
 	source "$HOME/.local/bin/virtualenvwrapper.sh";
-elif [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+elif [ -f "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh" ]; then
 	# Darwin
-	source /usr/local/bin/virtualenvwrapper.sh;
+	source "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh";
+	export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 else
 	echo "W: Coudn't find virtualenvwrapper.sh"
 fi
@@ -252,6 +259,12 @@ if [ -d "$HOME/.kubectx" ]; then
 	export PATH="$HOME/.kubectx:$PATH"
 fi
 #kubectx // kubens end
+
+# bash completion start
+if [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
+	source "/usr/local/etc/profile.d/bash_completion.sh"
+fi
+# bash completion end
 
 # flatpak start
 if [ -d "/var/lib/flatpak/exports/share" ]; then

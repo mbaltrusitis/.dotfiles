@@ -28,8 +28,13 @@ brew: /usr/local/Homebrew/bin/brew
 brew-sync:
 	brew bundle dump --force --file=$(DOTFILE_DIR)/darwin/.Brewfile
 
+upgrade: brew-upgrade cask-upgrade
+
 brew-upgrade:
 	if brew upgrade ; then brew cleanup ; fi;
+
+cask-upgrade:
+	if brew cask upgrade ; then brew cleanup ; fi;
 
 /usr/local/Homebrew/bin/brews:
 	{ \
