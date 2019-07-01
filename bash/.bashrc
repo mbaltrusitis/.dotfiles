@@ -254,6 +254,12 @@ else
 fi
 # OPAM end
 
+# scalaenv start
+if hash scalaenv 2>/dev/null; then
+	eval "$(scalaenv init -)"
+fi
+# scalaenv end
+
 #kubectx // kubens start
 if [ -d "$HOME/.kubectx" ]; then
 	export PATH="$HOME/.kubectx:$PATH"
