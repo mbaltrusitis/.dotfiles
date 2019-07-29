@@ -20,7 +20,7 @@ apt:
 	sudo linux/apt-full.sh
 
 darwin: brew
-	softwareupdate -aiR
+	sudo softwareupdate -aiR
 
 brew: /usr/local/Homebrew/bin/brew
 	-brew bundle --file=$(DOTFILE_DIR)/darwin/.Brewfile
