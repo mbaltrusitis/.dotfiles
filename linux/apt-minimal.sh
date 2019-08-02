@@ -10,4 +10,4 @@ fi
 apt-get install --show-progress --assume-yes \
 	curl \
 	git \
-	tmux
+	tmux;

@@ -9,4 +9,4 @@ fi
 # update and upgrade
 apt-get update
 apt-get upgrade --assume-yes
-apt-get dist-upgrade -f
+apt-get dist-upgrade --fix-missing --assume-yes
