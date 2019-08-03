@@ -141,6 +141,12 @@ if [ -f "$HOME/.tokens" ]; then
 fi
 # private tokens end
 
+# aws profile start
+if [ -z "$AWS_DEFAULT_PROFILE" ]; then
+	export AWS_DEFAULT_PROFILE="notmatthew"
+fi
+# aws profile end
+
 # kube configs start
 if [ -d "$HOME/.kube" ]; then
 	KUBECONFIG="";

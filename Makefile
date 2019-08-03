@@ -19,6 +19,8 @@ apt:
 	sudo linux/apt-minimal.sh
 	sudo linux/apt-full.sh
 
+# TODO: Add Yubikey PAM
+
 darwin: brew
 	sudo softwareupdate -aiR
 
