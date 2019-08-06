@@ -1,4 +1,4 @@
-.PHONY: all apt backup-bash brew-sync darwin git-init git-installs help install link linux nodejs-dev profile-source \
+.PHONY: all apt backup-bash brew-sync darwin git-init git-installs help install link linux nodejs-dev scala-dev profile-source \
 	python-dev snap stow unlink venv-wrapper
 .ONESHELL:
 
@@ -59,7 +59,7 @@ font-cache:
 git-init:
 	git submodule update --init --recursive
 
-git-installs: python-dev nodejs-dev
+git-installs: python-dev nodejs-dev scala-dev
 
 python-dev: $(HOME)/.pyenv venv-wrapper
 nodejs-dev: $(HOME)/.nodenv $(HOME)/.nodenv/plugins/node-build
@@ -69,7 +69,7 @@ $(HOME)/.scalaenv:
 	git clone git://github.com/scalaenv/scalaenv.git $(HOME)/.scalaenv
 
 $(HOME)/.sbtenv:
-	git clone git://github.com/sbtenv/sbtenv.git ~/.sbtenv
+	git clone git://github.com/sbtenv/sbtenv.git $(HOME)/.sbtenv
 
 $(HOME)/.nodenv:
 	git clone https://github.com/nodenv/nodenv.git $(HOME)/.nodenv

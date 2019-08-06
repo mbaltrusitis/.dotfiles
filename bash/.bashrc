@@ -158,7 +158,7 @@ fi
 # kube configs end
 
 # my editor
-export EDITOR="/usr/local/bin/vim"
+export EDITOR="/usr/bin/vim"
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell/"
