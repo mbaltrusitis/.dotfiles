@@ -6,7 +6,8 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1;
 fi
 
-# Some necessary Unix tools
+
+# Some necessary UNIX tools
 apt-get install --fix-broken --show-progress --assume-yes \
 	autoconf \
 	automake \

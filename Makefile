@@ -18,6 +18,7 @@ apt:
 	sudo linux/apt-update.sh
 	sudo linux/apt-minimal.sh
 	sudo linux/apt-full.sh
+	sudo linux/apt-ppa.sh
 
 # TODO: Add Yubikey PAM
 
