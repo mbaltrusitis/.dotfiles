@@ -17,7 +17,6 @@ set number
 let &colorcolumn='80,100,120,140'
 " highlight active column
 set cursorcolumn
-highlight CursorColumn cterm=NONE ctermbg=232
 " allow backspace everywhere
 set backspace=indent,eol,start
 
