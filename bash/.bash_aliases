@@ -6,7 +6,6 @@ alias gc='git commit'
 alias gd='git diff'
 alias gg='git g'
 alias glg='git log --all --decorate --graph --oneline'
-alias go='git checkout'
 alias grb='git rb'
 alias gs='git status'
 

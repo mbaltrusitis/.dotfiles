@@ -34,7 +34,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	ghc \
 	gnome-software-plugin-flatpak \
 	gnome-tweak-tool \
-	golang \
+	golang-go \
 	gpg \
 	haskell-stack \
 	htop \
@@ -54,12 +54,14 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	lua5.1 \
 	lxd \
 	magic-wormhole \
+	mono-devel \
 	mosh \
 	mycli \
 	netcat-openbsd \
 	nginx \
 	ocaml \
 	opam \
+	openjdk-8-jre \
 	openssh-client \
 	openssh-server \
 	openvpn \
