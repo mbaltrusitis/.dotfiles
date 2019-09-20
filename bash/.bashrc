@@ -175,6 +175,16 @@ if hash direnv 2>/dev/null; then
 fi
 # direnv end
 
+# asdf start
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+	source "$HOME/.asdf/asdf.sh"
+fi
+
+if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
+	source "$HOME/.asdf/completions/asdf.bash"
+fi
+# asdf end
+
 # scalaenv start
 if [ -d "$HOME/.sbtenv/bin" ]; then
 	export PATH="$HOME/.sbtenv/bin:$PATH";
