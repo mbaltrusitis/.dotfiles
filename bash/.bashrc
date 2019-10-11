@@ -177,11 +177,10 @@ fi
 
 # asdf start
 if [ -f "$HOME/.asdf/asdf.sh" ]; then
-	source "$HOME/.asdf/asdf.sh"
+	source $HOME/.asdf/asdf.sh
 fi
-
 if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
-	source "$HOME/.asdf/completions/asdf.bash"
+	source $HOME/.asdf/completions/asdf.bash
 fi
 # asdf end
 
