@@ -319,6 +319,8 @@ PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
 PS1+="🔥 "
+# PS1+="🦃 "  # gobble gobble
+# PS1+="🎄 "  # happy holidays
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
