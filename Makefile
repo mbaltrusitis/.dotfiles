@@ -1,4 +1,4 @@
-.PHONY: all apt backup-bash brew-sync darwin dev-tools git-init git-installs help install link linux nodejs-dev scala-dev profile-source \
+.PHONY: all apt backup-bash brew-sync darwin dev-tools enc-vol git-init help install link linux nodejs-dev scala-dev profile-source \
 	python-dev snap stow unlink venv-wrapper
 .ONESHELL:
 
@@ -9,8 +9,8 @@ OS			:= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 all: install
 install: $(OS)
-linux: apt flatpak git-init stow dev-tools git-installs profile-source font-cache
-darwin: brew brew-upgrade git-init stow git-installs profile-source
+linux: apt flatpak git-init stow dev-tools profile-source font-cache
+darwin: brew brew-upgrade git-init stow profile-source
 
 
 apt:
@@ -59,17 +59,25 @@ font-cache:
 git-init:
 	git submodule update --init --recursive
 
-git-installs: python-dev nodejs-dev scala-dev
+dev-tools: $(HOME)/.asdf # $(HOME)/.kubectx
 
-dev-tools: $(HOME)/.asdf
+$(HOME)/enc-vol:
+	mkdir -p $(HOME)/enc-vol
+
+enc-vol: $(HOME)/enc-vol
+
+mount-enc: $(HOME)/enc-vol
+	veracrypt $(HOME)/vol.vc $(HOME)/enc-vol
+
+umount-enc:
+	veracrypt -d $(HOME)/enc-vol
 
 python-dev: $(HOME)/.pyenv venv-wrapper
 nodejs-dev: $(HOME)/.nodenv $(HOME)/.nodenv/plugins/node-build
 scala-dev:  $(HOME)/.scalaenv $(HOME)/.sbtenv
 
-
 $(HOME)/.asdf:
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.4
+	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.7.4
 
 $(HOME)/.scalaenv:
 	git clone git://github.com/scalaenv/scalaenv.git $(HOME)/.scalaenv
