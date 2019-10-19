@@ -225,14 +225,15 @@ fi
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
-export VIRTUALENVWRAPPER_PYTHON=python3
-if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
+if [ -f "/usr/share/virtualenvwrapper/virtualenvwrapper.sh" ]; then
 	# Linux
-	source "$HOME/.local/bin/virtualenvwrapper.sh";
+	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2.7
+	source "/usr/share/virtualenvwrapper/virtualenvwrapper.sh";
 elif [ -f "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh" ]; then
 	# Darwin
-	source "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh";
+	export VIRTUALENVWRAPPER_PYTHON=python3
 	export PATH="$HOME/Library/Python/3.7/bin:$PATH"
+	source "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh";
 else
 	echo "W: Coudn't find virtualenvwrapper.sh"
 fi
