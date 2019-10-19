@@ -73,7 +73,6 @@ umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 
 python-dev: $(HOME)/.pyenv venv-wrapper
-nodejs-dev: $(HOME)/.nodenv $(HOME)/.nodenv/plugins/node-build
 scala-dev:  $(HOME)/.scalaenv $(HOME)/.sbtenv
 
 $(HOME)/.asdf:
@@ -84,13 +83,6 @@ $(HOME)/.scalaenv:
 
 $(HOME)/.sbtenv:
 	git clone git://github.com/sbtenv/sbtenv.git $(HOME)/.sbtenv
-
-$(HOME)/.nodenv:
-	git clone https://github.com/nodenv/nodenv.git $(HOME)/.nodenv
-	$(shell cd $HOME/.nodenv && src/configure && make -C src)
-
-$(HOME)/.nodenv/plugins/node-build:
-	git clone https://github.com/nodenv/node-build.git $(HOME)/.nodenv/plugins/node-build
 
 $(HOME)/.pyenv:
 	git clone https://github.com/pyenv/pyenv.git $(HOME)/.pyenv

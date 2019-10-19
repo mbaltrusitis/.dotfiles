@@ -206,11 +206,6 @@ if hash pyenv 2>/dev/null; then
 fi
 # pyenv end
 
-# nodenv start
-export PATH="$HOME/.nodenv/bin:$PATH"
-eval "$(nodenv init -)"
-# noodenv end
-
 # nvm start
 export NVM_DIR="$HOME/.nvm"
 if [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
