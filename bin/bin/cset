@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+CPUCOUNT="$(nproc --ignore=1)"  # ignore 1 for 0 indexing
+
+if ! hash cpufreq-set 2>/dev/null; then
+	echo "W: cpufreq-set not installed";
+	exit 1
+fi
+
+function powersave() {
+	echo "$(seq 0 $CPUCOUNT)" | sudo xargs -I{} cpufreq-set -g powersave -c {}
+	echo "I: CPU mode: powersave"
+}
+
+function performance() {
+	echo "$(seq 0 $CPUCOUNT)" | sudo xargs -I{} cpufreq-set -g performance -c {}
+	echo "I: CPU mode: performance"
+}
+
+case $1 in
+	save|powersave) powersave;;
+	perf|performance) performance;;
+	*) echo "Usage: cset ( [power]save | perf[ormance] )";;
+esac
