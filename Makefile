@@ -67,7 +67,7 @@ $(HOME)/enc-vol:
 enc-vol: $(HOME)/enc-vol
 
 mount-enc: $(HOME)/enc-vol
-	veracrypt $(HOME)/vol.vc $(HOME)/enc-vol
+	veracrypt enc/vol.vc $(HOME)/enc-vol
 
 umount-enc:
 	veracrypt -d $(HOME)/enc-vol
