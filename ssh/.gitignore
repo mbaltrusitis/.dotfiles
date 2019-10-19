@@ -1,0 +1,5 @@
+.ssh/known_hosts
+# exclude specific rules sets
+.ssh/conf.d/*.conf
+# include the base ssh configuration
+!.ssh/conf.d/00-base-ssh.conf
