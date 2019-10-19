@@ -72,7 +72,6 @@ mount-enc: $(HOME)/enc-vol
 umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 
-python-dev: $(HOME)/.pyenv venv-wrapper
 scala-dev:  $(HOME)/.scalaenv $(HOME)/.sbtenv
 
 $(HOME)/.asdf:
@@ -83,9 +82,6 @@ $(HOME)/.scalaenv:
 
 $(HOME)/.sbtenv:
 	git clone git://github.com/sbtenv/sbtenv.git $(HOME)/.sbtenv
-
-$(HOME)/.pyenv:
-	git clone https://github.com/pyenv/pyenv.git $(HOME)/.pyenv
 
 venv-wrapper:
 	pip3 install --user -U virtualenvwrapper virtualenv

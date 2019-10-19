@@ -198,14 +198,6 @@ if [ -d "$HOME/.scalaenv/bin" ]; then
 fi
 # scalaenv end
 
-# pyenv start
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if hash pyenv 2>/dev/null; then
-	eval "$(pyenv init -)"
-fi
-# pyenv end
-
 # nvm start
 export NVM_DIR="$HOME/.nvm"
 if [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
