@@ -8,10 +8,8 @@ fi
 
 
 # add PPAs
-sudo apt-add-repository ppa:eosrei/fonts
 
 # update index
 sudo apt-get update
 
 # install
-sudo apt-get install fonts-twemoji-svginot

@@ -1,5 +1,5 @@
-.PHONY: all apt backup-bash brew-sync darwin dev-tools enc-vol git-init help install link linux nodejs-dev scala-dev profile-source \
-	python-dev snap stow unlink venv-wrapper
+.PHONY: all apt backup-bash brew-sync darwin dev-tools enc-vol git-init help install link linux \
+	profile-source snap stow unlink venv-wrapper
 .ONESHELL:
 
 SHELL		= /bin/bash
@@ -9,7 +9,7 @@ OS			:= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 all: install
 install: $(OS)
-linux: apt flatpak git-init stow dev-tools profile-source font-cache
+linux: apt git-init stow dev-tools profile-source font-cache
 darwin: brew brew-upgrade git-init stow profile-source
 
 
@@ -49,9 +49,6 @@ cask-upgrade:
 	fi ;\
 	}
 
-flatpak:
-	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
 font-cache:
 	$(info Resetting system font-cache)
 	$(shell fc-cache -f)
@@ -59,7 +56,7 @@ font-cache:
 git-init:
 	git submodule update --init --recursive
 
-dev-tools: $(HOME)/.asdf # $(HOME)/.kubectx
+dev-tools: $(HOME)/.asdf
 
 $(HOME)/enc-vol:
 	mkdir -p $(HOME)/enc-vol
@@ -72,16 +69,8 @@ mount-enc: $(HOME)/enc-vol
 umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 
-scala-dev:  $(HOME)/.scalaenv $(HOME)/.sbtenv
-
 $(HOME)/.asdf:
 	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.7.4
-
-$(HOME)/.scalaenv:
-	git clone git://github.com/scalaenv/scalaenv.git $(HOME)/.scalaenv
-
-$(HOME)/.sbtenv:
-	git clone git://github.com/sbtenv/sbtenv.git $(HOME)/.sbtenv
 
 venv-wrapper:
 	pip3 install --user -U virtualenvwrapper virtualenv
@@ -97,6 +86,7 @@ stow: backup-bash
 	stow bin
 	stow config
 	stow fonts
+	stow ssh
 	stow tmux
 	stow vim
 
