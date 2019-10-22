@@ -1,4 +1,5 @@
 id_rsa
+vim/.vimrc_background
 id_rsa.pub
 .uuid
 alacritty.yml
