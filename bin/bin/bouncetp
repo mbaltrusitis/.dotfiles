@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo -e "Reviving the touchpad.\n"
+
+echo -n "none" | sudo tee /sys/bus/serio/devices/serio1/drvctl
+echo -n "reconnect" | sudo tee /sys/bus/serio/devices/serio1/drvctl
+
+echo -e "Done.\n"
+
