@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""
+Requires Python 3.6+
+
+Single-quote your passed Gremlin query.
+"""
+
+
+import argparse
+from os import getenv
+import subprocess
+
+
+GREMLIN_HOST: str = getenv('GREMLIN_HOST', 'localhost')
+GREMLIN_PORT: str = getenv('GREMLIN_PORT', '8182')
+CMD_FRMT: str = '''curl -vLs -X POST -d '{{"gremlin": "{cmd}"}}' 'https://{host}:{port}/gremlin' '''
+
+
+def main() -> None:
+	parser = argparse.ArgumentParser(description='Run an unescaped Gremlin query.')
+	parser.add_argument(
+		'query',
+		type=str,
+		metavar="""'g.V().hasLabel("merchant").has("merchant_id", "1158")'""",
+		help='An unescaped Gremlin query string',
+	)
+	args = parser.parse_args()
+
+	escaped_query = args.query.replace('"', '\\"')
+	subprocess.run(
+		CMD_FRMT.format(
+			cmd=escaped_query,
+			host=GREMLIN_HOST,
+			port=GREMLIN_PORT),
+		shell=True
+	)
+
+
+if __name__ == '__main__':
+	main()
+
