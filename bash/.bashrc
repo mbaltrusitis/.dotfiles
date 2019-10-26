@@ -202,7 +202,7 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
 if [ -f "/usr/share/virtualenvwrapper/virtualenvwrapper.sh" ]; then
 	# Linux
-	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2.7
+	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 	source "/usr/share/virtualenvwrapper/virtualenvwrapper.sh";
 elif [ -f "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh" ]; then
 	# Darwin
