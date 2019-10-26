@@ -14,6 +14,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	asciinema \
 	aspell aspell-en \
 	bash-completion \
+	bat \
 	build-essential \
 	cargo \
 	clang \
@@ -37,6 +38,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	golang-go \
 	gpg \
 	haskell-stack \
+	hexyl \
 	htop \
 	iftop \
 	jq \
@@ -75,6 +77,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	synapse \
 	tk-dev \
 	thermald \
+	tig \
 	tlp \
 	tlp-rdw \
 	tree \
