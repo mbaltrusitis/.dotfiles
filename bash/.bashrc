@@ -184,31 +184,6 @@ if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
 fi
 # asdf end
 
-# scalaenv start
-if [ -d "$HOME/.sbtenv/bin" ]; then
-	export PATH="$HOME/.sbtenv/bin:$PATH";
-	eval "$(sbtenv init -)"
-fi
-# scalaenv end
-
-# scalaenv start
-if [ -d "$HOME/.scalaenv/bin" ]; then
-	export PATH="$HOME/.scalaenv/bin:$PATH";
-	eval "$(scalaenv init -)"
-fi
-# scalaenv end
-
-# nvm start
-export NVM_DIR="$HOME/.nvm"
-if [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
-	source "/usr/local/opt/nvm/nvm.sh";
-fi
-
-if [ -s "/usr/local/opt/nvm/etc/bash_completion" ]; then
-	source "/usr/local/opt/nvm/etc/bash_completion";
-fi
-# nvm end
-
 # npm start
 export NPM_PACKAGES="$HOME/.npm-global"
 export PATH="$NPM_PACKAGES/bin:$PATH"
@@ -244,24 +219,6 @@ if [ -d "$HOME/.poetry/bin" ]; then
 	export PATH="$HOME/.poetry/bin:$PATH"
 fi
 # poetry end
-
-# OPAM start
-if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
-	if source "$HOME/.opam/opam-init/init.sh" > /dev/null 2> /dev/null; then
-		:  # pass // no-op
-	else
-		true;
-	fi
-else
-	echo "W: OPAM seems not to be configured // installed.";
-fi
-# OPAM end
-
-# scalaenv start
-if hash scalaenv 2>/dev/null; then
-	eval "$(scalaenv init -)"
-fi
-# scalaenv end
 
 #kubectx // kubens start
 if [ -d "$HOME/.kubectx" ]; then
