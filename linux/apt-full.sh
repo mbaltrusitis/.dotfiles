@@ -85,6 +85,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	virtualbox \
 	wget \
 	wireshark \
+	wuzz \
 	xclip \
 	xz-utils \
 	youtube-dl \
