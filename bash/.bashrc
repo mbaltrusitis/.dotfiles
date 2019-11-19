@@ -238,6 +238,12 @@ if [ -d "/var/lib/flatpak/exports/share" ]; then
 fi
 # flatpak end
 
+# z.sh start
+if [ -f "/usr/local/lib/z/z.sh" ]; then
+	source "/usr/local/lib/z/z.sh";
+fi
+# z.sh end
+
 # visuals start
 # PS1 nonsense
 PS1="\[\e[37m\]"
