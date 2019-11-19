@@ -28,6 +28,8 @@
 	ui = auto
 [commit]
 	gpgsign = false
+[core]
+	pager = less -x1,3
 [diff]
 	tool = vimdiff
 [difftool]
