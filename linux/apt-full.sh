@@ -70,6 +70,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	pandoc \
 	pgcli \
 	postgresql \
+	protobuf-compiler \
 	python3 \
 	python3-pip \
 	shellcheck \
