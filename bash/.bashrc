@@ -226,6 +226,12 @@ if [ -f "/usr/local/lib/z/z.sh" ]; then
 fi
 # z.sh end
 
+# nix start
++if [ -e /home/heatmiser/.nix-profile/etc/profile.d/nix.sh ]; then
+	source /home/heatmiser/.nix-profile/etc/profile.d/nix.sh;
+fi
+# nix end
+
 # visuals start
 # PS1 nonsense
 PS1="\[\e[37m\]"
@@ -251,11 +257,12 @@ PS1+="\[\e[37m\]"
 PS1+="╰╴"
 PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
+PS1+="\[\e[m\]"
+PS1+="\[\e[37m\]"
 # PS1+="🔥 "
 # PS1+="🦃 "  # gobble gobble
-PS1+="\[\e[m\]"
-PS1+="\[\e[32m\]"
-PS1+="🎄 "  # happy holidays
+# PS1+="🎄 "  # happy holidays
+PS1+="❄️  "   # brrr
 PS1+="\[\e[m\]"
 PS1+="\[\e[36m\]"
 PS1+="\[\e[m\]"
