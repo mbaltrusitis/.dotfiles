@@ -227,7 +227,7 @@ fi
 # z.sh end
 
 # nix start
-+if [ -e /home/heatmiser/.nix-profile/etc/profile.d/nix.sh ]; then
+if [ -e /home/heatmiser/.nix-profile/etc/profile.d/nix.sh ]; then
 	source /home/heatmiser/.nix-profile/etc/profile.d/nix.sh;
 fi
 # nix end
