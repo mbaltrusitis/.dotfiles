@@ -32,6 +32,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	fail2ban \
 	ffmpeg \
 	flatpak \
+	fswatch \
 	ghc \
 	gnome-software-plugin-flatpak \
 	gnome-tweak-tool \
