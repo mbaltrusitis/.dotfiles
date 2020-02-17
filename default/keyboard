@@ -1,0 +1,12 @@
+# KEYBOARD CONFIGURATION FILE
+
+# Consult the keyboard(5) manual page.
+
+# something like ln -s /etc/default/keyboard
+
+XKBMODEL="pc105"
+XKBLAYOUT="us"
+XKBVARIANT=""
+XKBOPTIONS="ctrl:nocaps"
+
+BACKSPACE="guess"
