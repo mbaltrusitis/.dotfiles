@@ -10,7 +10,7 @@ location:
     # repositories are backed up to in sequence. See ssh_command for SSH options like
     # identity file or port.
     repositories:
-        - 59207@usw-s009.rsync.net:borg-repos/heattop
+        - 59207@usw-s009.rsync.net:borg-repos/heatserver
 
     # Stay in same file system (do not cross mount points). Defaults to false.
     # one_file_system: true
@@ -76,7 +76,7 @@ location:
 
     # Exclude directories that contain a CACHEDIR.TAG file. See
     # http://www.brynosaurus.com/cachedir/spec.html for details. Defaults to false.
-    # exclude_caches: true
+    exclude_caches: true
 
     # Exclude directories that contain a file with the given filename. Defaults to not
     # set.

@@ -1,5 +1,6 @@
-- *.pyc
+- **/*.pyc
 - **/.[Cc]ache
+- __pycache__/
 ! /home/*/.*
 - /home/*/Downloads
 - /home/*/Dropbox
