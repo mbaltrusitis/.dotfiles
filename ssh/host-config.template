@@ -1,0 +1,9 @@
+Host <JUMPBOX HOST>
+    User <a_user>
+    Port <a_port>
+    IdentityFile <a_file>
+
+Host <HOST>
+	# route commands through JUMPBOX_HOST to HOST
+    ProxyCommand ssh -N -W %h:%p <JUMPBOX_HOST> 2> /dev/null
+
