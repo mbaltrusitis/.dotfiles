@@ -1,0 +1,6 @@
+- *.pyc
+- **/.[Cc]ache
+! /home/*/.*
+- /home/*/Downloads
+- /home/*/Dropbox
+- /home/*/snap
