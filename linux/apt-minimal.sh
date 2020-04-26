@@ -9,7 +9,5 @@ fi
 # the simple bare necessities
 apt-get install --show-progress --assume-yes \
 	curl \
-	dmsetup \
 	git \
-	libfuse2 \
 	tmux;
