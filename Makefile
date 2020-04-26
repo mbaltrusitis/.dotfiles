@@ -9,7 +9,7 @@ OS			:= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 all: install
 install: $(OS)
-linux: apt git-init stow dev-tools profile-source font-cache
+linux: git-init stow dev-tools profile-source font-cache
 darwin: brew brew-upgrade git-init stow profile-source
 
 
@@ -19,6 +19,11 @@ apt:
 	sudo linux/apt-minimal.sh
 	sudo linux/apt-full.sh
 	sudo linux/apt-ppa.sh
+
+pacman:
+	$(info You may be prompted for super-user privleges:)
+	sudo linux/pacman-full.sh
+	linux/pamac.sh
 
 # TODO: Add Yubikey PAM
 
