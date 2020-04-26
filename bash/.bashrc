@@ -192,7 +192,7 @@ elif [ -f "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh" ]; then
 	export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 	source "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh";
 else
-	echo "W: Coudn't find virtualenvwrapper.sh"
+	:
 fi
 # virtualenvwrapper end
 
@@ -259,10 +259,10 @@ PS1+="\[\e[m\]"
 PS1+="\[\e[31m\]"
 PS1+="\[\e[m\]"
 PS1+="\[\e[37m\]"
-# PS1+="🔥 "
+PS1+="🔥 "
 # PS1+="🦃 "  # gobble gobble
 # PS1+="🎄 "  # happy holidays
-PS1+="❄️ "   # brrr
+# PS1+="❄️ "   # brrr
 PS1+="\[\e[m\]"
 PS1+="\[\e[36m\]"
 PS1+="\[\e[m\]"
