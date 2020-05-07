@@ -10,5 +10,6 @@ pamac build --no-confirm \
 	mycli \
 	nix \
 	pgcli \
+	protonmail-bridge \
 	tmux-bash-completion \
 	wuzz;

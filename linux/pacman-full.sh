@@ -15,6 +15,8 @@ pacman -Syyu --noconfirm --needed \
 	base-devel \
 	bash-completion \
 	bat \
+	borg \
+	borgmatic \
 	clang \
 	cmake \
 	code \
@@ -45,6 +47,7 @@ pacman -Syyu --noconfirm --needed \
 	rustup \
 	s-tui \
 	shellcheck \
+	signal-desktop \
 	smartmontools \
 	stack \
 	stow \
