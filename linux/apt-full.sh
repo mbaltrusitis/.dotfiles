@@ -14,7 +14,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	asciinema \
 	aspell aspell-en \
 	bash-completion \
-	bat \
+	borgbackup \
 	build-essential \
 	cargo \
 	clang \
@@ -39,7 +39,6 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	golang-go \
 	gpg \
 	haskell-stack \
-	hexyl \
 	htop \
 	iftop \
 	jq \
