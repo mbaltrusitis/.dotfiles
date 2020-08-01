@@ -232,6 +232,26 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
 fi
 # nix end
 
+# java start
+if [ -f "/usr/lib/jvm/java-11-openjdk-amd64/bin/java" ]; then
+	export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+fi
+# java end
+
+# spark start
+if [ -d "/opt/spark" ]; then
+	export SPARK_HOME="/opt/spark"
+	export PATH="$SPARK_HOME/bin:$PATH"
+fi
+# spark end
+
+# kafka start
+if [ -d "/opt/kafka" ]; then
+	export kafka_HOME="/opt/kafka"
+	export PATH="$kafka_HOME/bin:$PATH"
+fi
+# kafka end
+
 # visuals start
 # PS1 nonsense
 PS1="\[\e[37m\]"
