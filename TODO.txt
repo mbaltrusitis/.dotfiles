@@ -1,10 +1,1 @@
-  342  fwupdate update
-  343  sudo -H gedit /etc/default/grub 
-  344  #sudo grub-mkconfig -o /boot/grub/grub.cfg 
-  345  sudo cp /boot/grub/grub.cfg /boot/grub/grub.backup
-  346  sudo grub-mkconfig -o /boot/grub/grub.cfg 
-  347  sudo reboot
-  348  sudo apt upgrade
-  349  ls
-  350  history | tail
-  351  history | tail > ~/.dotfiles/sleep-commands.txt
+Create Packr routine with all this stuff installed

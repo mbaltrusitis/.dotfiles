@@ -91,19 +91,14 @@ backup-bash:
 #
 
 git-install-hexyl:
-	{ \
 		cd /tmp && \
-		curl "https://github.com/sharkdp/hexyl/releases/download/v0.6.0/hexyl_0.6.0_amd64.deb"; \
-		sudo dpkg -i hexyl_0.6.0_amd64.deb; \
-	}
+		curl -Ls -o hexyl.deb "https://github.com/sharkdp/hexyl/releases/download/v0.6.0/hexyl_0.6.0_amd64.deb"; \
+		sudo dpkg -i hexyl.deb;
 
 git-install-bat:
-	{ \
-		cd /tmp \
-		curl "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"; \
-		sudo dpkg -i /tmp/bat_0.12.1_amd64.deb; \
-	}
-
+		cd /tmp && \
+		curl -LOs -o bat.deb "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"; \
+		sudo dpkg -i /tmp/bat.deb;
 
 stow: backup-bash
 	stow bash
