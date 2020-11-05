@@ -43,3 +43,6 @@ indent_style = tab
 indent_style = space
 indent_size = 2
 
+[*.{ex,exs}]
+indent_style = tab
+indent_size = 2
