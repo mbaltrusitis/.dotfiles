@@ -1,3 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-curl -sH "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-new_york_city}"?"${2:-''}" | head -n -2;
+set -euo pipefail
+IFS=$'\n\t'
+
+curl -sH "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-new_york_city}"?"${2:-'1'}" | head -n -2;
