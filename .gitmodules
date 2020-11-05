@@ -40,3 +40,6 @@
 [submodule "vim/.vim/bundle/YouCompleteMe"]
 	path = vim/.vim/bundle/YouCompleteMe
 	url = https://github.com/ycm-core/YouCompleteMe.git
+[submodule "tmux/.tmux/plugins/tmux-resurrect"]
+	path = tmux/.tmux/plugins/tmux-resurrect
+	url = https://github.com/tmux-plugins/tmux-resurrect
