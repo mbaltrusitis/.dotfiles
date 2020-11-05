@@ -252,6 +252,20 @@ if [ -d "/opt/kafka" ]; then
 fi
 # kafka end
 
+# fzf start
+if hash fzf 2>/dev/null; then
+	export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
+
+	if [ -f "/usr/share/doc/fzf/examples/completion.bash" ]; then
+		source /usr/share/doc/fzf/examples/completion.bash
+	fi
+
+	if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
+		source /usr/share/doc/fzf/examples/key-bindings.bash
+	fi
+fi
+# fzf end
+
 # visuals start
 # PS1 nonsense
 PS1="\[\e[37m\]"
