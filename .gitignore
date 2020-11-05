@@ -4,3 +4,4 @@ id_rsa.pub
 .uuid
 alacritty.yml
 .nobackup
+tmux/.tmux/resurrect/
