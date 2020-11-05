@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+
+#if [ -z "$1" ]; then
+	#>&2 echo "Require tmux window_layout string";
+	#exit 1
+#fi
+
+#LAYOUT="$1"
+
+#function loadLayout() {
+	#if [ -n "$TMUX" ]; then
+		#tmux select-layout "$LAYOUT"
+	#else
+		#>&2 echo "Not inside tmux session"
+		#exit 1
+	#fi
+#}
+
+#loadLayout < /dev/stdin
+echo </dev/stdin
+echo "my first: $1"

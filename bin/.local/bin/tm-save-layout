@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+
+function saveLayout() {
+	local layout;
+	if [ -n "$TMUX" ]; then
+		layout=$(tmux display-message -p "#{window_layout}")
+		echo "$layout";
+	else
+		>&2 echo "Not inside a tmux session";
+		exit 1;
+	fi
+}
+
+saveLayout;

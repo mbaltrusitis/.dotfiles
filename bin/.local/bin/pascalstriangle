@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+
+import sys
+
+
+def PascalsTriangle(row):
+    max_row = int(row)
+    triangle = []
+    current_row = 0
+
+    while current_row < max_row:
+        # These first two cases are short circuits that allow us to ignore
+        # the invisible 0s that pad the 1s and can't ignore in these 2 rows
+        if current_row == 0:
+            members = [1]
+        elif current_row == 1:
+            members = [1, 1]
+        # proceed as normal now that we are passed the first 2 rows
+        else:
+            pr_index = current_row - 1  # previous row's index
+            members = [1]
+            members += [triangle[pr_index][x] + triangle[pr_index][x+1]
+                        for x in range(pr_index)]
+            members += [1]
+        triangle.append(members)
+        current_row += 1
+
+    return triangle
+
+
+if __name__ == "__main__":
+    try:
+        count = sys.argv[1]
+        tri = PascalsTriangle(count)
+    except Exception as err:
+        sys.stderr.write(("\nUsage: pt.py <int>\n"
+                          "Example: pt.py 3\n"
+                          "\t[[1]\n"
+                          "\t[1, 1]\n"
+                          "\t[1, 2, 1]]\n"))
+
+    print("\n".join([str(row) for row in tri]))  # print it pretty, print it niiiice
+
