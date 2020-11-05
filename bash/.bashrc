@@ -133,7 +133,7 @@ fi
 if [ -d "$HOME/.kube" ]; then
 	KUBECONFIG="";
 	# append config-y files to the KUBECONFIG path
-	for configFile in $HOME/.kube/*config; do
+	for configFile in $HOME/.kube/*config.yaml; do
 		export KUBECONFIG="$configFile:$KUBECONFIG";
 	done
 fi
