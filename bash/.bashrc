@@ -300,22 +300,9 @@ fi
 #PS1+="\[\e[m\]"
 
 PS1="\[\e[32m\]"
-<<<<<<< HEAD
-PS1+=" λ "
-PS1+="\[\e[m\]"
-
-export CLICOLOR=1
-export LS_COLORS='di=1;36:fi=0:ln=34:pi=5:so=33:bd=5:cd=5:or=37:mi=37:ex=32:*.rpm=1;31:*.zip=1;31'
-# visuals end
-
-export WINIT_HIDPI_FACTOR="1.2"
-export TERMINAL="alacritty"
-=======
 # PS1+=" λ "
 PS1+=" 🦃 "  # gobble gobble
 # PS1+="🎄 "  # happy holidays
 # PS1+="❄️ "   # brrr
 PS1+="\[\e[m\]"
 # visuals final
->>>>>>> Refactors .bashrc
-
