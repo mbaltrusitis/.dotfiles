@@ -31,10 +31,8 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	exfat-utils \
 	fail2ban \
 	ffmpeg \
-	flatpak \
 	fswatch \
 	ghc \
-	gnome-software-plugin-flatpak \
 	gnome-tweak-tool \
 	golang-go \
 	gpg \
@@ -42,7 +40,6 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	htop \
 	iftop \
 	jq \
-	kazam \
 	libbz2-dev \
 	libffi-dev \
 	libncurses5-dev \
@@ -59,6 +56,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	mono-devel \
 	mosh \
 	mycli \
+	neovim \
 	netcat-openbsd \
 	nginx \
 	ocaml \
@@ -71,16 +69,12 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	pgcli \
 	postgresql \
 	protobuf-compiler \
-	python3 \
-	python3-pip \
 	shellcheck \
 	stow \
 	synapse \
 	tk-dev \
 	thermald \
 	tig \
-	tlp \
-	tlp-rdw \
 	tree \
 	vim \
 	virtualbox \
@@ -90,6 +84,5 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	xclip \
 	xz-utils \
 	youtube-dl \
-	zeal \
 	zfsutils-linux \
 	zlib1g-dev;

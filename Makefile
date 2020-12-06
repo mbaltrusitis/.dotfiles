@@ -1,5 +1,5 @@
 .PHONY: all apt backup-bash brew-sync darwin dev-tools enc-vol git-init help install link linux \
-	profile-source snap stow unlink venv-wrapper
+	profile-source snap stow unlink
 .ONESHELL:
 
 SHELL		= /bin/bash
@@ -75,10 +75,7 @@ umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 
 $(HOME)/.asdf:
-	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.7.4
-
-venv-wrapper:
-	pip3 install --user -U virtualenvwrapper virtualenv
+	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.7.8
 
 profile-source:
 	source $(HOME)/.bash_profile
