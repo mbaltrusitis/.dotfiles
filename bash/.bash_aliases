@@ -38,3 +38,11 @@ alias ssh-heat='sudo ssh -F ~/.ssh/config heat.nyc -i ~/.ssh/id_rsa'
 # wireguard
 alias wgup='wg-quick up us-ny1'
 alias wgdn='wg-quick down us-ny1'
+
+
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'

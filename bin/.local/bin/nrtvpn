@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+_ARG_OVPN_CONFIG="$1"
+
+OVPN_CONFIG="${_ARG_OVPN_CONFIG:-/etc/openvpn/client/client.ovpn}"
+
+printf "Connecting to Narrativ's VPN:\n\t%s\n" "$OVPN_CONFIG"
+
+sudo openvpn --config "$OVPN_CONFIG"
+

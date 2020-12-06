@@ -1,16 +1,12 @@
 #!/bin/bash
 
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-
 # If not running interactively, don't do anything
 case $- in
 	*i*) ;;
 	*) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+# don't put duplicate lines or lines starting with space in the history
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
@@ -20,12 +16,10 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=20000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# check the window size after each command and update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
+# "**" matches all files and zero or more directories and subdirectories.
 shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -36,63 +30,70 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+# colorize terminal start
+if [[ -x /usr/bin/dircolors ]]; then
+	eval "$(dircolors -b)";
+fi
 export TERM="screen-256color"
 color_prompt=yes
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-	if test -r ~/.dircolors; then
-		eval "$(dircolors -b ~/.dircolors)";
-	else
-		eval "$(dircolors -b)";
-	fi
-	alias ls='ls --color=auto'
-	alias dir='dir --color=auto'
-	alias vdir='vdir --color=auto'
-	alias grep='grep --color=auto'
-	alias fgrep='fgrep --color=auto'
-	alias egrep='egrep --color=auto'
-	fi
-
-# colored GCC warnings and errors
+export CLICOLOR=1
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# colorize terminal final
 
-if [ -f ~/.bash_aliases ]; then
+export WINIT_HIDPI_FACTOR="1.4"
+
+# Default programs
+export EDITOR="vim"
+export TERMINAL="alacritty"
+export BROWSER="firefox"
+# export READER="zathura"
+
+if [[ -f "$HOME/.bash_aliases" ]]; then
 	source ~/.bash_aliases
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-	if [ -f /usr/share/bash-completion/bash_completion ]; then
-		source /usr/share/bash-completion/bash_completion
-	elif [ -f /etc/bash_completion ]; then
-		source /etc/bash_completion
-	elif [ -f /usr/local/etc/bash_completion ]; then
-		source /usr/local/etc/bash_completion
-	fi
+# Keep $HOME clean start
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+# Keep $HOME clean final
+#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
+
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+export LESSHISTFILE="-"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
+
+# .local start
+if [ -d "$HOME/.local/share/man" ]; then
+	export MANPATH="$MANPATH:$HOME/.local/share/man"
 fi
 
-# my edits start
+# .local start
+if [ -d "$HOME/.local/bin" ] ; then
+	PATH="$HOME/.local/bin:$PATH"
+fi
+# .local final
 
 # super user bin start
 export PATH="/usr/local/sbin:$PATH"
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-	PATH="$HOME/bin:$PATH"
-fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-	PATH="$HOME/.local/bin:$PATH"
-fi
-
-# set PATH to include cargo-built binaries
+# rust start
 if [ -d "$HOME/.cargo/bin" ] ; then
 	PATH="$HOME/.cargo/bin:$PATH"
 fi
+# rust final
+
+# go-lang start
+#export GOPATH="$HOME/go"
+#if [ -d "$GOPATH/bin" ]; then
+	#export PATH="$GOPATH/bin:$PATH"
+#fi
+# go-lang final
 
 # some FUNctions
 parse_git_branch() {
@@ -103,31 +104,31 @@ parse_git_branch() {
 export MAILCHECK=60
 export MAILPATH="/var/spool/mail/$USER"
 
-# run ssh-agen start
+# ssh-agent start
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
 	ssh-agent > ~/.ssh-agent-proc
 fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
 	eval "$(<~/.ssh-agent-proc)" 1> /dev/null
 fi
-# run ssh-agen end
+# ssh-agent final
 
-# run gpg-agent start
+# gpg-agent start
 gpg-agent --daemon 2> /dev/null
 export GPG_TTY="$(tty)"
-# run gpg-agent end
+# gpg-agent final
 
 # private tokens start
 if [ -f "$HOME/.tokens" ]; then
 	source "$HOME/.tokens";
 fi
-# private tokens end
+# private tokens final
 
 # aws profile start
 if [ -z "$AWS_DEFAULT_PROFILE" ]; then
 	export AWS_DEFAULT_PROFILE="notmatthew"
 fi
-# aws profile end
+# aws profile final
 
 # kube configs start
 if [ -d "$HOME/.kube" ]; then
@@ -137,17 +138,14 @@ if [ -d "$HOME/.kube" ]; then
 		export KUBECONFIG="$configFile:$KUBECONFIG";
 	done
 fi
-# kube configs end
-
-# my editor
-export EDITOR="$(which vim)"
+# kube configs final
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
 	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
 	eval "$("$BASE16_SHELL/profile_helper.sh")"
-	# base16-shell end
+# base16-shell final
 
 # direnv start
 if hash direnv 2>/dev/null; then
@@ -155,7 +153,7 @@ if hash direnv 2>/dev/null; then
 	eval "$(direnv hook "$shell_env")"
 	unset shell_env
 fi
-# direnv end
+# direnv final
 
 # asdf start
 if [ -f "$HOME/.asdf/asdf.sh" ]; then
@@ -164,20 +162,20 @@ fi
 if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
 	source $HOME/.asdf/completions/asdf.bash
 fi
-# asdf end
+# asdf final
 
 # npm start
 export NPM_PACKAGES="$HOME/.npm-global"
 export PATH="$NPM_PACKAGES/bin:$PATH"
 unset -v MANPATH
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-# npm end
+# npm final
 
 # erlang start
 if [ -d "/usr/local/opt/erlang/lib/erlang/man" ]; then
 	export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
 fi
-# erlang end
+# erlang final
 
 # virtualenvwrapper start
 export WORKON_HOME=$HOME/.virtualenvs
@@ -194,63 +192,63 @@ elif [ -f "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh" ]; then
 else
 	:
 fi
-# virtualenvwrapper end
+# virtualenvwrapper final
 
 # poetry start
 if [ -d "$HOME/.poetry/bin" ]; then
 	export PATH="$HOME/.poetry/bin:$PATH"
 fi
-# poetry end
+# poetry final
 
 #kubectx // kubens start
 if [ -d "$HOME/.kubectx" ]; then
 	export PATH="$HOME/.kubectx:$PATH"
 fi
-#kubectx // kubens end
+#kubectx // kubens final
 
 # bash completion start
 if [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
 	source "/usr/local/etc/profile.d/bash_completion.sh"
 fi
-# bash completion end
+# bash completion final
 
 # flatpak start
 if [ -d "/var/lib/flatpak/exports/share" ]; then
 	export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
 fi
-# flatpak end
+# flatpak final
 
 # z.sh start
 if [ -f "/usr/local/lib/z/z.sh" ]; then
 	source "/usr/local/lib/z/z.sh";
 fi
-# z.sh end
+# z.sh final
 
 # nix start
 if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
 	source "$HOME/.nix-profile/etc/profile.d/nix.sh;"
 fi
-# nix end
+# nix final
 
 # java start
 if [ -f "/usr/lib/jvm/java-11-openjdk-amd64/bin/java" ]; then
 	export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 fi
-# java end
+# java final
 
 # spark start
 if [ -d "/opt/spark" ]; then
 	export SPARK_HOME="/opt/spark"
 	export PATH="$SPARK_HOME/bin:$PATH"
 fi
-# spark end
+# spark fine
 
 # kafka start
 if [ -d "/opt/kafka" ]; then
 	export kafka_HOME="/opt/kafka"
 	export PATH="$kafka_HOME/bin:$PATH"
 fi
-# kafka end
+# kafka final
 
 # fzf start
 if hash fzf 2>/dev/null; then
@@ -264,7 +262,7 @@ if hash fzf 2>/dev/null; then
 		source /usr/share/doc/fzf/examples/key-bindings.bash
 	fi
 fi
-# fzf end
+# fzf final
 
 # visuals start
 # PS1 nonsense
@@ -302,6 +300,7 @@ fi
 #PS1+="\[\e[m\]"
 
 PS1="\[\e[32m\]"
+<<<<<<< HEAD
 PS1+=" λ "
 PS1+="\[\e[m\]"
 
@@ -311,5 +310,12 @@ export LS_COLORS='di=1;36:fi=0:ln=34:pi=5:so=33:bd=5:cd=5:or=37:mi=37:ex=32:*.rp
 
 export WINIT_HIDPI_FACTOR="1.2"
 export TERMINAL="alacritty"
+=======
+# PS1+=" λ "
+PS1+=" 🦃 "  # gobble gobble
+# PS1+="🎄 "  # happy holidays
+# PS1+="❄️ "   # brrr
+PS1+="\[\e[m\]"
+# visuals final
+>>>>>>> Refactors .bashrc
 
-# my edits end
