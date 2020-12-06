@@ -43,3 +43,6 @@
 [submodule "tmux/.tmux/plugins/tmux-resurrect"]
 	path = tmux/.tmux/plugins/tmux-resurrect
 	url = https://github.com/tmux-plugins/tmux-resurrect
+[submodule "vim/.vim/pack/coc/start/coc.nvim"]
+	path = vim/.vim/pack/coc/start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git

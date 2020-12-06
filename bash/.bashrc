@@ -36,7 +36,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-export TERM=xterm-256color
+export TERM="screen-256color"
 color_prompt=yes
 
 # enable color support of ls and also add handy aliases
@@ -268,43 +268,48 @@ fi
 
 # visuals start
 # PS1 nonsense
-PS1="\[\e[37m\]"
-PS1+="╭╴"
-PS1+="\[\e[m\]"
-PS1+="\[\e[31m\]"
-PS1+="\u"
-PS1+="\[\e[m\]"
-PS1+="\[\e[37m\]"
-PS1+="@"
-PS1+="\[\e[m\]"
-PS1+="\[\e[31m\]"
-PS1+="\h"
-PS1+="\[\e[m\]"
-PS1+="\[\e[37m\]"
-PS1+=" :: "
-PS1+="\[\e[m\]"
-PS1+="\[\e[36m\]"
-PS1+="\w"
-PS1+="\n"
-PS1+="\[\e[31m\]"
-PS1+="\[\e[37m\]"
-PS1+="╰╴"
-PS1+="\[\e[m\]"
-PS1+="\[\e[31m\]"
-PS1+="\[\e[m\]"
-PS1+="\[\e[31m\]"
-PS1+="🔥 "
-# PS1+="🦃 "  # gobble gobble
-# PS1+="🎄 "  # happy holidays
-# PS1+="❄️ "   # brrr
-PS1+="\[\e[m\]"
-PS1+="\[\e[36m\]"
+#PS1="\[\e[37m\]"
+#PS1+="╭╴"
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[31m\]"
+#PS1+="\u"
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[37m\]"
+#PS1+="@"
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[31m\]"
+#PS1+="\h"
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[37m\]"
+#PS1+=" :: "
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[36m\]"
+#PS1+="\w"
+#PS1+="\n"
+#PS1+="\[\e[31m\]"
+#PS1+="\[\e[37m\]"
+#PS1+="╰╴"
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[31m\]"
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[31m\]"
+#PS1+="🔥 "
+## PS1+="🦃 "  # gobble gobble
+## PS1+="🎄 "  # happy holidays
+## PS1+="❄️ "   # brrr
+#PS1+="\[\e[m\]"
+#PS1+="\[\e[36m\]"
+#PS1+="\[\e[m\]"
+
+PS1="\[\e[32m\]"
+PS1+=" λ "
 PS1+="\[\e[m\]"
 
 export CLICOLOR=1
 export LS_COLORS='di=1;36:fi=0:ln=34:pi=5:so=33:bd=5:cd=5:or=37:mi=37:ex=32:*.rpm=1;31:*.zip=1;31'
 # visuals end
 
-export WINIT_HIDPI_FACTOR="1.6"
+export WINIT_HIDPI_FACTOR="1.2"
+export TERMINAL="alacritty"
 
 # my edits end
