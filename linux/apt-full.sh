@@ -16,7 +16,6 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	bash-completion \
 	borgbackup \
 	build-essential \
-	cargo \
 	clang \
 	cmake \
 	dbus \

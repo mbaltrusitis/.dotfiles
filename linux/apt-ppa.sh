@@ -8,8 +8,10 @@ fi
 
 
 # add PPAs
+sudo add-apt-repository ppa:unit193/encryption
 
 # update index
 sudo apt-get update
 
 # install
+sudo apt install veracrypt
