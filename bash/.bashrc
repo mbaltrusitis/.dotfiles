@@ -66,6 +66,7 @@ export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
 export LESSHISTFILE="-"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
+export _Z_DATA="${XDG_DATA_HOME:-$HOME/}/.z"
 
 # .local start
 if [ -d "$HOME/.local/share/man" ]; then
@@ -165,10 +166,13 @@ fi
 # asdf final
 
 # npm start
-export NPM_PACKAGES="$HOME/.npm-global"
-export PATH="$NPM_PACKAGES/bin:$PATH"
-unset -v MANPATH
-export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+if hash npm 2>/dev/null; then
+	export NPM_PACKAGES="$HOME/.npm-global"
+	export PATH="$NPM_PACKAGES/bin:$PATH"
+	unset -v MANPATH
+	export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+	source <(npm completion)
+fi
 # npm final
 
 # erlang start

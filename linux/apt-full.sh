@@ -68,6 +68,9 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	pgcli \
 	postgresql \
 	protobuf-compiler \
+	python3-neovim \
+	ruby \
+	ruby-neovim \
 	shellcheck \
 	stow \
 	synapse \
@@ -78,6 +81,7 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	vim \
 	virtualbox \
 	wget \
+	wireguard \
 	wireshark \
 	wuzz \
 	xclip \

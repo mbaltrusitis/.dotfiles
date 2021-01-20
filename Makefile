@@ -19,6 +19,7 @@ apt:
 	sudo linux/apt-minimal.sh
 	sudo linux/apt-full.sh
 	sudo linux/apt-ppa.sh
+	sudo linux/snap.sh
 
 pacman:
 	$(info You may be prompted for super-user privleges:)
@@ -88,14 +89,22 @@ backup-bash:
 #
 
 git-install-hexyl:
-		cd /tmp && \
-		curl -Ls -o hexyl.deb "https://github.com/sharkdp/hexyl/releases/download/v0.6.0/hexyl_0.6.0_amd64.deb"; \
-		sudo dpkg -i hexyl.deb;
+	cd /tmp && \
+	curl -Ls -o hexyl.deb "https://github.com/sharkdp/hexyl/releases/download/v0.6.0/hexyl_0.6.0_amd64.deb"; \
+	sudo dpkg -i hexyl.deb;
 
 git-install-bat:
-		cd /tmp && \
-		curl -Ls -o bat.deb "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"; \
-		sudo dpkg -i /tmp/bat.deb;
+	cd /tmp && \
+	curl -Ls -o bat.deb "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"; \
+	sudo dpkg -i /tmp/bat.deb;
+
+git-install-z:
+	sudo git clone https://github.com/rupa/z.git --branch v1.11 /usr/local/lib/z
+
+$(HOME)/.local/bin/op:
+	gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+	gpg --verify op.sig op
+	curl -Ls -o op.
 
 stow: backup-bash
 	stow bash
