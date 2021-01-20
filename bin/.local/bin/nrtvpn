@@ -2,9 +2,12 @@
 
 _ARG_OVPN_CONFIG="$1"
 
-OVPN_CONFIG="${_ARG_OVPN_CONFIG:-/etc/openvpn/client/client.ovpn}"
+OVPN_CONFIG="${_ARG_OVPN_CONFIG:-/usr/local/etc/openvpn/client/client.ovpn}"
 
-printf "Connecting to Narrativ's VPN:\n\t%s\n" "$OVPN_CONFIG"
+printf "Connecting to Narrativ's VPN: %s\n" "$OVPN_CONFIG"
+
+#op get totp vpn.narrativ.matthew | xclip -selection c
+#printf "TOTP is now in your clipboard. Press any key to continue."
+#read -n 1
 
 sudo openvpn --config "$OVPN_CONFIG"
-
