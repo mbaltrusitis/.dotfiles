@@ -1,6 +1,12 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 
 
+debug:
+  log_level: Info
+  render_timer: true
+  persistent_logging: true
+
+
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty it self.
@@ -31,7 +37,7 @@ window:
 
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
-  decorations: none
+  decorations: full
   dynamic_title: true
 
 
