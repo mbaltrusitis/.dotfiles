@@ -304,9 +304,9 @@ fi
 #PS1+="\[\e[m\]"
 
 PS1="\[\e[32m\]"
-# PS1+=" λ "
+PS1+=" λ "
 # PS1+=" 🦃 "  # gobble gobble
-PS1+="🎄 "  # happy holidays
+# PS1+="🎄 "  # happy holidays
 # PS1+="❄️ "   # brrr
 PS1+="\[\e[m\]"
 # visuals final

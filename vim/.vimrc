@@ -2,7 +2,7 @@
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
-source /usr/share/doc/fzf/examples/fzf.vim
+" source /usr/share/doc/fzf/examples/fzf.vim
 
 " base16-bash/vim settings
 if filereadable(expand("~/.vimrc_background"))  " requires base16-bash to be installed
