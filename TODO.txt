@@ -1,1 +1,2 @@
-Create Packr routine with all this stuff installed
+[] Create Packr routine with all this stuff installed
+[] auto-cpufreq for laptops
