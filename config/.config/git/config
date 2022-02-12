@@ -1,6 +1,6 @@
 [user]
 	name = Matthew Baltrusitis
-	email = matthew@baltrusitis.com
+	email = matthew@baltrusitis.io
 	signingkey = 4B5181CCE528F0ACC592F2B0F7ADC46A56F27040
 [alias]
 	b  = branch
