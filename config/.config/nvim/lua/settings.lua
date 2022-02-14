@@ -1,5 +1,6 @@
 HOME = os.getenv("HOME")
 
+
 -- airline
 vim.g.airline_powerline_fonts = 1
 
@@ -19,7 +20,7 @@ vim.o.ttimeout = true
 vim.o.ttimeoutlen = 100
 
 -- Color
-base16colorspace=256
+-- vim.o.base16colorspace=256
 
 -- Display
 vim.o.showmatch  = true -- show matching brackets
