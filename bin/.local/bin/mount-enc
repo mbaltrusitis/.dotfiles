@@ -3,5 +3,5 @@
 make -C "$HOME/.dotfiles" mount-enc
 
 if [ -f "$HOME/enc-vol/ssh-keys/id_rsa" ]; then
-	ssh-add -k "$HOME/enc-vol/ssh-keys/id_rsa"
+	ssh-add -k "$HOME/enc-vol/ssh-keys/id_ed25519"
 fi
