@@ -3,8 +3,8 @@
 
 debug:
   log_level: Info
-  render_timer: true
-  persistent_logging: true
+  render_timer: false
+  persistent_logging: false
 
 
 # Any items in the `env` entry below will be added as
