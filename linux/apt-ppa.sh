@@ -6,12 +6,23 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1;
 fi
 
+PPA_INSTALLS=""
 
-# add PPAs
-sudo add-apt-repository ppa:unit193/encryption
+function add_package {
+	PPA_INSTALLS+="$1 "
+}
 
-# update index
-sudo apt-get update
+echo "I: Adding GPG keys"
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64
 
-# install
-sudo apt install veracrypt
+echo "I: Adding PPA repos"
+# veracrypt
+add-apt-repository --yes ppa:unit193/encryption
+add_package "veracrypt"
+# yq
+sudo add-apt-repository --yes ppa:rmescandon/yq
+add_package "yq"
+
+echo "I: Installing the list of packages below:"
+echo ""I: "${PPA_INSTALLS}"""
+apt-get install --show-progress --assume-yes $PPA_INSTALLS
