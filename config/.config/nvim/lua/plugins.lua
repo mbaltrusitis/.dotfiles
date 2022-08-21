@@ -26,6 +26,8 @@ return require('packer').startup(function()
 	use 'Xuyuanp/nerdtree-git-plugin'  -- show git status in sidebar
 	--vim.cmd("let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o$', '\~$', '\.sw?']")
 
+	-- file searching
+	use 'vijaymarupudi/nvim-fzf'
 	-- autocompletion
 	use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
 	--use 'hrsh7th/cmp-buffer'
