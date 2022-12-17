@@ -35,7 +35,7 @@ if [[ -x /usr/bin/dircolors ]]; then
 	eval "$(dircolors -b)";
 fi
 export TERM="screen-256color"
-color_prompt=yes
+export color_prompt=yes
 export CLICOLOR=1
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # colorize terminal final
@@ -259,14 +259,26 @@ if hash fzf 2>/dev/null; then
 	export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
 	if [ -f "/usr/share/doc/fzf/examples/completion.bash" ]; then
-		source /usr/share/doc/fzf/examples/completion.bash
+		source "/usr/share/doc/fzf/examples/completion.bash"
 	fi
 
 	if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
-		source /usr/share/doc/fzf/examples/key-bindings.bash
+		source "/usr/share/doc/fzf/examples/key-bindings.bash"
 	fi
 fi
 # fzf final
+
+# vagrant start
+if [ -d "/opt/vagrant/embedded/gems/2.3.0/gems/vagrant-2.3.0/contrib/bash/" ]; then
+	source "/opt/vagrant/embedded/gems/2.3.0/gems/vagrant-2.3.0/contrib/bash/completion.sh"
+fi
+# vagrant final
+
+# mssql-tools start
+if [ -d "/opt/mssql-tools/bin/" ]; then
+	export PATH="$PATH:/opt/mssql-tools/bin"
+fi
+# mssql-tools final
 
 # visuals start
 # PS1 nonsense
