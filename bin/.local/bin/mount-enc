@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-make -C "$HOME/.dotfiles" mount-enc
+veracrypt -t -k "" --pim=0 --protect-hidden=no "$HOME/.dotfiles/enc/vol.vc" "$HOME/enc-vol"
 
-if [ -f "$HOME/enc-vol/ssh-keys/id_rsa" ]; then
+if [ -f "$HOME/enc-vol/ssh-keys/id_ed25519" ]; then
 	ssh-add -k "$HOME/enc-vol/ssh-keys/id_ed25519"
 fi
