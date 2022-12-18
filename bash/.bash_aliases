@@ -1,7 +1,7 @@
 # neovim
- if hash nvim 2>/dev/null; then
-	 alias vim='nvim'
- fi
+if hash nvim 2>/dev/null; then
+	alias vim='nvim'
+fi
 
 # git alias shortcuts
 alias ga='git add -p'
@@ -18,6 +18,7 @@ alias gs='git status'
 # alias cd='pushd'
 
 # some more ls aliases
+alias ls="ls --color=auto"
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -38,16 +39,17 @@ alias mk='microk8s.kubectl'
 alias kubectx="kubectl config use-context"
 
 # common things
-alias ssh-heat='sudo ssh -F ~/.ssh/config heat.nyc -i ~/.ssh/id_rsa'
+alias ssh-heat='ssh heat.nyc'
 
 # wireguard
 alias wgup='wg-quick up us-ny1'
 alias wgdn='wg-quick down us-ny1'
 
 
-alias ls='ls --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+alias vcrypt="veracrypt"
