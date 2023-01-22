@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
-veracrypt -t -k "" --pim=0 --protect-hidden=no "$HOME/.dotfiles/enc/vol.vc" "$HOME/enc-vol"
+ENC_VOL="$HOME/.dotfiles/enc/vol.vc"
+MOUNT_POINT="$HOME/enc-vol/"
 
-if [ -f "$HOME/enc-vol/ssh-keys/id_ed25519" ]; then
-	ssh-add -k "$HOME/enc-vol/ssh-keys/id_ed25519"
+mkdir -p "$MOUNT_POINT"
+
+if [ "$(uname)" = "Darwin" ]; then
+	/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt --text -t -k "" --pim=0 --protect-hidden=no "$ENC_VOL" "$MOUNT_POINT"
+elif [ "$(uname)" = "Linux" ]; then
+	veracrypt -t -k "" --pim=0 --protect-hidden=no "$ENC_VOL" "$MOUNT_POINT"
+else
+	echo "Unable to find veracrypt"
+	exit 1
 fi
+
+ssh-add -k "$HOME/enc-vol/ssh-keys/id_ed25519"
+exit 0
