@@ -125,6 +125,15 @@ if [ -f "$HOME/.tokens" ]; then
 fi
 # private tokens final
 
+# brew start
+if [ $(uname) = "Darwin" ] && [ -d "/opt/homebrew/" ]; then
+	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+	if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+		source "/opt/homebrew/etc/profile.d/bash_completion.sh"
+	fi
+fi
+# brew final
+
 # aws profile start
 if [ -z "$AWS_DEFAULT_PROFILE" ]; then
 	export AWS_DEFAULT_PROFILE="notmatthew"
