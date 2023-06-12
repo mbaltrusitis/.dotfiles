@@ -10,7 +10,8 @@ location:
     # repositories are backed up to in sequence. See ssh_command for SSH options like
     # identity file or port.
     repositories:
-      - 59207@usw-s009.rsync.net:borg-repos/heatserver1
+      - /mnt/system-backups/heatserver1
+      # - 59207@usw-s009.rsync.net:borg-repos/heatserver1
 
     # Stay in same file system (do not cross mount points). Defaults to false.
     # one_file_system: true
