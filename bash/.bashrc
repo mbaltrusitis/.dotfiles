@@ -49,7 +49,7 @@ export BROWSER="firefox"
 # export READER="zathura"
 
 if [[ -f "$HOME/.bash_aliases" ]]; then
-	source ~/.bash_aliases
+	source "$HOME/.bash_aliases"
 fi
 
 # Keep $HOME clean start
@@ -67,6 +67,12 @@ export LESSHISTFILE="-"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/}/.z"
+
+# elixir livebook start
+export LIVEBOOK_PORT="9999"
+export LIVEBOOK_PASSWORD="banana#phone1"
+export LIVEBOOK_HOME="$HOME/Projects/Livebooks"
+# elixir livebook final
 
 # .local start
 if [ -d "$HOME/.local/share/man" ]; then
