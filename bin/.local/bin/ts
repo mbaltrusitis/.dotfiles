@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+MONITOR_SESSION="system"
+SESSION_NAME=$1
+
+
+function maybeCreateSystemSession {
+	if ! tmux has-session -t $MONITOR_SESSION; then
+		tmux new-session -s "$MONITOR_SESSION" -n stats -d
+		tmux send-keys -t "$MONITOR_SESSION":stats 'btop' C-m
+	fi
+}
+
+function maybeCreateTargetSession {
+	if ! tmux has-session -t "$SESSION_NAME"; then
+		tmux new-session -d -s "$SESSION_NAME"
+	fi
+}
+
+function maybeLinkSystemSessionToTargetSession {
+	if ! tmux list-windows -t "$SESSION_NAME" | grep "stats"; then
+		tmux link-window -s "$MONITOR_SESSION":stats -t "$SESSION_NAME"
+		tmux swap-window -d -t 0 -s stats
+	fi
+}
+
+function main {
+	maybeCreateSystemSession;
+	maybeCreateTargetSession;
+	maybeLinkSystemSessionToTargetSession;
+	tmux attach-session -d -t "$SESSION_NAME"
+}
+
+main;
