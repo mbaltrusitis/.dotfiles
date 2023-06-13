@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "[INFO]: Downloading latest Makefile snippet..."
+
+
+if ! [ -f Makefile ]; then
+	curl --output Makefile -sL 'https://gitlab.com/-/snippets/2549420/raw/main/Makefile?inline=false'
+	echo "[INFO]: Done."
+else
+	echo "[ERROR]: Makefile already exists. Skipping."
+fi
