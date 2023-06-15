@@ -1,9 +1,9 @@
 [submodule "config/.config/base16-shell"]
 	path = config/.config/base16-shell
 	url = https://github.com/chriskempson/base16-shell.git
-[submodule "tmux/.tmux/plugins/tmux-resurrect"]
-	path = tmux/.tmux/plugins/tmux-resurrect
-	url = https://github.com/tmux-plugins/tmux-resurrect
 [submodule "config/.config/nvim"]
 	path = config/.config/nvim
 	url = https://github.com/NvChad/NvChad
+[submodule "tmux/.tmux/plugins/tpm"]
+	path = tmux/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
