@@ -106,14 +106,13 @@ $(HOME)/.local/bin/op:
 	gpg --verify op.sig op
 	curl -Ls -o op.
 
-stow: backup-bash
+stow:
 	stow bash
 	stow bin
 	stow config
 	stow fonts
 	stow ssh
 	stow tmux
-	stow vim
 
 link: backup-bash
 	ln -fs bash/.bash_aliases $(HOME)/.bash_aliases
