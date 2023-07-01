@@ -10,13 +10,15 @@
 
 ### instructions.
 
-#### macOS.
+### platforms.
+
+##### macOS.
 
 ```
 brew install fd ripgrep wget
 ```
 
-#### linux.
+##### linux.
 
 ```
 apt-get install fd-find ripgrep wget
@@ -28,3 +30,6 @@ cd ~/.dotfiles
 make
 ```
 
+#### nvchad
+
+Link `nvchad_custom` to `nvim/lua/custom`.
