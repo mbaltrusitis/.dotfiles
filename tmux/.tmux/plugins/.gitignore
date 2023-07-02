@@ -1,0 +1,6 @@
+# ignore everything in this directory and allow the TMUX Package Manager (tpm)
+# to manage the plugins directory
+*
+
+# Do not ignore the tpm submodule
+!tpm/*

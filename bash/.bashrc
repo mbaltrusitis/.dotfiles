@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # If not running interactively, don't do anything
 case $- in
@@ -46,7 +46,6 @@ export WINIT_HIDPI_FACTOR="1.4"
 export EDITOR="vim"
 export TERMINAL="kitty"
 export BROWSER="firefox"
-# export READER="zathura"
 
 if [[ -f "$HOME/.bash_aliases" ]]; then
 	source "$HOME/.bash_aliases"
@@ -95,13 +94,6 @@ if [ -d "$HOME/.cargo/bin" ] ; then
 fi
 # rust final
 
-# go-lang start
-#export GOPATH="$HOME/go"
-#if [ -d "$GOPATH/bin" ]; then
-	#export PATH="$GOPATH/bin:$PATH"
-#fi
-# go-lang final
-
 # some FUNctions
 parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -111,20 +103,6 @@ parse_git_branch() {
 export MAILCHECK=60
 export MAILPATH="/var/spool/mail/$USER"
 
-# ssh-agent start
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-	ssh-agent > ~/.ssh-agent-proc
-fi
-if [[ "$SSH_AGENT_PID" == "" ]]; then
-	eval "$(<~/.ssh-agent-proc)" 1> /dev/null
-fi
-# ssh-agent final
-
-# gpg-agent start
-gpg-agent --daemon 2> /dev/null
-export GPG_TTY="$(tty)"
-# gpg-agent final
-
 # private tokens start
 if [ -f "$HOME/.tokens" ]; then
 	source "$HOME/.tokens";
@@ -132,29 +110,13 @@ fi
 # private tokens final
 
 # brew start
-if [ $(uname) = "Darwin" ] && [ -d "/opt/homebrew/" ]; then
+if [ "$(uname)" = "Darwin" ] && [ -d "/opt/homebrew/" ]; then
 	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 	if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
 		source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 	fi
 fi
 # brew final
-
-# aws profile start
-if [ -z "$AWS_DEFAULT_PROFILE" ]; then
-	export AWS_DEFAULT_PROFILE="notmatthew"
-fi
-# aws profile final
-
-# kube configs start
-if [ -d "$HOME/.kube" ]; then
-	KUBECONFIG="";
-	# append config-y files to the KUBECONFIG path
-	for configFile in $HOME/.kube/*config.yaml; do
-		export KUBECONFIG="$configFile:$KUBECONFIG";
-	done
-fi
-# kube configs final
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -173,22 +135,12 @@ fi
 
 # asdf start
 if [ -f "$HOME/.asdf/asdf.sh" ]; then
-	source $HOME/.asdf/asdf.sh
+	source "$HOME/.asdf/asdf.sh"
 fi
 if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
-	source $HOME/.asdf/completions/asdf.bash
+	source "$HOME/.asdf/completions/asdf.bash"
 fi
 # asdf final
-
-# npm start
-if hash npm 2>/dev/null; then
-	export NPM_PACKAGES="$HOME/.npm-global"
-	export PATH="$NPM_PACKAGES/bin:$PATH"
-	unset -v MANPATH
-	export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-	source <(npm completion)
-fi
-# npm final
 
 # erlang start
 if [ -d "/usr/local/opt/erlang/lib/erlang/man" ]; then
@@ -196,22 +148,12 @@ if [ -d "/usr/local/opt/erlang/lib/erlang/man" ]; then
 fi
 # erlang final
 
-# virtualenvwrapper start
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Projects
-if [ -f "/usr/share/virtualenvwrapper/virtualenvwrapper.sh" ]; then
-	# Linux
-	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-	source "/usr/share/virtualenvwrapper/virtualenvwrapper.sh";
-elif [ -f "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh" ]; then
-	# Darwin
-	export VIRTUALENVWRAPPER_PYTHON=python3
-	export PATH="$HOME/Library/Python/3.7/bin:$PATH"
-	source "$HOME/Library/Python/3.7/bin/virtualenvwrapper.sh";
-else
-	:
+# macOS python start
+if [ -d "/Library/Frameworks/Python.framework/Versions/3.9/bin"  ]; then
+    DEV_PYTHON_PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin"
+    export PATH="$DEV_PYTHON_PATH:$PATH"
 fi
-# virtualenvwrapper final
+# macOS python final
 
 # poetry start
 if [ -d "$HOME/.poetry/bin" ]; then
@@ -231,43 +173,11 @@ if [[ -f "/etc/bash_completion" ]]; then
 fi
 # bash completion final
 
-# flatpak start
-if [ -d "/var/lib/flatpak/exports/share" ]; then
-	export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
-fi
-# flatpak final
-
 # z.sh start
 if [ -f "/usr/local/lib/z/z.sh" ]; then
 	source "/usr/local/lib/z/z.sh";
 fi
 # z.sh final
-
-# nix start
-if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
-	source "$HOME/.nix-profile/etc/profile.d/nix.sh;"
-fi
-# nix final
-
-# java start
-if [ -f "/usr/lib/jvm/java-11-openjdk-amd64/bin/java" ]; then
-	export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
-fi
-# java final
-
-# spark start
-if [ -d "/opt/spark" ]; then
-	export SPARK_HOME="/opt/spark"
-	export PATH="$SPARK_HOME/bin:$PATH"
-fi
-# spark fine
-
-# kafka start
-if [ -d "/opt/kafka" ]; then
-	export kafka_HOME="/opt/kafka"
-	export PATH="$kafka_HOME/bin:$PATH"
-fi
-# kafka final
 
 # fzf start
 if hash fzf 2>/dev/null; then
@@ -283,57 +193,10 @@ if hash fzf 2>/dev/null; then
 fi
 # fzf final
 
-# vagrant start
-if [ -d "/opt/vagrant/embedded/gems/2.3.0/gems/vagrant-2.3.0/contrib/bash/" ]; then
-	source "/opt/vagrant/embedded/gems/2.3.0/gems/vagrant-2.3.0/contrib/bash/completion.sh"
-fi
-# vagrant final
-
-# mssql-tools start
-if [ -d "/opt/mssql-tools/bin/" ]; then
-	export PATH="$PATH:/opt/mssql-tools/bin"
-fi
-# mssql-tools final
-
-# visuals start
-# PS1 nonsense
-#PS1="\[\e[37m\]"
-#PS1+="╭╴"
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[31m\]"
-#PS1+="\u"
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[37m\]"
-#PS1+="@"
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[31m\]"
-#PS1+="\h"
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[37m\]"
-#PS1+=" :: "
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[36m\]"
-#PS1+="\w"
-#PS1+="\n"
-#PS1+="\[\e[31m\]"
-#PS1+="\[\e[37m\]"
-#PS1+="╰╴"
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[31m\]"
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[31m\]"
-#PS1+="🔥 "
-## PS1+="🦃 "  # gobble gobble
-## PS1+="🎄 "  # happy holidays
-## PS1+="❄️ "   # brrr
-#PS1+="\[\e[m\]"
-#PS1+="\[\e[36m\]"
-#PS1+="\[\e[m\]"
-
 PS1="\[\e[32m\]"
 PS1+=" λ "
 # PS1+=" 🦃 "  # gobble gobble
-# PS1+="🎄 "  # happy holidays
-# PS1+="❄️ "   # brrr
+# PS1+=" 🎄 "  # happy holidays
+# PS1+=" ❄️ "   # brrr
 PS1+="\[\e[m\]"
 # visuals final
