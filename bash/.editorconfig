@@ -47,4 +47,4 @@ indent_size = 2
 [*.{ex,exs,html.heex}]
 indent_style = space
 indent_size = 2
-insert_final_newline = true
+
