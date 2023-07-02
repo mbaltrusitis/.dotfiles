@@ -120,9 +120,9 @@ fi
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-	eval "$("$BASE16_SHELL/profile_helper.sh")"
+if [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ]; then
+    source "$BASE16_SHELL/profile_helper.sh"
+fi
 # base16-shell final
 
 # direnv start
@@ -193,8 +193,9 @@ if hash fzf 2>/dev/null; then
 fi
 # fzf final
 
-PS1="\[\e[32m\]"
-PS1+=" λ "
+# visuals start
+PS1="\[\e[35m\]"
+PS1+="  "
 # PS1+=" 🦃 "  # gobble gobble
 # PS1+=" 🎄 "  # happy holidays
 # PS1+=" ❄️ "   # brrr
