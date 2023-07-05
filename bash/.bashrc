@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# logger helpers
+LOG_DEBUG() { echo -e "\e[0;34m[DEBUG] $1\e[0m" ; }
+LOG_INFO() { echo -e "\e[0;32m[INFO]  $1\e[0m" ; }
+LOG_ERROR() { echo -e "\e[1;31m[error] $1\e[0m" ; }
+LOG_WARNING() { echo -e "\e[0;33m[warn]  $1\e[0m" ; }
+
 # If not running interactively, don't do anything
 case $- in
 	*i*) ;;
