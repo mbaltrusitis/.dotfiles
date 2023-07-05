@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # logger helpers
-LOG_DEBUG() { echo -e "\e[0;34m[DEBUG] $1\e[0m" ; }
-LOG_INFO() { echo -e "\e[0;32m[INFO]  $1\e[0m" ; }
-LOG_ERROR() { echo -e "\e[1;31m[error] $1\e[0m" ; }
-LOG_WARNING() { echo -e "\e[0;33m[warn]  $1\e[0m" ; }
+LOG_DEBUG() { printf "\e[0;34m[DEBUG] %s\e[0m\n" "$1" ; }
+LOG_INFO() { printf "\e[0;32m[INFO]  %s\e[0m\n" "$1" ; }
+LOG_ERROR() { printf "\e[0;31m[ERROR] %s\e[0m\n" "$1" ; }
+LOG_WARNING() { printf "\e[0;33m[WARN]  %s\e[0m\n" "$1" ; }
 
 # If not running interactively, don't do anything
 case $- in
