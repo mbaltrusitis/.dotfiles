@@ -125,7 +125,7 @@ fi
 # brew final
 
 # base16 shell start
-BASE16_SHELL="$HOME/.config/base16-shell/"
+BASE16_SHELL="$HOME/.config/base16-shell"
 if [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ]; then
     source "$BASE16_SHELL/profile_helper.sh"
 fi
@@ -180,8 +180,8 @@ fi
 # bash completion final
 
 # z.sh start
-if [ -f "/usr/local/lib/z/z.sh" ]; then
-	source "/usr/local/lib/z/z.sh";
+if [ -r "$HOME/.local/src/z/z.sh" ]; then
+    source "$HOME/.local/src/z/z.sh";
 fi
 # z.sh final
 
@@ -199,11 +199,50 @@ if hash fzf 2>/dev/null; then
 fi
 # fzf final
 
-# visuals start
-PS1="\[\e[35m\]"
-PS1+="  "
-# PS1+=" 🦃 "  # gobble gobble
-# PS1+=" 🎄 "  # happy holidays
-# PS1+=" ❄️ "   # brrr
-PS1+="\[\e[m\]"
-# visuals final
+__python_auto_activate_virtualenv() {
+    # get the first (alphabetically) .venv-* directory
+    typeset -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
+    # disable `activate` from editing PS1
+    # shellcheck disable=SC2034
+    VIRTUAL_ENV_DISABLE_PROMPT=1
+
+    if [[ -n "$first_found_venv" ]] && [[ -r "$first_found_venv" ]]; then
+        # a venv has been found, get its name and path
+        typeset -r venv_name="$(basename "${first_found_venv}")"
+        typeset -r venv_path="$(pwd -P)/${venv_name}"
+        typeset -r venv_activate="${venv_path}/bin/activate"
+
+        # deactivate a mismatched venv
+        if [[ -n "$VIRTUAL_ENV" ]] && [[ "$VIRTUAL_ENV" != "$venv_path" ]]; then
+            typeset -r old_venv_name="$(basename "$VIRTUAL_ENV")"
+
+            # check for the `deactivate` function and call it
+            if [[ "$(type -t deactivate)" = "function" ]] && deactivate; then
+                LOG_INFO "Deactivated venv ${old_venv_name}"
+            else
+                LOG_ERROR "Failed to deactivate venv ${old_venv_name}"
+                return 1
+            fi
+        fi
+
+        # if a venv is not activated, activate the one we found
+        if [[ -z "$VIRTUAL_ENV" ]] && [[ -r "$venv_activate" ]]; then
+            # shellcheck disable=SC1090
+            if source "${venv_activate}"; then
+                LOG_INFO "Activated venv ${venv_name}"
+            else
+                LOG_ERROR "Failed to activate venv ${venv_name}"
+                return 1
+            fi
+        fi
+    fi
+}
+
+# prompt formatting start
+if [ -r "$HOME/.local/src/ps1_setup.sh" ]; then
+    source "$HOME/.local/src/ps1_setup.sh"
+fi
+# prompt formatting final
+
+export PROMPT_COMMAND="$PROMPT_COMMAND __python_auto_activate_virtualenv; __setup_ps1; "
+

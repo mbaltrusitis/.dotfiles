@@ -10,3 +10,6 @@
 [submodule "config/.config/nvchad_custom"]
 	path = config/.config/nvchad_custom
 	url = https://gitlab.com/mbaltrusitis/nvchad_config
+[submodule "bin/.local/src/z"]
+	path = bin/.local/src/z
+	url = https://github.com/rupa/z.git
