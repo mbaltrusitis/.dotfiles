@@ -60,7 +60,7 @@ __setup_ps1() {
         if git rev-parse --is-inside-work-tree >/dev/null 2>/dev/null; then
             git_branch="$(fetch_git_branch_name)"
             git_hash="$(fetch_git_short_hash)"
-            git_component="$(put_component_format " $git_branch~$git_hash")"
+            git_component="$(put_component_format "  $git_branch~$git_hash")"
         else
             git_component=""
         fi
