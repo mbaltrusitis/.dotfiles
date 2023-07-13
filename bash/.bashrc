@@ -81,6 +81,7 @@ export LESSHISTFILE="-"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/}/.z"
+export CDPATH=".:..:$HOME/Projects:$HOME"
 
 # elixir livebook start
 export LIVEBOOK_PORT="9999"
