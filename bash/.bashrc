@@ -64,9 +64,7 @@ export EDITOR="vim"
 export TERMINAL="kitty"
 export BROWSER="firefox"
 
-if [[ -f "$HOME/.bash_aliases" ]]; then
-	source "$HOME/.bash_aliases"
-fi
+test_and_source "-f" "$HOME/.bash_aliases"
 
 # Keep $HOME clean start
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -121,24 +119,20 @@ export MAILCHECK=60
 export MAILPATH="/var/spool/mail/$USER"
 
 # private tokens start
-if [ -f "$HOME/.tokens" ]; then
-	source "$HOME/.tokens";
-fi
+test_and_source "-f" "$HOME/.tokens"
 # private tokens final
 
 # brew start
 if [ "$(uname)" = "Darwin" ] && [ -d "/opt/homebrew/" ]; then
 	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-	if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
-		source "/opt/homebrew/etc/profile.d/bash_completion.sh"
-	fi
+	test_and_source "-r" "/opt/homebrew/etc/profile.d/bash_completion.sh"
 fi
 # brew final
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell"
-if [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ]; then
-    source "$BASE16_SHELL/profile_helper.sh"
+if [ -n "$PS1" ]; then
+    test_and_source "-s" "$BASE16_SHELL/profile_helper.sh"
 fi
 # base16-shell final
 
@@ -151,12 +145,9 @@ fi
 # direnv final
 
 # asdf start
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-	source "$HOME/.asdf/asdf.sh"
-fi
-if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
-	source "$HOME/.asdf/completions/asdf.bash"
-fi
+test_and_source "-f" "$HOME/.asdf/asdf.sh"
+test_and_source "-f" "$HOME/.asdf/completions/asdf.bash"
+test_and_source "-f" "$(brew --prefix)/opt/asdf/libexec/asdf.sh"
 # asdf final
 
 # erlang start
@@ -185,28 +176,18 @@ fi
 #kubectx // kubens final
 
 # bash completion start
-if [[ -f "/etc/bash_completion" ]]; then
-	source "/etc/bash_completion"
-fi
+test_and_source "-f" "/etc/bash_completion"
 # bash completion final
 
 # z.sh start
-if [ -r "$HOME/.local/src/z/z.sh" ]; then
-    source "$HOME/.local/src/z/z.sh";
-fi
+test_and_source "-r" "$HOME/.local/src/z/z.sh"
 # z.sh final
 
 # fzf start
 if hash fzf 2>/dev/null; then
 	export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
-
-	if [ -f "/usr/share/doc/fzf/examples/completion.bash" ]; then
-		source "/usr/share/doc/fzf/examples/completion.bash"
-	fi
-
-	if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
-		source "/usr/share/doc/fzf/examples/key-bindings.bash"
-	fi
+	test_and_source "-f" "/usr/share/doc/fzf/examples/completion.bash"
+	test_and_source "-f" "/usr/share/doc/fzf/examples/key-bindings.bash"
 fi
 # fzf final
 
@@ -239,7 +220,7 @@ __python_auto_activate_virtualenv() {
         # if a venv is not activated, activate the one we found
         if [[ -z "$VIRTUAL_ENV" ]] && [[ -r "$venv_activate" ]]; then
             # shellcheck disable=SC1090
-            if source "${venv_activate}"; then
+            if test_and_source "-r" "$venv_activate"; then
                 LOG_INFO "Activated venv ${venv_name}"
             else
                 LOG_ERROR "Failed to activate venv ${venv_name}"
@@ -250,10 +231,7 @@ __python_auto_activate_virtualenv() {
 }
 
 # prompt formatting start
-if [ -r "$HOME/.local/src/ps1_setup.sh" ]; then
-    source "$HOME/.local/src/ps1_setup.sh"
-fi
+test_and_source "-r" "$HOME/.local/src/ps1_setup.sh"
 # prompt formatting final
 
 export PROMPT_COMMAND="$PROMPT_COMMAND __python_auto_activate_virtualenv; __setup_ps1; "
-
