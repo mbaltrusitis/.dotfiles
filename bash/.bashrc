@@ -6,6 +6,17 @@ LOG_INFO() { printf "\e[0;32m[INFO]  %s\e[0m\n" "$1" ; }
 LOG_ERROR() { printf "\e[0;31m[ERROR] %s\e[0m\n" "$1" ; }
 LOG_WARNING() { printf "\e[0;33m[WARN]  %s\e[0m\n" "$1" ; }
 
+# Description: Test a given $path and if true `source` it
+test_and_source() {
+    typeset -r conditional="$1"
+    typeset -r path="$2"
+
+    typeset -r partial="test $conditional $path"
+    if eval "$partial"; then
+        source "$path"
+    fi
+}
+
 # If not running interactively, don't do anything
 case $- in
 	*i*) ;;
