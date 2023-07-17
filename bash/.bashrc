@@ -146,9 +146,14 @@ fi
 # direnv final
 
 # asdf start
+if hash brew 2>/dev/null; then
+    typeset -r brew_prefix="$(brew --prefix)";
+else
+    typeset -r brew_prefix="";
+fi
 test_and_source "-f" "$HOME/.asdf/asdf.sh"
 test_and_source "-f" "$HOME/.asdf/completions/asdf.bash"
-test_and_source "-f" "$(brew --prefix)/opt/asdf/libexec/asdf.sh"
+test_and_source "-f" "$brew_prefix/opt/asdf/libexec/asdf.sh"
 # asdf final
 
 # erlang start
