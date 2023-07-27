@@ -197,6 +197,13 @@ if hash fzf 2>/dev/null; then
 fi
 # fzf final
 
+
+# mason start
+if [ -d "$HOME/.local/share/nvim/mason/bin" ]; then
+    export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+fi
+# mason final
+
 __python_auto_activate_virtualenv() {
     # get the first (alphabetically) .venv-* directory
     typeset -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
