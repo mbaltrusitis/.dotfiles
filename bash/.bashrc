@@ -7,6 +7,9 @@ LOG_ERROR() { printf "\e[0;31m[ERROR] %s\e[0m\n" "$1" ; }
 LOG_WARNING() { printf "\e[0;33m[WARN]  %s\e[0m\n" "$1" ; }
 
 # Description: Test a given $path and if true `source` it
+# Note:
+#   The valid values for the conditional (i.e., $1) can be found by running:
+#   'man test'
 test_and_source() {
     typeset -r conditional="$1"
     typeset -r path="$2"
