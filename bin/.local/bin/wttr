@@ -3,4 +3,4 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-curl -sH "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-new_york_city}"?"${2:-'1'}" | head -n -2;
+curl -sH "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-new_york_city}"?"${2:-'1'}" | sed -e '18,$d'
