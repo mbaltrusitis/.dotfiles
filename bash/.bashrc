@@ -51,7 +51,6 @@ fi
 if [[ -x /usr/bin/dircolors ]]; then
 	eval "$(dircolors -b)";
 fi
-export TERM="screen-256color"
 export color_prompt=yes
 export CLICOLOR=1
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
