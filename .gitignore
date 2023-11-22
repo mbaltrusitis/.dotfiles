@@ -6,3 +6,4 @@ alacritty.yml
 .nobackup
 tmux/.tmux/resurrect/
 fonts/
+_build/
