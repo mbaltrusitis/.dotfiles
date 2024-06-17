@@ -4,9 +4,14 @@ typeset -r video_file="$1"
 typeset -r output_file="$2"
 typeset -r usage_text='Usage: gifencode.sh <video file> <output_file>.gif'
 
+if ! hash ffmpeg 2>/dev/null; then
+    echo "[ERROR]: ffmpeg must be installed"
+    exit 1;
+fi
+
 if [ -z "$video_file" ] || [ -z "$output_file" ]; then
     echo "$usage_text"
-    exit 1
+    exit 1;
 fi
 
 typeset -r palette="/tmp/palette.png"
