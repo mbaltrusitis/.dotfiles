@@ -2,16 +2,18 @@
 	profile-source snap stow unlink
 .ONESHELL:
 
-SHELL		= /bin/bash
+SHELL := /bin/bash
 DOTFILE_DIR	:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-OS			:= $(shell uname -s | tr '[:upper:]' '[:lower:]')
-
+OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 all: install
 install: $(OS)
-linux: git-init stow dev-tools profile-source font-cache
+linux: git-init stow dev-tools
 darwin: brew brew-upgrade git-init stow profile-source
 
+# dependency versions
+NVIM_VERSION := 0.9.4
+ASDF_VERSION := 0.13.1
 
 apt:
 	$(info You may be prompted for super-user privleges:)
@@ -76,7 +78,38 @@ umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 
 $(HOME)/.asdf:
-	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.7.8
+	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v$(ASDF_VERSION)
+
+# nvim start
+nvim: link-nvim
+.PHONY: nvim
+
+link-nvim: _build/nvim-linux64
+	sudo ln -sf $$PWD/_build/nvim-linux64/bin/* /usr/local/bin/
+	sudo ln -sf $$PWD/_build/nvim-linux64/lib/* /usr/local/lib/
+	sudo ln -sf $$PWD/_build/nvim-linux64/man/* /usr/local/man/
+	sudo ln -sf $$PWD/_build/nvim-linux64/share/* /usr/local/share/
+.PHONY: link-nvim
+
+_build/nvim-linux64: validate-nvim-download
+	pushd ./_build && tar -xzvf nvim-linux64.tar.gz
+
+validate-nvim-download: fetch-nvim
+	pushd ./_build && sha256sum -c nvim-linux64.tar.gz.sha256sum || exit 1
+.PHONY: validate-nvim-download
+
+fetch-nvim: _build/nvim-linux64.tar.gz.sha256sum _build/nvim-linux.tar.gz
+.PHONY: fetch-nvim
+
+_build/nvim-linux64.tar.gz.sha256sum: _build
+	curl -sLo _build/nvim-linux64.tar.gz.sha256sum 'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz.sha256sum'
+
+_build/nvim-linux.tar.gz: _build
+	curl -sLo _build/nvim-linux64.tar.gz 'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz'
+# nvim final
+
+_build:
+	mkdir -p ./_build
 
 profile-source:
 	source $(HOME)/.bash_profile
