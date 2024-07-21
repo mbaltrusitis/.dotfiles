@@ -12,7 +12,7 @@ linux: git-init stow dev-tools
 darwin: brew brew-upgrade git-init stow profile-source
 
 # dependency versions
-NVIM_VERSION := 0.9.4
+NVIM_VERSION := 0.10.0
 ASDF_VERSION := 0.13.1
 
 apt:
