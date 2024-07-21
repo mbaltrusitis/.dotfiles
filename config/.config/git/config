@@ -43,5 +43,7 @@
 [pull]
 	ff = only
 [rerere]
-	enabled = false
+	enabled = true
 	autoUpdate = true
+[init]
+	defaultBranch = main
