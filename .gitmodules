@@ -4,6 +4,3 @@
 [submodule "tmux/.tmux/plugins/tpm"]
 	path = tmux/.tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "bin/.local/src/z"]
-	path = bin/.local/src/z
-	url = https://github.com/rupa/z.git
