@@ -1,5 +1,5 @@
-.PHONY: all apt backup-bash brew-sync darwin dev-tools enc-vol git-init help install link linux \
-	profile-source snap stow unlink
+.PHONY: all apt backup-bash dev-tools enc-vol git-init help install link linux profile-source snap \
+	stow unlink
 .ONESHELL:
 
 SHELL := /bin/bash
@@ -9,11 +9,6 @@ OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 all: install
 install: $(OS)
 linux: git-init stow dev-tools
-darwin: brew brew-upgrade git-init stow profile-source
-
-# dependency versions
-NVIM_VERSION := 0.10.0
-ASDF_VERSION := 0.13.1
 
 apt:
 	$(info You may be prompted for super-user privleges:)
@@ -23,39 +18,7 @@ apt:
 	sudo linux/apt-ppa.sh
 	sudo linux/snap.sh
 
-pacman:
-	$(info You may be prompted for super-user privleges:)
-	sudo linux/pacman-full.sh
-	linux/pamac.sh
-
 # TODO: Add Yubikey PAM
-
-darwin: brew
-	sudo softwareupdate -aiR
-
-brew: /usr/local/Homebrew/bin/brew
-	-brew bundle --file=$(DOTFILE_DIR)/darwin/.Brewfile
-
-brew-sync:
-	brew bundle dump --force --file=$(DOTFILE_DIR)/darwin/.Brewfile
-
-upgrade: brew-upgrade cask-upgrade
-
-brew-upgrade:
-	if brew upgrade ; then brew cleanup ; fi;
-
-cask-upgrade:
-	if brew cask upgrade ; then brew cleanup ; fi;
-
-/usr/local/Homebrew/bin/brews:
-	{ \
-	set -e ;\
-	if hash brew 2> /dev/null; then \
-		echo "Brew is already installed."; \
-	else \
-		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; \
-	fi ;\
-	}
 
 font-cache:
 	$(info Resetting system font-cache)
@@ -64,7 +27,11 @@ font-cache:
 git-init:
 	git submodule update --init --recursive
 
-dev-tools: $(HOME)/.asdf
+dev-tools: asdf
+
+asdf:
+	$(MAKE) -f ./Makefile.asdf
+.PHONY: asdf
 
 $(HOME)/enc-vol:
 	mkdir -p $(HOME)/enc-vol
@@ -77,10 +44,8 @@ mount-enc: $(HOME)/enc-vol
 umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 
-$(HOME)/.asdf:
-	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v$(ASDF_VERSION)
-
 # nvim start
+NVIM_VERSION := 0.10.0
 nvim: link-nvim
 .PHONY: nvim
 
@@ -117,22 +82,29 @@ profile-source:
 backup-bash:
 	$(DOTFILE_DIR)/bash_backup.sh
 
-#
-## git installs.
-#
+## git installs start
 
-git-install-hexyl:
-	cd /tmp && \
-	curl -Ls -o hexyl.deb "https://github.com/sharkdp/hexyl/releases/download/v0.6.0/hexyl_0.6.0_amd64.deb"; \
-	sudo dpkg -i hexyl.deb;
+HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/hexyl/releases/latest' | cut -d'/' -f8)
+hexyl: /usr/bin/hexyl
 
-git-install-bat:
-	cd /tmp && \
-	curl -Ls -o bat.deb "https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb"; \
+/usr/bin/hexyl:
+	curl -sL -o /tmp/hexyl.deb "https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb";
+	sudo dpkg -i /tmp/hexyl.deb;
+
+BAT_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/bat/releases/latest' | cut -d'/' -f8)
+bat: /usr/bin/bat
+
+/usr/bin/bat:
+	curl -Ls -o /tmp/bat.deb "https://github.com/sharkdp/bat/releases/download/$(BAT_VERSION)/bat_$(BAT_VERSION:v%=%)_amd64.deb";
 	sudo dpkg -i /tmp/bat.deb;
 
-git-install-z:
-	sudo git clone https://github.com/rupa/z.git --branch v1.11 /usr/local/lib/z
+Z_VERSION := v1.12
+z: /usr/local/src/z
+
+/usr/local/src/z:
+	sudo git clone https://github.com/rupa/z.git --branch $(Z_VERSION) /usr/local/src/z 2> /dev/null
+	sudo ln -s /usr/local/src/z/z.sh /usr/local/bin/z
+## git installs final
 
 $(HOME)/.local/bin/op:
 	gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22

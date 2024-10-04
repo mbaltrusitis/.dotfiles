@@ -1,0 +1,102 @@
+# This file manages the installation of the `asdf` command itself along with its plugins. To add an
+# additional plugin make the following changes:
+#
+#	1. Add the plugin name, as passed to `asdf plugin-add` to `ASDF_PLUGINS_LIST`
+#	2. Create a new goal that is the same value as above
+#
+# The goal should install the dependencies for the plugin, often found in the plugin docs and then
+# add the plugin with `asdf plugin-add`. To make maintenance easier, add the goal and plugin name
+# in alphabetical order.
+
+
+ASDF_VERSION := 0.13.1
+ASDF_INSTALL_PATH ?= $(HOME)/.asdf
+ASDF_CMD := $(ASDF_INSTALL_PATH)/bin/asdf
+
+all: prepare asdf asdf-plugins
+
+asdf: $(HOME)/.asdf
+
+prepare:
+	sudo apt-get update;
+
+# asdf
+$(HOME)/.asdf:
+	@echo "[INFO]: Installing asdf and its dependencies"
+	sudo apt-get install curl git
+	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v$(ASDF_VERSION)
+
+# asdf plugins
+ASDF_PLUGINS_LIST := elixir erlang golang nim nodejs php rabbitmq rebar zig
+
+asdf-plugins: $(ASDF_PLUGINS_LIST)
+
+elixir:
+	# https://github.com/asdf-vm/asdf-elixir
+	@echo "[INFO]: Installing dependencies for $@"
+	sudo apt-get --yes install unzip
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-elixir
+
+erlang:
+	# https://github.com/asdf-vm/asdf-erlang
+	@echo "[INFO]: Installing dependencies for $@"
+	sudo apt-get --yes install libssl-dev automake autoconf libncurses-dev xsltproc fop \
+		libxml2-utils libwxgtk-webview3.0-gtk3-dev wx-common gcc g++ openjdk-11-jdk m4 \
+		libglu1-mesa-dev libgl1-mesa-dev libpng-dev unixodbc-dev;
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-erlang
+
+golang:
+	# https://github.com/asdf-community/asdf-golang
+	@echo "[INFO]: Installing dependencies for $@"
+	sudo apt-get --yes install coreutils curl
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-golang
+
+nim:
+	# https://github.com/asdf-community/asdf-nim
+	@echo "[INFO]: Installing dependencies for $@"
+	sudo apt-get --yes install build-essential xz-utils
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-nim
+
+
+nodejs:
+	# https://github.com/asdf-vm/asdf-nodejs
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-nodejs
+
+php:
+	# https://github.com/asdf-community/asdf-php
+	@echo "[INFO]: Installing dependencies for $@"
+	sudo apt-get --yes install autoconf bison build-essential curl gettext git libgd-dev \
+		libcurl4-openssl-dev libedit-dev libicu-dev libjpeg-dev libmysqlclient-dev libonig-dev \
+		libpng-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libzip-dev \
+		openssl pkg-config re2c zlib1g-dev;
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-php
+
+rabbitmq: asdf-erlang
+	# https://github.com/w-sanches/asdf-rabbitmq
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-rabbitmq
+
+rebar: asdf-erlang
+	# https://github.com/Stratus3D/asdf-rebar
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@
+.PHONY: asdf-rebar
+
+zig:
+	# https://github.com/asdf-community/asdf-zig
+	@echo "[INFO]: Adding asdf plugin $@"
+	$(ASDF_CMD) plugin-add $@ https://github.com/asdf-community/asdf-zig.git
+.PHONY: asdf-zig
