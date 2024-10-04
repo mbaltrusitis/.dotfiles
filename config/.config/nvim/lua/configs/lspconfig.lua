@@ -16,6 +16,7 @@ local servers = {
 	gopls = {},
 	html = {},
 	jsonls = {},
+	nim_langserver = {},
 	pyright = {},
 	rust_analyzer = {},
 	tailwindcss = {},

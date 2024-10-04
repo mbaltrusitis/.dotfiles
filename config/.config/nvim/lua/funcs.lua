@@ -41,7 +41,7 @@ end
 
 function M.grep_configs()
 	local opts = {}
-	opts.prompt_title = "search notes."
+	opts.prompt_title = "search config."
 	opts.prompt_prefix = "config content :: "
 	opts.shorten_path = true
 	opts.search_dirs = {
