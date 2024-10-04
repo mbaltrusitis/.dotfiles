@@ -1,10 +1,13 @@
-.PHONY: all apt backup-bash dev-tools enc-vol git-init help install link linux profile-source snap \
-	stow unlink
+.PHONY: all apt backup-bash dev-tools git-init help install link linux profile-source snap stow \
+	unlink
 .ONESHELL:
 
 SHELL := /bin/bash
+
 DOTFILE_DIR	:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+# make utility functions available to all goals
+export BASH_ENV := ./utils/bash-utils.bash
 
 all: install
 install: $(OS)
@@ -19,9 +22,6 @@ apt:
 	sudo linux/apt-full.sh
 	sudo linux/apt-ppa.sh
 	sudo linux/snap.sh
-
-# TODO: Add Yubikey PAM
-
 
 font-cache:
 	$(info Resetting system font-cache)
@@ -40,10 +40,26 @@ flatpak:
 	$(shell sudo ./linux/flatpak-install.sh)
 .PHONY: flatpak
 
-$(HOME)/enc-vol:
-	mkdir -p $(HOME)/enc-vol
+# veracrypt start
+VERACRYPT_VERSION := 1.26.14
+veracrypt: /usr/bin/veracrypt
 
-enc-vol: $(HOME)/enc-vol
+/usr/bin/veracrypt:
+	import_pgp_key_by_url "https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc"
+	# download the package's signature
+	curl -sSLo /tmp/veracrypt.deb.sig \
+		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb.sig';
+	# download the package itself
+	curl -sSLo /tmp/veracrypt.deb \
+		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb';
+	# verify the downloaded package
+	gpg --verify /tmp/veracrypt.deb.sig /tmp/veracrypt.deb
+	# install the package
+	sudo dpkg -i /tmp/veracrypt.deb;
+# veracrypt final
+
+$(HOME)/enc-vol: veracrypt
+	mkdir -p $(HOME)/enc-vol
 
 mount-enc: $(HOME)/enc-vol
 	veracrypt -t -k "" --pim=0 --protect-hidden=no enc/vol.vc $(HOME)/enc-vol
@@ -74,10 +90,12 @@ fetch-nvim: _build/nvim-linux64.tar.gz.sha256sum _build/nvim-linux.tar.gz
 .PHONY: fetch-nvim
 
 _build/nvim-linux64.tar.gz.sha256sum: _build
-	curl -sLo _build/nvim-linux64.tar.gz.sha256sum 'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz.sha256sum'
+	curl -sLo _build/nvim-linux64.tar.gz.sha256sum \
+		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz.sha256sum'
 
 _build/nvim-linux.tar.gz: _build
-	curl -sLo _build/nvim-linux64.tar.gz 'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz'
+	curl -sLo _build/nvim-linux64.tar.gz \
+		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz'
 # nvim final
 
 _build:
@@ -95,14 +113,16 @@ HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/shar
 hexyl: /usr/bin/hexyl
 
 /usr/bin/hexyl:
-	curl -sL -o /tmp/hexyl.deb "https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb";
+	curl -sL -o /tmp/hexyl.deb \
+		"https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb";
 	sudo dpkg -i /tmp/hexyl.deb;
 
 BAT_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/bat/releases/latest' | cut -d'/' -f8)
 bat: /usr/bin/bat
 
 /usr/bin/bat:
-	curl -Ls -o /tmp/bat.deb "https://github.com/sharkdp/bat/releases/download/$(BAT_VERSION)/bat_$(BAT_VERSION:v%=%)_amd64.deb";
+	curl -Ls -o /tmp/bat.deb \
+		"https://github.com/sharkdp/bat/releases/download/$(BAT_VERSION)/bat_$(BAT_VERSION:v%=%)_amd64.deb";
 	sudo dpkg -i /tmp/bat.deb;
 
 Z_VERSION := v1.12
