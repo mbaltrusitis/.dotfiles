@@ -3,6 +3,7 @@
 .ONESHELL:
 
 SHELL := /bin/bash
+.SHELLFLAGS := -e -c
 
 DOTFILE_DIR	:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
@@ -131,6 +132,69 @@ z: /usr/local/src/z
 /usr/local/src/z:
 	sudo git clone https://github.com/rupa/z.git --branch $(Z_VERSION) /usr/local/src/z 2> /dev/null
 	sudo ln -s /usr/local/src/z/z.sh /usr/local/bin/z
+
+DIRENV_VERSION := 2.34.0
+direnv: /usr/local/bin/direnv
+.PHONY: direnv
+
+/usr/local/bin/direnv:
+	download_github_release_artifact "/tmp/direnv" \
+		"https://github.com/direnv/direnv" \
+		"direnv.linux-amd64" \
+		"2.34.0"
+	sudo chmod +x /tmp/direnv
+	sudo mv /tmp/direnv /usr/local/bin/direnv
+
+# KUBECTX_VERSION := 0.9.5
+# kubectx: /usr/local/bin/kubectx
+#
+# /usr/local/bin/kubectx:
+# 	download_github_release_artifact "/tmp/kubectx.tar.gz" \
+# 		"https://github.com/ahmetb/kubectx" \
+# 		"kubectx_v$(KUBECTX_VERSION)_linux_x86_64.tar.gz" \
+# 		$(KUBECTX_VERSION)
+# 	tar -xvzf /tmp/kubectx.tar.gz
+# 	sudo mv /tmp/kubectx /usr/local/bin/kubectx
+
+K9S_VERSION := 0.32.5
+k9s: /usr/bin/k9s
+
+/usr/bin/k9s:
+	download_github_release_artifact "/tmp/k9s.deb" \
+		"https://github.com/derailed/k9s" \
+		"k9s_linux_amd64.deb" \
+		$(K9S_VERSION)
+	sudo dpkg -i "/tmp/k9s.deb"
+
+FLYCTL_VERSION := 0.2.109
+FLYCTL_INSTALL_PREFIX := $(HOME)/.fly
+FLYCTL_INSTALL_SCRIPT_URL := https://fly.io/install.sh
+FLYCTL_DOWNLOAD_DIR := /tmp/flyctl
+flyctl: $(FLYCTL_INSTALL_PREFIX)
+
+$(FLYCTL_INSTALL_PREFIX):
+	mkdir -p $(FLYCTL_DOWNLOAD_DIR)
+	curl -sSLo $(FLYCTL_DOWNLOAD_DIR)/install.sh $(FLYCTL_INSTALL_SCRIPT_URL)
+	chmod +x $(FLYCTL_DOWNLOAD_DIR)/install.sh
+	FLYCTL_INSTALL=$(FLYCTL_INSTALL_PREFIX) $(FLYCTL_DOWNLOAD_DIR)/install.sh
+	rm -fr $(FLYCTL_DOWNLOAD_DIR)
+
+AWS_PGP_KEY_PATH := ./data/aws.key
+AWS_DOWNLOAD_DIR := /tmp/aws-cli
+AWS_DOWNLOAD_PATH := $(AWS_DOWNLOAD_DIR)/aws.zip
+aws-cli: /usr/local/bin/aws
+
+/usr/local/bin/aws:
+	mkdir -p $(AWS_DOWNLOAD_DIR)
+	curl -sSLo $(AWS_DOWNLOAD_PATH) \
+		"https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.18.0.zip"
+	curl -sSLo $(AWS_DOWNLOAD_DIR)/awscliv2.sig \
+		"https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.18.0.zip.sig"
+	import_pgp_key_by_file $(AWS_PGP_KEY_PATH)
+	gpg --verify $(AWS_DOWNLOAD_DIR)/awscliv2.sig $(AWS_DOWNLOAD_PATH)
+	unzip -d $(AWS_DOWNLOAD_DIR) $(AWS_DOWNLOAD_PATH)
+	@sudo $(AWS_DOWNLOAD_DIR)/aws/install
+	rm -fr $(AWS_DOWNLOAD_DIR)
 ## git installs final
 
 $(HOME)/.local/bin/op:
