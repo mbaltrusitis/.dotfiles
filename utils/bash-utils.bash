@@ -30,3 +30,42 @@ import_pgp_key_by_url() {
 		exit 1
 	fi
 }
+
+import_pgp_key_by_file() {
+	LOG_DEBUG "Attempting to import PGP key from: $1"
+	# shellcheck disable=SC2211
+	if is_installed "gpg"; then
+		if gpg --import "$1"; then
+			LOG_INFO "Successfully imported key"
+		else
+			LOG_ERROR "Failed to import key"
+		fi
+	else
+		LOG_ERROR "gpg needs to be installed. Halting."
+		exit 1
+	fi
+}
+
+get_latest_github_release_version() {
+	repo_url="$1"
+	declare -r latest_version="$(curl -s -w '%{redirect_url}\n' "$repo_url/releases/latest" \
+		| cut -d'/' -f8 | cut -c2- )"
+	echo "$latest_version"
+}
+
+download_github_release_artifact() {
+	local download_path="$1"
+	local github_repo="$2"
+	local artifact_name="$3"
+	local version=${4:-$(get_latest_github_release_version "$github_repo")}
+	LOG_DEBUG "$1 $2 $3 $4"
+	declare -r download_target="$github_repo/releases/download/v$version/$artifact_name"
+	LOG_INFO "$download_target"
+	if curl -sSLo "$download_path" "$download_target"; then
+		LOG_INFO "Successfully downloaded $artifact_name to $download_path"
+		return 0
+	else
+		LOG_ERROR "Failed to download $artifact_name"
+		return 1
+	fi
+}
