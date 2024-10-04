@@ -7,3 +7,4 @@ alacritty.yml
 tmux/.tmux/resurrect/
 fonts/
 _build/
+__pycache__/
