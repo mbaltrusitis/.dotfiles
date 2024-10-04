@@ -10,6 +10,8 @@ all: install
 install: $(OS)
 linux: git-init stow dev-tools
 
+packages: apt flatpak
+
 apt:
 	$(info You may be prompted for super-user privleges:)
 	sudo linux/apt-update.sh
@@ -19,6 +21,7 @@ apt:
 	sudo linux/snap.sh
 
 # TODO: Add Yubikey PAM
+
 
 font-cache:
 	$(info Resetting system font-cache)
@@ -32,6 +35,10 @@ dev-tools: asdf
 asdf:
 	$(MAKE) -f ./Makefile.asdf
 .PHONY: asdf
+
+flatpak:
+	$(shell sudo ./linux/flatpak-install.sh)
+.PHONY: flatpak
 
 $(HOME)/enc-vol:
 	mkdir -p $(HOME)/enc-vol
