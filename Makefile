@@ -80,7 +80,7 @@ link-nvim: _build/nvim-linux64
 .PHONY: link-nvim
 
 _build/nvim-linux64: validate-nvim-download
-	pushd ./_build && tar -xzvf nvim-linux64.tar.gz
+	pushd ./_build && tar -xzf nvim-linux64.tar.gz
 
 validate-nvim-download: fetch-nvim
 	pushd ./_build && sha256sum -c nvim-linux64.tar.gz.sha256sum || exit 1
