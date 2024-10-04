@@ -11,13 +11,14 @@ LOG_WARNING() { printf "\e[0;33m[WARN]  %s\e[0m\n" "$1" ; }
 #   The valid values for the conditional (i.e., $1) can be found by running:
 #   'man test'
 test_and_source() {
-    typeset -r conditional="$1"
-    typeset -r path="$2"
+	local conditional="$1"
+	local path="$2"
+	local partial="test $conditional $path"
 
-    typeset -r partial="test $conditional $path"
-    if eval "$partial"; then
-        source "$path"
-    fi
+	# shellcheck disable=SC1090
+	if eval "$partial"; then
+		source "$path"
+	fi
 }
 
 # If not running interactively, don't do anything
@@ -62,7 +63,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 export WINIT_HIDPI_FACTOR="1.4"
 
 # Default programs
-export EDITOR="vim"
+export EDITOR="nvim"
 export TERMINAL="kitty"
 export BROWSER="firefox"
 
@@ -73,7 +74,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 # Keep $HOME clean final
-#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
 
 export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
@@ -81,7 +81,6 @@ export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
 export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
 export LESSHISTFILE="-"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/}/.z"
 export CDPATH=".:..:$HOME/Projects:$HOME"
 
@@ -112,11 +111,6 @@ if [ -d "$HOME/.cargo/bin" ] ; then
 fi
 # rust final
 
-# some FUNctions
-parse_git_branch() {
-	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
 # mail
 export MAILCHECK=60
 export MAILPATH="/var/spool/mail/$USER"
@@ -124,13 +118,6 @@ export MAILPATH="/var/spool/mail/$USER"
 # private tokens start
 test_and_source "-f" "$HOME/.tokens"
 # private tokens final
-
-# brew start
-if [ "$(uname)" = "Darwin" ] && [ -d "/opt/homebrew/" ]; then
-	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-	test_and_source "-r" "/opt/homebrew/etc/profile.d/bash_completion.sh"
-fi
-# brew final
 
 # base16 shell start
 BASE16_SHELL="$HOME/.config/base16-shell"
@@ -148,14 +135,8 @@ fi
 # direnv final
 
 # asdf start
-if hash brew 2>/dev/null; then
-    typeset -r brew_prefix="$(brew --prefix)";
-else
-    typeset -r brew_prefix="";
-fi
 test_and_source "-f" "$HOME/.asdf/asdf.sh"
 test_and_source "-f" "$HOME/.asdf/completions/asdf.bash"
-test_and_source "-f" "$brew_prefix/opt/asdf/libexec/asdf.sh"
 # asdf final
 
 # erlang start
@@ -163,13 +144,6 @@ if [ -d "/usr/local/opt/erlang/lib/erlang/man" ]; then
 	export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
 fi
 # erlang final
-
-# macOS python start
-if [ -d "/Library/Frameworks/Python.framework/Versions/3.9/bin"  ]; then
-    DEV_PYTHON_PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin"
-    export PATH="$DEV_PYTHON_PATH:$PATH"
-fi
-# macOS python final
 
 # poetry start
 if [ -d "$HOME/.poetry/bin" ]; then
@@ -182,10 +156,6 @@ if [ -d "$HOME/.kubectx" ]; then
 	export PATH="$HOME/.kubectx:$PATH"
 fi
 #kubectx // kubens final
-
-# bash completion start
-test_and_source "-f" "/etc/bash_completion"
-# bash completion final
 
 # z.sh start
 test_and_source "-r" "$HOME/.local/src/z/z.sh"
@@ -206,22 +176,38 @@ if [ -d "$HOME/.local/share/nvim/mason/bin" ]; then
 fi
 # mason final
 
+# fly start
+if [ -d "$HOME/.fly" ]; then
+  export FLYCTL_INSTALL="/home/heatmiser/.fly"
+fi
+
+if [ -d "$HOME/.fly/bin" ]; then
+  export PATH="$FLYCTL_INSTALL/bin:$PATH"
+fi
+# fly final
+
+# aws cli start
+if hash aws 2>/dev/null && [ -f '/usr/local/bin/aws_completer' ]; then
+	complete -C '/usr/local/bin/aws_completer' aws
+fi
+# aws cli final
+
 __python_auto_activate_virtualenv() {
     # get the first (alphabetically) .venv-* directory
-    typeset -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
+    declare -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
     # disable `activate` from editing PS1
     # shellcheck disable=SC2034
     VIRTUAL_ENV_DISABLE_PROMPT=1
 
     if [[ -n "$first_found_venv" ]] && [[ -r "$first_found_venv" ]]; then
         # a venv has been found, get its name and path
-        typeset -r venv_name="$(basename "${first_found_venv}")"
-        typeset -r venv_path="$(pwd -P)/${venv_name}"
-        typeset -r venv_activate="${venv_path}/bin/activate"
+        declare -r venv_name="$(basename "${first_found_venv}")"
+        declare -r venv_path="$(pwd -P)/${venv_name}"
+        declare -r venv_activate="${venv_path}/bin/activate"
 
         # deactivate a mismatched venv
         if [[ -n "$VIRTUAL_ENV" ]] && [[ "$VIRTUAL_ENV" != "$venv_path" ]]; then
-            typeset -r old_venv_name="$(basename "$VIRTUAL_ENV")"
+            declare -r old_venv_name="$(basename "$VIRTUAL_ENV")"
 
             # check for the `deactivate` function and call it
             if [[ "$(type -t deactivate)" = "function" ]] && deactivate; then
