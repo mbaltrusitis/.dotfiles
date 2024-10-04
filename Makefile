@@ -25,7 +25,7 @@ apt:
 
 font-cache:
 	$(info Resetting system font-cache)
-	$(shell fc-cache -f)
+	fc-cache -f
 
 git-init:
 	git submodule update --init --recursive
@@ -37,7 +37,7 @@ asdf:
 .PHONY: asdf
 
 flatpak:
-	$(shell sudo ./linux/flatpak-install.sh)
+	sudo ./linux/flatpak-install.sh
 .PHONY: flatpak
 
 # veracrypt start
@@ -48,14 +48,14 @@ veracrypt: /usr/bin/veracrypt
 	import_pgp_key_by_url "https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc"
 	# download the package's signature
 	curl -sSLo /tmp/veracrypt.deb.sig \
-		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb.sig';
+		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb.sig'
 	# download the package itself
 	curl -sSLo /tmp/veracrypt.deb \
-		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb';
+		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb'
 	# verify the downloaded package
 	gpg --verify /tmp/veracrypt.deb.sig /tmp/veracrypt.deb
 	# install the package
-	sudo dpkg -i /tmp/veracrypt.deb;
+	sudo dpkg -i /tmp/veracrypt.deb
 # veracrypt final
 
 $(HOME)/enc-vol: veracrypt
@@ -114,16 +114,16 @@ hexyl: /usr/bin/hexyl
 
 /usr/bin/hexyl:
 	curl -sL -o /tmp/hexyl.deb \
-		"https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb";
-	sudo dpkg -i /tmp/hexyl.deb;
+		"https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
+	sudo dpkg -i /tmp/hexyl.deb
 
 BAT_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/bat/releases/latest' | cut -d'/' -f8)
 bat: /usr/bin/bat
 
 /usr/bin/bat:
 	curl -Ls -o /tmp/bat.deb \
-		"https://github.com/sharkdp/bat/releases/download/$(BAT_VERSION)/bat_$(BAT_VERSION:v%=%)_amd64.deb";
-	sudo dpkg -i /tmp/bat.deb;
+		"https://github.com/sharkdp/bat/releases/download/$(BAT_VERSION)/bat_$(BAT_VERSION:v%=%)_amd64.deb"
+	sudo dpkg -i /tmp/bat.deb
 
 Z_VERSION := v1.12
 z: /usr/local/src/z
