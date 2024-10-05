@@ -44,7 +44,7 @@ profile-source:
 	source $(HOME)/.bash_profile
 
 backup-bash:
-	$(DOTFILE_DIR)/bash_backup.sh
+	./utils/bash_backup.sh
 
 ## git installs start
 asdf:
