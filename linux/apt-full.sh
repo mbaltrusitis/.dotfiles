@@ -15,29 +15,22 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	aspell aspell-en \
 	bash-completion \
 	borgbackup \
+	borgmatic \
 	build-essential \
 	clang \
 	cmake \
 	dbus \
-	direnv \
-	docker-compose \
+	docker-compose-plugin \
 	docker.io \
-	duplicity \
 	editorconfig \
 	emacs \
-	erlang \
 	exfat-fuse \
 	exfat-utils \
 	fail2ban \
 	ffmpeg \
 	fswatch \
-	ghc \
 	gnome-tweak-tool \
-	golang-go \
 	gpg \
-	haskell-stack \
-	htop \
-	iftop \
 	jq \
 	libbz2-dev \
 	libffi-dev \
@@ -49,18 +42,12 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	libxml2-dev \
 	libxmlsec1-dev \
 	llvm \
-	lua5.1 \
+	lua5.4 \
 	lxd \
 	magic-wormhole \
-	mono-devel \
 	mosh \
 	mycli \
-	neovim \
 	netcat-openbsd \
-	nginx \
-	ocaml \
-	opam \
-	openjdk-8-jre \
 	openssh-client \
 	openssh-server \
 	openvpn \
@@ -68,14 +55,10 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	pgcli \
 	postgresql \
 	protobuf-compiler \
-	python3-neovim \
-	ruby \
-	ruby-neovim \
 	shellcheck \
 	stow \
 	synapse \
 	tk-dev \
-	thermald \
 	tig \
 	tree \
 	vim \
@@ -84,7 +67,6 @@ apt-get install --fix-broken --show-progress --assume-yes \
 	wireguard \
 	wireshark \
 	wuzz \
-	xclip \
 	xz-utils \
 	youtube-dl \
 	zfsutils-linux \
