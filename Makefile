@@ -46,6 +46,8 @@ profile-source:
 backup-bash:
 	./utils/bash_backup.sh
 
+git-installs: asdf aws-cli bat direnv hexyl flyctl k9s nvim veracrypt z
+
 ## git installs start
 asdf:
 	$(MAKE) -f ./Makefile.asdf
