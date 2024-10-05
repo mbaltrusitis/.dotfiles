@@ -169,7 +169,6 @@ if hash fzf 2>/dev/null; then
 fi
 # fzf final
 
-
 # mason start
 if [ -d "$HOME/.local/share/nvim/mason/bin" ]; then
     export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
