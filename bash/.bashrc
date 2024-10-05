@@ -151,12 +151,6 @@ if [ -d "$HOME/.poetry/bin" ]; then
 fi
 # poetry final
 
-#kubectx // kubens start
-if [ -d "$HOME/.kubectx" ]; then
-	export PATH="$HOME/.kubectx:$PATH"
-fi
-#kubectx // kubens final
-
 # z.sh start
 test_and_source "-r" "$HOME/.local/src/z/z.sh"
 # z.sh final
