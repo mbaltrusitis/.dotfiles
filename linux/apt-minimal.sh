@@ -9,5 +9,8 @@ fi
 # the simple bare necessities
 apt-get install --show-progress --assume-yes \
 	curl \
+	fd-find \
 	git \
-	tmux;
+	ripgrep \
+	stow \
+	wget;
