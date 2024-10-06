@@ -56,16 +56,29 @@ get_latest_github_release_version() {
 download_github_release_artifact() {
 	local download_path="$1"
 	local github_repo="$2"
-	local artifact_name="$3"
 	local version=${4:-$(get_latest_github_release_version "$github_repo")}
-	LOG_DEBUG "$1 $2 $3 $4"
+	local raw_artifact_name="$3"
+	# replace instances of $version with the $version variable
+	local artifact_name="${raw_artifact_name//\$version/$version}"
+
+	LOG_INFO "Downloading version $version of $artifact_name"
 	declare -r download_target="$github_repo/releases/download/v$version/$artifact_name"
-	LOG_INFO "$download_target"
+
 	if curl -sSLo "$download_path" "$download_target"; then
 		LOG_INFO "Successfully downloaded $artifact_name to $download_path"
 		return 0
 	else
 		LOG_ERROR "Failed to download $artifact_name"
 		return 1
+	fi
+}
+
+maybe_unlink_link() {
+	declare -r link_path="$1"
+	if [[ -L $link_path ]]; then
+		LOG_INFO "Unlinking link at $link_path"
+		sudo unlink "$link_path"
+	else
+		LOG_WARNING "No link to unlink at $link_path"
 	fi
 }
