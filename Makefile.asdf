@@ -1,12 +1,14 @@
-# This file manages the installation of the `asdf` command itself along with its plugins. To add an
-# additional plugin make the following changes:
+# This file manages the installation of the `asdf` command and its plugins.
 #
-#	1. Add the plugin name, as passed to `asdf plugin-add` to `ASDF_PLUGINS_LIST`
+# To add an additional plugin make the following changes:
+#
+#	1. Add the plugin name, as passed to `asdf plugin-add` to
+#	   `ASDF_PLUGINS_LIST`
 #	2. Create a new goal that is the same value as above
 #
-# The goal should install the dependencies for the plugin, often found in the plugin docs and then
-# add the plugin with `asdf plugin-add`. To make maintenance easier, add the goal and plugin name
-# in alphabetical order.
+# The goal should install the dependencies for the plugin, often found in the
+# plugin docs and then add the plugin with `asdf plugin-add`. To make
+# maintenance easier, add the goal and plugin name in alphabetical order.
 
 
 ASDF_VERSION := 0.13.1

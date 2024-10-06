@@ -1,5 +1,7 @@
-.PHONY: all apt backup-bash dev-tools git-init help install link linux profile-source snap stow \
-	unlink
+# The main entrypoint for .dotfiles
+#
+# When is desktop installed? When is terminal installed?
+
 .ONESHELL:
 
 SHELL := /bin/bash
