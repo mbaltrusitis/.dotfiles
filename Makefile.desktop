@@ -1,0 +1,104 @@
+# This file manages the installation of GUI applications.
+#
+# To add a new application add a new goal. For GUI applications installed with
+# `apt` or `flatpak`, directly call the package managers. For applications that
+# need to be manually installed, create an idempotent procedure that provides
+# the path returned by `which $app_name`.
+
+.ONESHELL:
+
+SHELL := /bin/bash
+.SHELLFLAGS := $(DOTSHELLFLAGS)
+
+BASH_ENV := $(BASH_ENV)
+DOTFILE_DIR := $(DOTFILE_DIR)
+OS := $(OS)
+
+all: prepare discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend obsidian obsidian \
+	signal vlc wl-clipboard zen
+.PHONY: all
+
+prepare: flatpak
+.PHONY: prepare
+
+flatpak:
+	sudo apt-get install --yes flatpak
+	sudo apt-get install --yes gnome-software-plugin-flatpak
+	sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+.PHONY: flatpak
+
+darktable:
+	flatpak install --noninteractive "org.darktable.Darktable"
+.PHONY: darktable
+
+discord:
+	flatpak install --noninteractive "com.discordapp.Discord"
+.PHONY: discord
+
+easyeffects:
+	flatpak install --noninteractive "com.github.wwmm.easyeffects"
+.PHONY: easyeffects
+
+gimp:
+	flatpak install --noninteractive "org.gimp.GIMP"
+	flatpak install --noninteractive "org.gimp.GIMP.manual"
+.PHONY: gimp
+
+kitty:
+	sudo apt-get install --yes kitty
+.PHONY: kitty
+
+flameshot:
+	sudo apt-get install --yes flameshot
+.PHONY: flameshot
+
+gnome-sushi:
+	sudo apt-get install --yes gnome-sushi
+.PHONY: gnome-sushi
+
+gnome-tweak-tool:
+	sudo apt-get install --yes gnome-tweaks
+.PHONY: gnome-tweak-tool
+
+localsend:
+	sudo flatpak install --assumeyes org.localsend.localsend_app
+.PHONY: localsend
+
+obsidian: /usr/bin/obsidian
+.PHONY: obsidian
+
+/usr/bin/obsidian:
+	mkdir -p "/tmp/$@"
+	download_github_release_artifact "/tmp/$@/$@.deb" \
+		"https://github.com/obsidianmd/obsidian-releases" \
+		'obsidian_$$version_amd64.deb'
+	sudo dpkg --install "/tmp/$@/$@.deb"
+	rm -fr "/tmp/$@"
+
+signal: /usr/bin/signal-desktop
+.PHONY: signal
+
+/usr/bin/signal-desktop:
+	mkdir -p "/tmp/$@"
+	curl -sSL https://updates.signal.org/desktop/apt/keys.asc \
+		| gpg --dearmor > "/tmp/$@/signal-desktop-keyring.gpg"
+	sudo mv "/tmp/$@/signal-desktop-keyring.gpg" \
+		"/usr/share/keyrings/signal-desktop-keyring.gpg"
+
+	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' \
+		> "/tmp/$@/signal-xenial.list"
+	sudo mv "/tmp/$@/signal-xenial.list" "/etc/apt/sources.list.d/signal-xenial.list"
+	sudo apt-get update
+	sudo apt-get install --yes signal-desktop
+
+vlc:
+	sudo apt-get install --yes vlc
+.PHONY: vlc
+
+wl-clipboard:
+	sudo apt-get install --yes wl-clipboard
+.PHONY: clipboard
+
+zen:
+	flatpak install --noninteractive "io.github.zen_browser.zen"
+.PHONY: zen
