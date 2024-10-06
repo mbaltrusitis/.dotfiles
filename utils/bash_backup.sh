@@ -5,13 +5,14 @@ set -euo pipefail
 # empty GLOBs initialize to null strings
 shopt -s nullglob
 
-source ./bash-utils.bash
+source ./utils/bash-utils.bash
 
 TARGET_DIR="${1:-$HOME}"
 TARGET_FILES=("$TARGET_DIR/.bash*")
 
-echo "Moving or unlinking Bash-related files in $TARGET_DIR"
-echo ""
+BACKUP_BATCH_ID=$(date '+%Y%m%dT%H%M%S')
+
+LOG_INFO "Moving or unlinking Bash-related files in $TARGET_DIR"
 
 for file in "${TARGET_FILES[@]}"; do
 	if [ "$file" = "$TARGET_DIR/.bash_history" ]; then
@@ -24,8 +25,9 @@ for file in "${TARGET_FILES[@]}"; do
 			LOG_ERROR "Failed to unlink $file" >&2
 		fi
 	elif [ -f "$file" ]; then
-		backup_file="$file.backup"
-		echo "Moving $file to $backup_file"
+		mkdir -p "$BACKUP_BATCH_ID"
+		backup_file="$BACKUP_BATCH_ID/$file.backup"
+		LOG_INFO "Moving $file to $backup_file"
 		if mv "$file" "$backup_file"; then
 			LOG_INFO "Successfully moved $file to $backup_file"
 		else
