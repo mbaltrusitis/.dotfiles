@@ -27,7 +27,7 @@ prepare:
 
 # asdf
 $(HOME)/.asdf:
-	@echo "[INFO]: Installing asdf and its dependencies"
+	LOG_INFO "Installing asdf and its dependencies"
 	sudo apt-get install curl git
 	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v$(ASDF_VERSION)
 
@@ -38,70 +38,70 @@ asdf-plugins: $(ASDF_PLUGINS_LIST)
 
 elixir:
 	# https://github.com/asdf-vm/asdf-elixir
-	@echo "[INFO]: Installing dependencies for $@"
+	LOG_INFO "Installing dependencies for $@"
 	sudo apt-get --yes install unzip
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-elixir
 
 erlang:
 	# https://github.com/asdf-vm/asdf-erlang
-	@echo "[INFO]: Installing dependencies for $@"
+	LOG_INFO "Installing dependencies for $@"
 	sudo apt-get --yes install libssl-dev automake autoconf libncurses-dev xsltproc fop \
 		libxml2-utils libwxgtk-webview3.0-gtk3-dev wx-common gcc g++ openjdk-11-jdk m4 \
 		libglu1-mesa-dev libgl1-mesa-dev libpng-dev unixodbc-dev;
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-erlang
 
 golang:
 	# https://github.com/asdf-community/asdf-golang
-	@echo "[INFO]: Installing dependencies for $@"
+	LOG_INFO "Installing dependencies for $@"
 	sudo apt-get --yes install coreutils curl
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-golang
 
 nim:
 	# https://github.com/asdf-community/asdf-nim
-	@echo "[INFO]: Installing dependencies for $@"
+	LOG_INFO "Installing dependencies for $@"
 	sudo apt-get --yes install build-essential xz-utils
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-nim
 
 
 nodejs:
 	# https://github.com/asdf-vm/asdf-nodejs
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-nodejs
 
 php:
 	# https://github.com/asdf-community/asdf-php
-	@echo "[INFO]: Installing dependencies for $@"
+	LOG_INFO "Installing dependencies for $@"
 	sudo apt-get --yes install autoconf bison build-essential curl gettext git libgd-dev \
 		libcurl4-openssl-dev libedit-dev libicu-dev libjpeg-dev libmysqlclient-dev libonig-dev \
 		libpng-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libzip-dev \
 		openssl pkg-config re2c zlib1g-dev;
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-php
 
 rabbitmq: asdf-erlang
 	# https://github.com/w-sanches/asdf-rabbitmq
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-rabbitmq
 
 rebar: asdf-erlang
 	# https://github.com/Stratus3D/asdf-rebar
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@
 .PHONY: asdf-rebar
 
 zig:
 	# https://github.com/asdf-community/asdf-zig
-	@echo "[INFO]: Adding asdf plugin $@"
+	LOG_INFO "Adding asdf plugin $@"
 	$(ASDF_CMD) plugin-add $@ https://github.com/asdf-community/asdf-zig.git
 .PHONY: asdf-zig
