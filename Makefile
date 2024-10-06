@@ -9,8 +9,15 @@ SHELL := /bin/bash
 
 DOTFILE_DIR	:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+IS_GNOME := $(shell if [[ $(XDG_CURRENT_DESKTOP) = *"GNOME"* ]]; then echo 0; else echo 1; fi)
+
 # make utility functions available to all goals
 export BASH_ENV := ./utils/bash-utils.bash
+# export variables for use by child makefiles
+export SHELL := $(SHELL)
+export DOTSHELLFLAGS := $(.SHELLFLAGS)
+export DOTFILE_DIR := $(DOTFILE_DIR)
+export OS := $(OS)
 
 all: install
 install: $(OS)
