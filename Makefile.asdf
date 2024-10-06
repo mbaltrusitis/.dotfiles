@@ -10,6 +10,9 @@
 # plugin docs and then add the plugin with `asdf plugin-add`. To make
 # maintenance easier, add the goal and plugin name in alphabetical order.
 
+.ONESHELL:
+SHELL := /bin/bash
+.SHELLFLAGS := $(DOTSHELLFLAGS)
 
 ASDF_VERSION := 0.13.1
 ASDF_INSTALL_PATH ?= $(HOME)/.asdf
