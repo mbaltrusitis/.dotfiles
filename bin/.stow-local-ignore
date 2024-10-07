@@ -1,5 +1,3 @@
 /motd
 /backup
-/dot-local
-!/dot-local/bin
-!/dot-local/src
+.gitignore
