@@ -77,28 +77,22 @@ macos:
 .PHONY: macos
 
 stow:
-	stow bash
-	stow bin
-	stow config
-	stow fonts
-	stow ssh
-	stow tmux
+	stow --restow --dotfiles bash
+	stow --restow --dotfiles bin
+	stow --restow --dotfiles config
+	stow --restow --dotfiles fonts
+	stow --restow --dotfiles ssh
+	stow --restow --dotfiles tmux
+.PHONY: stow
 
-link: backup-bash
-	ln -fs bash/.bash_aliases $(HOME)/.bash_aliases
-	ln -fs bash/.bash_logout $(HOME)/.bash_logout
-	ln -fs bash/.bash_profile $(HOME)/.bash_profile
-	ln -fs bash/.bashrc $(HOME)/.bashrc
-	ln -fs bash/.curlrc $(HOME)/.curlrc
-	ln -fs bin/bin $(HOME)/bin
-
-unlink:
-	unlink $(HOME)/.bash_aliases
-	unlink $(HOME)/.bash_logout
-	unlink $(HOME)/.bash_profile
-	unlink $(HOME)/.bashrc
-	unlink $(HOME)/.curlrc
-.PHONY: unlink
+unstow:
+	stow --delete bash
+	stow --delete bin
+	stow --delete config
+	stow --delete fonts
+	stow --delete ssh
+	stow --delete tmux
+.PHONY: unstow
 
 help:
 	@echo "help yourself :P"

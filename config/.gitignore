@@ -1,1 +1,12 @@
 qBittorrent
+
+# disallow all content and directories by default
+dot-config/*
+
+# allow the following
+!dot-config/base16-shell
+!dot-config/btop
+!dot-config/borgmatic
+!dot-config/git
+!dot-config/kitty
+!dot-config/nvim
