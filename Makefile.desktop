@@ -14,7 +14,7 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: prepare discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend obsidian obsidian \
+all: prepare discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend obsidian \
 	signal vlc wl-clipboard zen
 .PHONY: all
 

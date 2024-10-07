@@ -19,11 +19,11 @@ export DOTSHELLFLAGS := $(.SHELLFLAGS)
 export DOTFILE_DIR := $(DOTFILE_DIR)
 export OS := $(OS)
 
-all: install
-install: $(OS)
-linux: git-init stow dev-tools
-
-packages: apt flatpak
+ifeq ($(IS_GNOME),0)
+all: prepare desktop
+else
+all: prepare headless
+endif
 
 # prelude start
 prepare: _build git-init backup-bash stow
