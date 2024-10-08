@@ -20,7 +20,7 @@ export DOTFILE_DIR := $(DOTFILE_DIR)
 export OS := $(OS)
 
 ifeq ($(IS_GNOME),0)
-all: prepare desktop
+all: disable-sleep prepare desktop gnome enable-sleep
 else
 all: prepare headless
 endif
@@ -60,11 +60,14 @@ font-cache:
 .PHONY: font-cache
 # handlers final
 
-desktop: disable-sleep headless
+desktop: headless
 	LOG_INFO "Running desktop install"
 	$(MAKE) -f ./Makefile.desktop
-	$(MAKE) enable-sleep
 .PHONY: desktop
+
+gnome:
+	$(MAKE) -f ./Makefile.gnome
+.PHONY: gnome
 
 headless:
 	LOG_INFO "Running headless install"
