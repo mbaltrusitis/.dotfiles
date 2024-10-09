@@ -168,8 +168,10 @@ link-nvim: _build/nvim-linux64
 	sudo ln -sf "$$PWD/_build/nvim-linux64/bin/nvim" "/usr/local/bin/nvim"
 	sudo ln -sf "$$PWD/_build/nvim-linux64/lib/nvim" "/usr/local/lib/nvim"
 	sudo ln -sf "$$PWD/_build/nvim-linux64/share/nvim" "/usr/local/share/"
+	sudo mkdir -p "/usr/local/share/man/man1"
 	sudo ln -sf "$$PWD/_build/nvim-linux64/share/man/man1/nvim.1" \
 		"/usr/local/share/man/man1/nvim.1"
+	mkdir -p "$(HOME)/.local/share/applications/"
 	ln -sf "$$PWD/_build/nvim-linux64/share/applications/nvim.desktop" \
 		"$(HOME)/.local/share/applications/"
 .PHONY: link-nvim
