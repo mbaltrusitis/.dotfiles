@@ -80,12 +80,12 @@ macos:
 .PHONY: macos
 
 stow:
-	stow --restow --dotfiles bash
-	stow --restow --dotfiles bin
-	stow --restow --dotfiles config
-	stow --restow --dotfiles fonts
-	stow --restow --dotfiles ssh
-	stow --restow --dotfiles tmux
+	stow --restow bash
+	stow --restow bin
+	stow --restow config
+	stow --restow fonts
+	stow --restow ssh
+	stow --restow tmux
 .PHONY: stow
 
 unstow:
