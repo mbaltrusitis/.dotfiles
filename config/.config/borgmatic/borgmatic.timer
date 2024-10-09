@@ -1,0 +1,16 @@
+[Unit]
+Description=Run borgmatic backup
+
+[Timer]
+# do not run sooner than 30min after boot
+OnBootSec=30min
+# random delay from 0..5 minutes
+RandomizedDelaySec=5min
+# run every 6 hours
+OnUnitActiveSec=6h
+# run ASAP if a timer was missed while powered-off
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target
