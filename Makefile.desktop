@@ -75,6 +75,10 @@ obsidian: /usr/bin/obsidian
 	sudo dpkg --install "/tmp/$@/$@.deb"
 	rm -fr "/tmp/$@"
 
+reaper:
+	sudo flatpak install --assumeyes fm.reaper.Reaper
+.PHONY: reaper
+
 signal: /usr/bin/signal-desktop
 .PHONY: signal
 
