@@ -32,8 +32,6 @@ endif
 
 # prelude start
 prepare: _build git-init backup-bash stow
-	@LOG_DEBUG "Running prepare"
-	sudo apt-get install --yes \
 .PHONY: prepare
 
 _build:
@@ -48,12 +46,12 @@ dotfiles-deps:
 
 git-init:
 	git submodule update --init --recursive
-
-# prelude final
+.PHONY: git-init
 
 backup-bash:
 	./utils/bash_backup.sh
 .PHONY: backup-bash
+# prelude final
 
 # handlers start
 disable-sleep:
