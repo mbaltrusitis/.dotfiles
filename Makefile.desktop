@@ -106,4 +106,5 @@ wl-clipboard:
 
 zen:
 	flatpak install --noninteractive "io.github.zen_browser.zen"
+	xdg-settings set default-web-browser io.github.zen_browser.desktop
 .PHONY: zen

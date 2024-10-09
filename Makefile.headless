@@ -170,10 +170,14 @@ k9s: /usr/bin/k9s
 
 NVIM_VERSION := 0.10.0
 nvim: link-nvim
+	LOG_INFO "Setting NeoVim as preferred editor"
+	sudo update-alternatives --install /usr/bin/editor editor \
+		/usr/local/bin/nvim 100
+	sudo update-alternatives --set editor /usr/local/bin/nvim
 .PHONY: nvim
 
 unlink-nvim:
-	@maybe_unlink_link ""/usr/local/bin/nvim
+	@maybe_unlink_link /usr/local/bin/nvim
 	@maybe_unlink_link /usr/local/lib/nvim
 	@maybe_unlink_link /usr/local/share/nvim
 	@maybe_unlink_link /usr/local/share/man/man1/nvim.1
