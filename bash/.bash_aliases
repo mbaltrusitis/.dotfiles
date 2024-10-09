@@ -55,3 +55,6 @@ alias borg1='borg'
 
 alias tls='tmux ls'
 alias tns='ts'
+
+alias zen-browser='flatpak run io.github.zen_browser.zen'
+alias zen='zen-browser'

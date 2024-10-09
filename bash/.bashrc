@@ -62,12 +62,13 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 export WINIT_HIDPI_FACTOR="1.4"
 
+test_and_source "-f" "$HOME/.bash_aliases"
+
 # Default programs
 export EDITOR="nvim"
 export TERMINAL="kitty"
-export BROWSER="firefox"
+export BROWSER="zen-browser"
 
-test_and_source "-f" "$HOME/.bash_aliases"
 
 # Keep $HOME clean start
 export XDG_CONFIG_HOME="$HOME/.config"
