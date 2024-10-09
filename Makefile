@@ -1,6 +1,11 @@
+# vim: filetype=make
 # The main entrypoint for .dotfiles
 #
-# When is desktop installed? When is terminal installed?
+# This Makefile will attempt to detect if the client targeted for configuration
+# is headless or has a GNOME desktop environment. In the case of a headless-only
+# client, it wil target only the `headless` goal. When a GNOME desktop
+# environment is detected, it will target both the `headless` and `desktop`
+# goals.
 
 .ONESHELL:
 
@@ -28,13 +33,22 @@ endif
 # prelude start
 prepare: _build git-init backup-bash stow
 	@LOG_DEBUG "Running prepare"
+	sudo apt-get install --yes \
 .PHONY: prepare
+
+_build:
+	mkdir -p ./_build
+
+dotfiles-deps:
+	sudo apt-get update
+	sudo apt-get install \
+		curl \
+		git
+.PHONY: dotfiles-deps
 
 git-init:
 	git submodule update --init --recursive
 
-_build:
-	mkdir -p ./_build
 # prelude final
 
 backup-bash:

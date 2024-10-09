@@ -1,4 +1,20 @@
-# Installs terminal apps
+# vim: filetype=make
+# Installs terminal-based applications.
+#
+# When adding a new application see if the system's package manager is running
+# a recent enough version of the software you're looking for and if so, include
+# it in the `common` goal.
+#
+# If there's a ppa or other repo that can be added, break it out into its own
+# set of goals.
+#
+# Since most of the time these dotfiles are running atop an LTS distribution,
+# some tools need to be built from source or have the `.deb`s downlaoded out
+# of band from apt repositories.
+#
+# For software needing to add a repo or, being built from source, be sure to
+# have a suitable target for your set(s) of goals so that frequent execution of
+# the default `make all` goal of the parent `Makefile` can be run quickly.
 
 .ONESHELL:
 

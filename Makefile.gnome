@@ -1,3 +1,18 @@
+# vim: filetype=make
+# This file is responsible for install GNOME-specific software and
+# configurations.
+#
+# This file has four logical phases:
+#
+#     1. prepare: installs dependencies for GNOME customization
+#     2. install: installs GNOME extensions with default configurations
+#     3. compile-schemas: copies configs to system directory and compiles them
+#     4. configure: applies GNOME customizations and hotkeys
+#
+# To add a new extension, add an <extension-name> goal and if needed an
+# <extention-name>-configure goal below the handlers section in alphabetical
+# order. Lastly, add your new goals to `install` and `configure` respectively.
+
 .ONESHELL:
 
 SHELL := /bin/bash

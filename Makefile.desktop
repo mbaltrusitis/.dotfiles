@@ -1,3 +1,4 @@
+# vim: filetype=make
 # This file manages the installation of GUI applications.
 #
 # To add a new application add a new goal. For GUI applications installed with

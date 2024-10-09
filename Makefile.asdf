@@ -1,3 +1,4 @@
+# vim: filetype=make
 # This file manages the installation of the `asdf` command and its plugins.
 #
 # To add an additional plugin make the following changes:
@@ -18,12 +19,9 @@ ASDF_VERSION := 0.13.1
 ASDF_INSTALL_PATH ?= $(HOME)/.asdf
 ASDF_CMD := $(ASDF_INSTALL_PATH)/bin/asdf
 
-all: prepare asdf asdf-plugins
+all: asdf asdf-plugins
 
 asdf: $(HOME)/.asdf
-
-prepare:
-	sudo apt-get update;
 
 # asdf
 $(HOME)/.asdf:
