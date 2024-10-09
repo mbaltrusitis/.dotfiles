@@ -2,7 +2,6 @@ require "nvchad.options"
 
 -- add yours here!
 vim.wo.relativenumber = true
-vim.opt.conceallevel = 2
 
 vim.opt.mouse = ""  -- disable the mouse
 vim.opt.encoding = "utf-8"
