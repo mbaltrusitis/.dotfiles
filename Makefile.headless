@@ -25,7 +25,8 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: common 1password-cli asdf aws-cli bat borgmatic direnv fastfetch hexyl flyctl k9s nvim veracrypt z
+all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl flyctl k9s nvim \
+	veracrypt z
 
 common:
 	sudo apt-get install --yes \

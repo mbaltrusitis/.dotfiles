@@ -19,10 +19,14 @@ alias gs='git status'
 # alias cd='pushd'
 
 # some more ls aliases
-alias ls="ls --color=auto"
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+# alias ls="ls --color=auto"
+alias lsa='eza -a'
+alias la='eza -A'
+alias ll='eza -alF'
+
+alias ls='eza -lh --group-directories-first --icons'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='eza -a'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -44,7 +48,6 @@ alias kubectx="kubectl config use-context"
 alias wgup='wg-quick up us-ny1'
 alias wgdn='wg-quick down us-ny1'
 
-alias ls='ls --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
