@@ -67,9 +67,35 @@ blur-my-shell-configure:
 	gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock style-dash-to-dock 0
 .PHONY: blur-my-shell-configure
 
-hotkeys:
+gnome-configure:
+	# center newly created windows
+	gsettings set org.gnome.mutter center-new-windows true
+	gsettings set org.gnome.desktop.interface monospace-font-name 'PragmataPro Liga 10'
+	# show week numbers in gnome calender widget
+	gsettings set org.gnome.desktop.calendar show-weekdate true
+.PHONY: gnome-configure
+
+hotkeys-configure:
+	LOG_INFO "Setting GNOME hotkeys"
+	# unset dash-to-dock
+	gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
+	# window management
 	gsettings set org.gnome.desktop.wm.keybindings always-on-top "['<Ctrl><Alt><Shift><Super>t']"
-.PHONY: hotkeys
+	# workspace navigation
+	gsettings set org.gnome.mutter dynamic-workspaces false
+	gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
+	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>1']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>5']"
+	# move windows to workspace
+	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Super><Shift>1']"
+	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Super><Shift>2']"
+	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Super><Shift>3']"
+	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Super><Shift>4']"
+	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<Super><Shift>5']"
+.PHONY: hotkeys-configure
 
 just-perfection:
 	gext install just-perfection-desktop@just-perfection
