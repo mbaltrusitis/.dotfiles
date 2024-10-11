@@ -15,8 +15,8 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: prepare discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend obsidian \
-	signal vlc wl-clipboard zen
+all: prepare darktable discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend \
+	obsidian reaper signal vlc wl-clipboard zen
 .PHONY: all
 
 prepare: flatpak
@@ -47,6 +47,7 @@ gimp:
 
 kitty:
 	sudo apt-get install --yes kitty
+	sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 .PHONY: kitty
 
 flameshot:
@@ -62,7 +63,7 @@ gnome-tweak-tool:
 .PHONY: gnome-tweak-tool
 
 localsend:
-	sudo flatpak install --assumeyes org.localsend.localsend_app
+	sudo flatpak install --noninteractive "org.localsend.localsend_app"
 .PHONY: localsend
 
 obsidian: /usr/bin/obsidian
@@ -77,7 +78,7 @@ obsidian: /usr/bin/obsidian
 	rm -fr "/tmp/$@"
 
 reaper:
-	sudo flatpak install --assumeyes fm.reaper.Reaper
+	sudo flatpak install --assumeyes "fm.reaper.Reaper"
 .PHONY: reaper
 
 signal: /usr/bin/signal-desktop
@@ -106,5 +107,6 @@ wl-clipboard:
 
 zen:
 	flatpak install --noninteractive "io.github.zen_browser.zen"
-	xdg-settings set default-web-browser io.github.zen_browser.desktop
+	sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser "/var/lib/flatpak/exports/share/applications/io.github.zen_browser.zen.desktop" 100
+	sudo update-alternatives --set x-www-browser "/var/lib/flatpak/exports/share/applications/io.github.zen_browser.zen.desktop"
 .PHONY: zen

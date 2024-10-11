@@ -31,10 +31,11 @@ prepare:
 	LOG_WARNING "You will need to manually confirm each GNOME extension install..."
 .PHONY: prepare
 
-install: blur-my-shell hotkeys just-perfection tactile
+install: blur-my-shell just-perfection tactile
 
 
-configure: blur-my-shell-configure just-perfection-configure tactile-configure
+configure: blur-my-shell-configure gnome-configure hotkeys-configure just-perfection-configure \
+	tactile-configure
 .PHONY: configure
 
 # handlers start
