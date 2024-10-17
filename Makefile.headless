@@ -26,7 +26,7 @@ DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
 all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl flyctl k9s \
-	net-tools nvim veracrypt z
+	net-tools nvim veracrypt woff-tools z
 
 common:
 	sudo apt-get install --yes \
@@ -252,6 +252,10 @@ mount-enc: $(HOME)/enc-vol
 umount-enc:
 	veracrypt -d $(HOME)/enc-vol
 .PHONY: umount-enc
+
+woff-tools:
+	sudo apt-get install woff-tools
+.PHONY: woff-tools
 
 yq:
 	sudo add-apt-repository --yes ppa:rmescandon/yq
