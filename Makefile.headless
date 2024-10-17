@@ -25,8 +25,8 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl flyctl k9s nvim \
-	veracrypt z
+all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl flyctl k9s \
+	net-tools nvim veracrypt z
 
 common:
 	sudo apt-get install --yes \
@@ -171,6 +171,10 @@ k9s: /usr/bin/k9s
 		"k9s_linux_amd64.deb" \
 		$(K9S_VERSION)
 	sudo dpkg -i "/tmp/k9s.deb"
+
+net-tools:
+	sudo apt-get install net-tools
+.PHONY: net-tools
 
 NVIM_VERSION := 0.10.0
 nvim: link-nvim
