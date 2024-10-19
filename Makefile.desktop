@@ -16,7 +16,7 @@ DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
 all: prepare darktable discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend \
-	obsidian reaper signal vlc wl-clipboard zen
+	obsidian reaper signal slack vlc wl-clipboard zen
 .PHONY: all
 
 prepare: flatpak
@@ -96,6 +96,10 @@ signal: /usr/bin/signal-desktop
 	sudo mv "/tmp/$@/signal-xenial.list" "/etc/apt/sources.list.d/signal-xenial.list"
 	sudo apt-get update
 	sudo apt-get install --yes signal-desktop
+
+slack:
+	flatpak install --assumeyes "com.slack.Slack"
+.PHONY: slack
 
 vlc:
 	sudo apt-get install --yes vlc
