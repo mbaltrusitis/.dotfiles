@@ -100,6 +100,11 @@ stow:
 	stow --restow tmux
 .PHONY: stow
 
+upgrade:
+	sudo apt-get upgrade
+	flatpak update
+.PHONY: upgrade
+
 unstow:
 	stow --delete bash
 	stow --delete bin
