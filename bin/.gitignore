@@ -1,7 +1,7 @@
-# ignore all files and dirs under dot-local
+# ignore all files and dirs under .local
 .local/*
-# do not ignore dot-local/bin and its contents
+# do not ignore .local/bin and its contents
 !.local/bin
-# do not ignore dot-local/src and its contents
+# do not ignore .local/src and its contents
 !.local/src
 !.local/src/**
