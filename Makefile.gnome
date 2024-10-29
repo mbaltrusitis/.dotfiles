@@ -79,6 +79,12 @@ hotkeys-configure:
 	LOG_INFO "Setting GNOME hotkeys"
 	# unset dash-to-dock
 	gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
+	# unset favorite applications
+	gsettings set org.gnome.shell.keybindings switch-to-application-1 "[]"
+	gsettings set org.gnome.shell.keybindings switch-to-application-2 "[]"
+	gsettings set org.gnome.shell.keybindings switch-to-application-3 "[]"
+	gsettings set org.gnome.shell.keybindings switch-to-application-4 "[]"
+	gsettings set org.gnome.shell.keybindings switch-to-application-5 "[]"
 	# window management
 	gsettings set org.gnome.desktop.wm.keybindings always-on-top "['<Ctrl><Alt><Shift><Super>t']"
 	# workspace navigation
@@ -89,6 +95,10 @@ hotkeys-configure:
 	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"
 	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']"
 	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>5']"
+	# only show windows and apps for active workspace
+	gsettings set org.gnome.shell.window-switcher current-workspace-only true
+	gsettings set org.gnome.shell.app-switcher current-workspace-only true
+
 	# move windows to workspace
 	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Super><Shift>1']"
 	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Super><Shift>2']"
