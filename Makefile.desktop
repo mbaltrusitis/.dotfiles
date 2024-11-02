@@ -70,12 +70,15 @@ obsidian: /usr/bin/obsidian
 .PHONY: obsidian
 
 /usr/bin/obsidian:
-	mkdir -p "/tmp/$@"
-	download_github_release_artifact "/tmp/$@/$@.deb" \
+	NAME = $(notdir $@)
+	OBSIDIAN_DIR = "/tmp/$(NAME)"
+	mkdir -p $(OBSIDIAN_DIR)
+	# download_github_release_artifact "$(OBSIDIAN_DIR)/$(NAME).deb" "/tmp/$@/$@.deb" \
+	download_github_release_artifact "$(OBSIDIAN_DIR)/$(NAME).deb" \
 		"https://github.com/obsidianmd/obsidian-releases" \
 		'obsidian_$$version_amd64.deb'
 	sudo dpkg --install "/tmp/$@/$@.deb"
-	rm -fr "/tmp/$@"
+	rm -fr $(OBSIDIAN_DIR)
 
 reaper:
 	sudo flatpak install --assumeyes "fm.reaper.Reaper"
