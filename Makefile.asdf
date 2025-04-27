@@ -30,7 +30,7 @@ $(HOME)/.asdf:
 	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v$(ASDF_VERSION)
 
 # asdf plugins
-ASDF_PLUGINS_LIST := elixir erlang golang nim nodejs php rabbitmq rebar zig
+ASDF_PLUGINS_LIST := elixir erlang golang nim nodejs php pre-commit rabbitmq rebar zig
 
 asdf-plugins: $(ASDF_PLUGINS_LIST)
 
@@ -103,6 +103,13 @@ $(ASDF_INSTALL_PATH)/plugins/php:
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
 .PHONY: $(ASDF_INSTALL_PATH)/plugins/asdf-php
+
+pre-commit: $(ASDF_INSTALL_PATH)/plugins/pre-commit
+.PHONY: pre-commit
+
+$(ASDF_INSTALL_PATH)/plugins/pre-commit:
+	LOG_INFO "Adding asdf plugin $(notdir $@)"
+	$(ASDF_CMD) plugin-add $(notdir $@)
 
 rabbitmq: $(ASDF_INSTALL_PATH)/plugins/rabbitmq
 .PHONY: rabbitmq
