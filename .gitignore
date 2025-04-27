@@ -6,5 +6,6 @@ alacritty.yml
 .nobackup
 tmux/.tmux/resurrect/
 fonts/
+*/fonts/**/.uuid
 _build/
 __pycache__/
