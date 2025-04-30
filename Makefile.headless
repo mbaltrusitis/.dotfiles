@@ -31,12 +31,9 @@ all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl 
 common:
 	sudo apt-get install --yes \
 		btop \
-		containerd.io \
-		docker-buildx-plugin \
-		docker-ce \
-		docker-ce-cli \
-		docker-ce-rootless-extras \
-		docker-compose-plugin \
+		docker-buildx \
+		docker-compose-v2 \
+		docker.io \
 		fzf \
 		ripgrep \
 		tldr \
