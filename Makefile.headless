@@ -220,22 +220,23 @@ _build/nvim-linux.tar.gz: _build
 VERACRYPT_DOWNLOAD_DIR := /tmp/veracrypt
 VERACRYPT_PGP_KEY_PATH := $(VERACRYPT_DOWNLOAD_DIR)/veracrypt.deb.sig
 VERACRYPT_DOWNLOAD_PATH := $(VERACRYPT_DOWNLOAD_DIR)/veracrypt.deb
-VERACRYPT_VERSION := 1.26.14
+VERACRYPT_VERSION := 1.26.20
 veracrypt: /usr/bin/veracrypt ## install veracrypt $$(VERACRYPT_VERSION)
 
 /usr/bin/veracrypt:
 	mkdir -p $(VERACRYPT_DOWNLOAD_DIR)
+	# install veracrypt deps
 	import_pgp_key_by_url "https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc"
 	# download the package's signature
 	curl -sSLo $(VERACRYPT_PGP_KEY_PATH) \
-		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb.sig'
+		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-24.04-amd64.deb.sig'
 	# download the package itself
 	curl -sSLo $(VERACRYPT_DOWNLOAD_PATH) \
-		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-22.04-amd64.deb'
+		'https://launchpad.net/veracrypt/trunk/$(VERACRYPT_VERSION)/+download/veracrypt-console-$(VERACRYPT_VERSION)-Ubuntu-24.04-amd64.deb'
 	# verify the downloaded package
 	gpg --verify $(VERACRYPT_PGP_KEY_PATH) $(VERACRYPT_DOWNLOAD_PATH)
 	# install the package
-	sudo dpkg -i /tmp/veracrypt.deb
+	sudo dpkg -i $(VERACRYPT_DOWNLOAD_PATH)
 	rm -rf $(VERACRYPT_DOWNLOAD_DIR)
 
 $(HOME)/enc-vol: veracrypt
