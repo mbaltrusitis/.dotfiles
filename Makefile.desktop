@@ -109,16 +109,16 @@ localsend:
 obsidian: /usr/bin/obsidian
 .PHONY: obsidian
 
+OBSIDIAN_DOWNLOAD_DIR := /tmp/obsidian
+OBSIDIAN_VERSION := 1.8.10
 /usr/bin/obsidian:
-	NAME = $(notdir $@)
-	OBSIDIAN_DIR = "/tmp/$(NAME)"
-	mkdir -p $(OBSIDIAN_DIR)
-	# download_github_release_artifact "$(OBSIDIAN_DIR)/$(NAME).deb" "/tmp/$@/$@.deb" \
-	download_github_release_artifact "$(OBSIDIAN_DIR)/$(NAME).deb" \
+	mkdir -p $(OBSIDIAN_DOWNLOAD_DIR)
+	# download_github_release_artifact "$(OBSIDIAN_DIR)/$(@F).deb" "/tmp/$@/$@.deb" \
+	download_github_release_artifact "$(OBSIDIAN_DOWNLOAD_DIR)/$(@F).deb" \
 		"https://github.com/obsidianmd/obsidian-releases" \
-		'obsidian_$$version_amd64.deb'
-	sudo dpkg --install "/tmp/$@/$@.deb"
-	rm -fr $(OBSIDIAN_DIR)
+		'obsidian_$(OBSIDIAN_VERSION)_amd64.deb'
+	sudo dpkg --install "$(OBSIDIAN_DOWNLOAD_DIR)/$(@F).deb"
+	rm -fr $(OBSIDIAN_DOWNLOAD_DIR)
 
 reaper:
 	sudo flatpak install --assumeyes "fm.reaper.Reaper"
