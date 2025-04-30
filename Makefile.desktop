@@ -15,8 +15,8 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: prepare darktable discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend \
-	obsidian reaper signal slack vlc wl-clipboard zen
+all: prepare 1password darktable discord easyeffects firefox flameshot gimp gnome-sushi \
+	gnome-tweak-tool kitty localsend obsidian reaper signal slack vlc wl-clipboard zen
 .PHONY: all
 
 prepare: flatpak
@@ -27,6 +27,26 @@ flatpak:
 	sudo apt-get install --yes gnome-software-plugin-flatpak
 	sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 .PHONY: flatpak
+
+# 1password start
+1password: /usr/share/keyrings/1password-archive-keyring.gpg /etc/apt/sources.list.d/1password.list /usr/share/debsig/keyrings/AC2D62742012EA22 /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	sudo apt-get update
+	sudo apt-get install --yes 1password
+
+/usr/share/keyrings/1password-archive-keyring.gpg:
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+
+/etc/apt/sources.list.d/1password.list:
+	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
+
+/etc/debsig/policies/AC2D62742012EA22/1password.pol:
+	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+
+/usr/share/debsig/keyrings/AC2D62742012EA22:
+	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+# 1password final
 
 darktable:
 	flatpak install --noninteractive "org.darktable.Darktable"
@@ -39,6 +59,25 @@ discord:
 easyeffects:
 	flatpak install --noninteractive "com.github.wwmm.easyeffects"
 .PHONY: easyeffects
+
+# firefox start
+firefox: /etc/apt/keyrings/packages.mozilla.org.asc /etc/apt/sources.list.d/mozilla.list /etc/apt/preferences.d/mozilla
+	sudo apt-get update
+	sudo apt-get install --yes firefox
+.PHONY: firefox
+
+/etc/apt/keyrings/packages.mozilla.org.asc:
+	sudo mkdir -p /etc/apt/keyrings
+	sudo wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O /etc/apt/keyrings/packages.mozilla.org.asc
+
+/etc/apt/sources.list.d/mozilla.list:
+	sudo mkdir -p /etc/apt/sources.list.d
+	echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
+
+/etc/apt/preferences.d/mozilla:
+	sudo mkdir -p /etc/apt/preferences.d
+	echo -e 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000' | sudo tee /etc/apt/preferences.d/mozilla > /dev/null
+# firefox final
 
 gimp:
 	flatpak install --noninteractive "org.gimp.GIMP"
@@ -114,6 +153,6 @@ wl-clipboard:
 
 zen:
 	flatpak install --noninteractive "io.github.zen_browser.zen"
-	sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser "/var/lib/flatpak/exports/share/applications/io.github.zen_browser.zen.desktop" 100
-	sudo update-alternatives --set x-www-browser "/var/lib/flatpak/exports/share/applications/io.github.zen_browser.zen.desktop"
+	sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser "/var/lib/flatpak/exports/share/applications/app.zen_browser.zen.desktop" 100
+	sudo update-alternatives --set x-www-browser "/var/lib/flatpak/exports/share/applications/app.zen_browser.zen.desktop"
 .PHONY: zen
