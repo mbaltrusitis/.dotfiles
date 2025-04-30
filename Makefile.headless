@@ -40,11 +40,6 @@ common:
 		tmux
 .PHONY: common
 
-AWS_VERSION ?= $(2.18.0)
-AWS_DOWNLOAD_DIR := /tmp/aws-cli
-AWS_PGP_KEY_PATH := $(AWS_DOWNLOAD_DIR)/awscliv2.sig
-AWS_DOWNLOAD_PATH := $(AWS_DOWNLOAD_DIR)/aws.zip
-
 1password-cli: /usr/bin/op
 .PHONY: 1password-cli
 
@@ -67,16 +62,19 @@ asdf:
 	$(MAKE) -f ./Makefile.asdf
 .PHONY: asdf
 
+AWS_VERSION ?= 2.18.0
+AWS_DOWNLOAD_DIR := /tmp/aws-cli
+AWS_SIG_PATH := $(AWS_DOWNLOAD_DIR)/awscliv2.sig
+AWS_DOWNLOAD_PATH := $(AWS_DOWNLOAD_DIR)/aws.zip
 aws-cli: /usr/local/bin/aws
 
 /usr/local/bin/aws:
 	mkdir -p $(AWS_DOWNLOAD_DIR)
 	curl -sSLo $(AWS_DOWNLOAD_PATH) \
-		"https://awscli.amazonaws.com/awscli-exe-linux-x86_64-$(AWS_VERSION).zip"
-	curl -sSLo $(AWS_DOWNLOAD_DIR)/awscliv2.sig \
-		"https://awscli.amazonaws.com/awscli-exe-linux-x86_64-$(AWS_VERSION).zip.sig"
-	import_pgp_key_by_file $(AWS_PGP_KEY_PATH)
-	gpg --verify $(AWS_PGP_KEY_PATH) $(AWS_DOWNLOAD_PATH)
+		https://awscli.amazonaws.com/awscli-exe-linux-x86_64-$(AWS_VERSION).zip
+	curl -sSLo $(AWS_SIG_PATH) \
+		https://awscli.amazonaws.com/awscli-exe-linux-x86_64-$(AWS_VERSION).zip.sig
+	gpg --verify $(AWS_SIG_PATH) $(AWS_DOWNLOAD_PATH)
 	unzip -d $(AWS_DOWNLOAD_DIR) $(AWS_DOWNLOAD_PATH)
 	@sudo $(AWS_DOWNLOAD_DIR)/aws/install
 	rm -fr $(AWS_DOWNLOAD_DIR)
