@@ -52,9 +52,9 @@ erlang: $(ASDF_INSTALL_PATH)/plugins/erlang
 $(ASDF_INSTALL_PATH)/plugins/erlang:
 	# https://github.com/asdf-vm/asdf-erlang
 	LOG_INFO "Installing dependencies for $(notdir $@)"
-	sudo apt-get --yes install libssl-dev automake autoconf libncurses-dev xsltproc fop \
-		libxml2-utils libwxgtk-webview3.0-gtk3-dev wx-common gcc g++ openjdk-11-jdk m4 \
-		libglu1-mesa-dev libgl1-mesa-dev libpng-dev unixodbc-dev;
+	sudo apt-get --yes install build-essential autoconf m4 libwxgtk3.2-dev libwxgtk-webview3.2-dev \
+		libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop \
+		libxml2-utils libncurses-dev openjdk-11-jdk
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
 .PHONY: $(ASDF_INSTALL_PATH)/plugins/erlang
