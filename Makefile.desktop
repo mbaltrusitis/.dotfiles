@@ -133,7 +133,6 @@ signal: /usr/bin/signal-desktop
 		| gpg --dearmor > "/tmp/$@/signal-desktop-keyring.gpg"
 	sudo mv "/tmp/$@/signal-desktop-keyring.gpg" \
 		"/usr/share/keyrings/signal-desktop-keyring.gpg"
-
 	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' \
 		> "/tmp/$@/signal-xenial.list"
 	sudo mv "/tmp/$@/signal-xenial.list" "/etc/apt/sources.list.d/signal-xenial.list"
