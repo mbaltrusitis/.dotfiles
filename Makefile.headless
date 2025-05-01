@@ -226,6 +226,7 @@ veracrypt: /usr/bin/veracrypt ## install veracrypt $$(VERACRYPT_VERSION)
 /usr/bin/veracrypt:
 	mkdir -p $(VERACRYPT_DOWNLOAD_DIR)
 	# install veracrypt deps
+	sudo apt-get install --yes libfuse2t64 pcscd
 	import_pgp_key_by_url "https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc"
 	# download the package's signature
 	curl -sSLo $(VERACRYPT_PGP_KEY_PATH) \
