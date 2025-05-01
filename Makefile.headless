@@ -119,7 +119,8 @@ direnv: /usr/local/bin/direnv
 # 	tar -xvzf /tmp/kubectx.tar.gz
 # 	sudo mv /tmp/kubectx /usr/local/bin/kubectx
 
-eza:
+eza: /usr/bin/eza
+/usr/bin/eza:
 	sudo mkdir -p /etc/apt/keyrings
 	mkdir -p "/tmp/$@"
 	curl -sSL https://raw.githubusercontent.com/eza-community/eza/main/deb.asc \
@@ -131,14 +132,15 @@ eza:
 	sudo apt-get install --yes eza
 .PHONY: eza
 
-fastfetch: ## system information display app
+fastfetch: /usr/bin/fastfetch ## system information display app
+/usr/bin/fastfetch: ## system information display app
 	sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
 	sudo apt install --yes fastfetch
 .PHONY: fastfetch
 
 HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/hexyl/releases/latest' | cut -d'/' -f8)
-hexyl: /usr/bin/hexyl
 
+hexyl: /usr/bin/hexyl
 /usr/bin/hexyl:
 	curl -sL -o /tmp/hexyl.deb \
 		"https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
