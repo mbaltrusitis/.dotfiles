@@ -43,7 +43,6 @@ $(ASDF_INSTALL_PATH)/plugins/elixir:
 	sudo apt-get --yes install unzip
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/elixir
 
 
 erlang: $(ASDF_INSTALL_PATH)/plugins/erlang
@@ -57,7 +56,6 @@ $(ASDF_INSTALL_PATH)/plugins/erlang:
 		libxml2-utils libncurses-dev openjdk-11-jdk
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/erlang
 
 golang: $(ASDF_INSTALL_PATH)/plugins/golang
 .PHONY: golang
@@ -68,7 +66,6 @@ $(ASDF_INSTALL_PATH)/plugins/golang:
 	sudo apt-get --yes install coreutils curl
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/asdf-golang
 
 nim: $(ASDF_INSTALL_PATH)/plugins/nim
 .PHONY: nim
@@ -79,7 +76,6 @@ $(ASDF_INSTALL_PATH)/plugins/nim:
 	sudo apt-get --yes install build-essential xz-utils
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/asdf-nim
 
 nodejs: $(ASDF_INSTALL_PATH)/plugins/nodejs
 .PHONY: nodejs
@@ -88,7 +84,6 @@ $(ASDF_INSTALL_PATH)/plugins/nodejs:
 	# https://github.com/asdf-vm/asdf-nodejs
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/asdf-nodejs
 
 php: $(ASDF_INSTALL_PATH)/plugins/php
 .PHONY: php
@@ -102,7 +97,6 @@ $(ASDF_INSTALL_PATH)/plugins/php:
 		openssl pkg-config re2c zlib1g-dev;
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/asdf-php
 
 pre-commit: $(ASDF_INSTALL_PATH)/plugins/pre-commit
 .PHONY: pre-commit
@@ -118,7 +112,6 @@ $(ASDF_INSTALL_PATH)/plugins/rabbitmq: $(ASDF_INSTALL_PATH)/plugins/erlang
 	# https://github.com/w-sanches/asdf-rabbitmq
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/rabbitmq
 
 rebar: $(ASDF_INSTALL_PATH)/plugins/rebar
 .PHONY: rebar
@@ -127,7 +120,6 @@ $(ASDF_INSTALL_PATH)/plugins/rebar: $(ASDF_INSTALL_PATH)/plugins/erlang
 	# https://github.com/Stratus3D/asdf-rebar
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/rebar
 
 zig: $(ASDF_INSTALL_PATH)/plugins/zig
 .PHONY: zig
@@ -136,4 +128,3 @@ $(ASDF_INSTALL_PATH)/plugins/zig:
 	# https://github.com/asdf-community/asdf-zig
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@) https://github.com/asdf-community/asdf-zig.git
-.PHONY: $(ASDF_INSTALL_PATH)/plugins/zig
