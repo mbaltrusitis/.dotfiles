@@ -16,56 +16,71 @@ DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
 all: prepare 1password darktable discord easyeffects firefox flameshot gimp gnome-sushi \
-	gnome-tweak-tool kitty localsend obsidian reaper signal slack vlc wl-clipboard zen
+	gnome-tweaks kitty localsend obsidian reaper signal slack vlc wl-clipboard zen
 .PHONY: all
 
 prepare: flatpak
 .PHONY: prepare
 
-flatpak:
+flatpak: /usr/bin/flatpak
+.PHONY: flatpak
+
+/usr/bin/flatpak:
 	sudo apt-get install --yes flatpak
 	sudo apt-get install --yes gnome-software-plugin-flatpak
 	sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-.PHONY: flatpak
 
 # 1password start
-1password: /usr/share/keyrings/1password-archive-keyring.gpg /etc/apt/sources.list.d/1password.list /usr/share/debsig/keyrings/AC2D62742012EA22 /etc/debsig/policies/AC2D62742012EA22/1password.pol
+1password: /usr/bin/1password
+	LOG_DEBUG "i ran"
+
+/usr/bin/1password: /etc/apt/sources.list.d/1password.list
+	LOG_DEBUG "i ran too"
 	sudo apt-get update
 	sudo apt-get install --yes 1password
 
+/etc/apt/sources.list.d/1password.list: /usr/share/keyrings/1password-archive-keyring.gpg /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
+
 /usr/share/keyrings/1password-archive-keyring.gpg:
 	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-
-/etc/apt/sources.list.d/1password.list:
-	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
 
 /etc/debsig/policies/AC2D62742012EA22/1password.pol:
 	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
 	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
 
-/usr/share/debsig/keyrings/AC2D62742012EA22:
+/usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg:
 	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
 	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
 # 1password final
 
-darktable:
-	flatpak install --noninteractive "org.darktable.Darktable"
+darktable: /var/lib/flatpak/app/org.darktable.Darktable
 .PHONY: darktable
 
-discord:
-	flatpak install --noninteractive "com.discordapp.Discord"
+/var/lib/flatpak/app/org.darktable.Darktable:
+	flatpak install --noninteractive "org.darktable.Darktable"
+
+discord: /var/lib/flatpak/app/com.discordapp.Discord
 .PHONY: discord
 
-easyeffects:
-	flatpak install --noninteractive "com.github.wwmm.easyeffects"
+/var/lib/flatpak/app/com.discordapp.Discord:
+	flatpak install --noninteractive "com.discordapp.Discord"
+
+easyeffects: /var/lib/flatpak/app/com.github.wwmm.easyeffects
 .PHONY: easyeffects
 
+/var/lib/flatpak/app/com.github.wwmm.easyeffects:
+	flatpak install --noninteractive "com.github.wwmm.easyeffects"
+
 # firefox start
-firefox: /etc/apt/keyrings/packages.mozilla.org.asc /etc/apt/sources.list.d/mozilla.list /etc/apt/preferences.d/mozilla
+firefox: /usr/bin/firefox
+
+/usr/bin/firefox: /etc/apt/keyrings/packages.mozilla.org.asc /etc/apt/sources.list.d/mozilla.list /etc/apt/preferences.d/mozilla
 	sudo apt-get update
 	# adds the `--allow-downgrade` flag to sidestep snap shenanigans
 	sudo apt-get install --yes --allow-downgrades firefox
-.PHONY: firefox
+	sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser "/usr/share/applications/firefox.desktop" 100
+	sudo update-alternatives --set x-www-browser "/usr/share/applications/firefox.desktop"
 
 /etc/apt/keyrings/packages.mozilla.org.asc:
 	sudo mkdir -p /etc/apt/keyrings
@@ -80,31 +95,43 @@ firefox: /etc/apt/keyrings/packages.mozilla.org.asc /etc/apt/sources.list.d/mozi
 	echo -e 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000' | sudo tee /etc/apt/preferences.d/mozilla > /dev/null
 # firefox final
 
-gimp:
-	flatpak install --noninteractive "org.gimp.GIMP"
-	flatpak install --noninteractive "org.gimp.GIMP.Manual"
+gimp: /var/lib/flatpak/app/org.gimp.GIMP
 .PHONY: gimp
 
-kitty:
-	sudo apt-get install --yes kitty
-	sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+/var/lib/flatpak/app/org.gimp.GIMP:
+	flatpak install --noninteractive "org.gimp.GIMP"
+	flatpak install --noninteractive "org.gimp.GIMP.Manual"
+
+kitty: /usr/bin/kitty
 .PHONY: kitty
 
-flameshot:
-	sudo apt-get install --yes flameshot
+/usr/bin/kitty:
+	sudo apt-get install --yes kitty
+	sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+
+flameshot: /usr/bin/flameshot
 .PHONY: flameshot
 
-gnome-sushi:
-	sudo apt-get install --yes gnome-sushi
+/usr/bin/flameshot:
+	sudo apt-get install --yes flameshot
+
+gnome-sushi: /usr/bin/sushi
 .PHONY: gnome-sushi
 
-gnome-tweak-tool:
-	sudo apt-get install --yes gnome-tweaks
-.PHONY: gnome-tweak-tool
+/usr/bin/sushi:
+	sudo apt-get install --yes gnome-sushi
 
-localsend:
-	sudo flatpak install --noninteractive "org.localsend.localsend_app"
+gnome-tweaks: /usr/bin/gnome-tweaks
+.PHONY: gnome-tweaks
+
+/usr/bin/gnome-tweaks:
+	sudo apt-get install --yes gnome-tweaks
+
+localsend: /var/lib/flatpak/app/org.localsend.localsend_app
 .PHONY: localsend
+
+/var/lib/flatpak/app/org.localsend.localsend_app:
+	sudo flatpak install --noninteractive "org.localsend.localsend_app"
 
 obsidian: /usr/bin/obsidian
 .PHONY: obsidian
@@ -120,9 +147,11 @@ OBSIDIAN_VERSION := 1.8.10
 	sudo dpkg --install "$(OBSIDIAN_DOWNLOAD_DIR)/$(@F).deb"
 	rm -fr $(OBSIDIAN_DOWNLOAD_DIR)
 
-reaper:
-	sudo flatpak install --assumeyes "fm.reaper.Reaper"
+reaper: /var/lib/flatpak/app/fm.reaper.Reaper
 .PHONY: reaper
+
+/var/lib/flatpak/app/fm.reaper.Reaper:
+	sudo flatpak install --assumeyes "fm.reaper.Reaper"
 
 signal: /usr/bin/signal-desktop
 .PHONY: signal
@@ -139,20 +168,25 @@ signal: /usr/bin/signal-desktop
 	sudo apt-get update
 	sudo apt-get install --yes signal-desktop
 
-slack:
-	flatpak install --assumeyes "com.slack.Slack"
+slack: /var/lib/flatpak/app/com.slack.Slack
 .PHONY: slack
 
-vlc:
-	sudo apt-get install --yes vlc
+/var/lib/flatpak/app/com.slack.Slack:
+	flatpak install --assumeyes "com.slack.Slack"
+
+vlc: /usr/bin/vlc
 .PHONY: vlc
 
-wl-clipboard:
+/usr/bin/vlc:
+	sudo apt-get install --yes vlc
+
+wl-clipboard: /usr/bin/wl-copy /usr/bin/wl-paste
 	sudo apt-get install --yes wl-clipboard
 .PHONY: clipboard
 
-zen:
+zen: /var/lib/flatpak/app/app.zen_browser.zen
+.PHONY: zen
+
+/var/lib/flatpak/app/app.zen_browser.zen:
 	flatpak install --noninteractive "app.zen_browser.zen"
 	sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser "/var/lib/flatpak/exports/share/applications/app.zen_browser.zen.desktop" 100
-	sudo update-alternatives --set x-www-browser "/var/lib/flatpak/exports/share/applications/app.zen_browser.zen.desktop"
-.PHONY: zen
