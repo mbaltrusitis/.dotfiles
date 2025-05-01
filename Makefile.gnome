@@ -24,12 +24,20 @@ OS := $(OS)
 
 all: prepare install compile-schemas configure
 
-prepare:
-	sudo apt-get install --yes pipx
-	pipx install gnome-extensions-cli --system-site-packages
-	sudo apt-get install --yes gnome-shell-extension-manager
+prepare: pipx gnome-extension-manager gext
 	LOG_WARNING "You will need to manually confirm each GNOME extension install..."
-.PHONY: prepare
+
+pipx: /usr/bin/pipx
+	sudo apt-get install --yes pipx
+
+gnome-extension-manager: /usr/bin/extension-manager
+	sudo apt-get install --yes gnome-shell-extension-manager
+
+gext: $(HOME)/.local/bin/gext
+.PHONY: gext
+
+$(HOME)/.local/bin/gext:
+	pipx install gnome-extensions-cli --system-site-packages
 
 install: blur-my-shell just-perfection tactile
 
