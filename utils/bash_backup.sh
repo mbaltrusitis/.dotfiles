@@ -5,7 +5,7 @@ set -euo pipefail
 # empty GLOBs initialize to null strings
 shopt -s nullglob
 
-source ./utils/bash-utils.bash
+source ./utils/bash_utils.bash
 
 TARGET_DIR="${1:-$HOME}"
 TARGET_FILES=("$TARGET_DIR/.bash*")
