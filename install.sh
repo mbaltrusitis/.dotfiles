@@ -8,28 +8,35 @@ setup() {
 		INSTALL_LIST+="curl"
 	fi
 
-	if [ -z "$(which curl)" ]; then
-		INSTALL_LIST=" unzip"
+	if [ -z "$(which unzip)" ]; then
+		INSTALL_LIST+=" unzip"
 	fi
 
-	if ! [ -z "$INSTALL_LIST" ]; then
-		echo "I: Installing necessary tooling..."
-		apt-get install --show-progress --assume-yes "$INSTALL_LIST"
+	if [ -n "$INSTALL_LIST" ]; then
+		echo "[INFO]: Installing necessary tooling..."
+		sudo apt-get install --show-progress --assume-yes "$INSTALL_LIST"
 	else
-		echo "I: Requirements met."
+		echo "[INFO]: Requirements met."
 	fi
 	unset -v INSTALL_LIST
 }
 
 fetch_dots() {
-	echo "I: Fetching zipped repo..."
-	if curl -sLo /tmp/dotfiles.zip https://github.com/mbaltrusitis/.dotfiles/archive/master.zip; then
-		echo "I: Unzipping..."
-		unzip -qf /tmp/dotfiles.zip -d /tmp/dotfiles;
+	DOWNLOAD_DIR=$(mktemp -d)
+	echo "[INFO]: Downloading zipped repo to '$DOWNLOAD_DIR'"
+	if curl --silent --show-error --location --output "$DOWNLOAD_DIR/dotfiles.zip" \
+			"https://github.com/mbaltrusitis/.dotfiles/archive/master.zip"; then
+		echo "[INFO]: Unzipping..."
+		mkdir -p "$DOWNLOAD_DIR/out"
+		unzip -q "$DOWNLOAD_DIR/dotfiles.zip" -d "$DOWNLOAD_DIR/out";
+		[ -d /tmp/dotfiles ] && rm -rf /tmp/dotfiles
+		mv --force "$DOWNLOAD_DIR/out/.dotfiles-master" /tmp/dotfiles
+		rmdir "$DOWNLOAD_DIR/out"
 	else
-		echo "E: Download failed."
+		echo "[ERROR]: Download failed."
+		exit 1
 	fi
-	echo "I: Great success!"
+	echo -e "[INFO]: Great success!\nFiles located at /tmp/dotfiles"
 }
 
 main() {
@@ -38,4 +45,4 @@ main() {
 }
 
 main
-echo "I: Done."
+echo "[INFO]: Done."
