@@ -102,4 +102,3 @@ __setup_ps1() {
 
     fetch_ps1_components
 }
-
