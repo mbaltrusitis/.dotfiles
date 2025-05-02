@@ -6,7 +6,7 @@
 
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [fd](https://github.com/sharkdp/fd)
-- [wget](https://www.gnu.org/software/wget/)
+- [curl](https://curl.se/)
 
 ### instructions.
 
@@ -21,7 +21,7 @@ brew install fd ripgrep wget
 ##### linux.
 
 ```
-apt-get install fd-find ripgrep wget
+apt-get install fd-find ripgrep curl
 ```
 
 ```
