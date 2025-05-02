@@ -1,9 +1,15 @@
 # .dotfiles
 
+These are my dotfiles. There are many like them, but these are mine.
+
 ## installation.
 
-The `.dotfiles` repo assumes that it is in a user's `$HOME`. Two approaches are
-can be used for installation:
+The `.dotfiles` project assumes it is:
+
+* in a user's `$HOME` (e.g., `/home/jcleese/.dotfiles`)
+* on an Ubuntu 24.04 system
+
+There are two approaches to installation:
 
 1. **git-based installation** // the most typical installation to be used on a
    a system that is frequently used and will want to submit and fetch updates to
@@ -23,7 +29,7 @@ curl will be needed.
 - [fd](https://github.com/sharkdp/fd)
 - [curl](https://curl.se/)
 
-### instructions.
+### git-based.
 
 Having moved away from macOS, Linux is now the solely supported platform.
 
@@ -46,3 +52,24 @@ You may manually target `headless` or `desktop` with these convenience targets:
 make headless
 make desktop
 ```
+
+### archive-based.
+
+When needing to perform deeper analysis or exploration on a remote system, I
+want to be able to bootstrap it with familiar tooling quickly and easily. For
+convenience, the [install.sh](./install.sh) file who's contents fetches this
+project as an archive is returned by [dots.mgb.nyc](http://dots.mgb.nyc).
+Enabling a quick installation by piping this easy to remember URL to bash:
+
+```
+curl -L dots.mgb.nyc | bash
+```
+
+The script is quite simple, it will:
+
+- check for `curl` and `unzip` and install them as needed
+- download an archive of the latest version of the `.dotfiles` repo
+- unpack it to `/tmp/dotfiles`
+
+From there you can move the `dotfiles` directory to the appropriate home folder
+and then run `make`.
