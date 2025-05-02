@@ -84,7 +84,7 @@ firefox: /usr/bin/firefox
 
 /etc/apt/keyrings/packages.mozilla.org.asc:
 	sudo mkdir -p /etc/apt/keyrings
-	sudo wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O /etc/apt/keyrings/packages.mozilla.org.asc
+	sudo curl -sSLo /etc/apt/keyrings/packages.mozilla.org.asc https://packages.mozilla.org/apt/repo-signing-key.gpg
 
 /etc/apt/sources.list.d/mozilla.list:
 	sudo mkdir -p /etc/apt/sources.list.d
