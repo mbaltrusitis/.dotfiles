@@ -144,9 +144,14 @@ HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/shar
 
 hexyl: /usr/bin/hexyl
 /usr/bin/hexyl:
-	curl -sL -o /tmp/hexyl.deb \
-		"https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
-	sudo dpkg -i /tmp/hexyl.deb
+	LOG_INFO "Installing hexyl version: $(HEXYL_VERSION)"
+	DOWNLOAD_DIR=$(shell mktemp)
+	download_github_release_artifact \
+		$(DOWNLOAD_DIR) \
+		"https://github.com/sharkdp/hexyl" \
+		"hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb" \
+		$(HEXYL_VERSION)
+	sudo dpkg -i "$(DOWNLOAD_DIR)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
 
 FLYCTL_VERSION ?= 0.2.109
 FLYCTL_INSTALL_PREFIX := $(HOME)/.fly
