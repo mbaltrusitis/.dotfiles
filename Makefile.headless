@@ -64,12 +64,14 @@ asdf:
 
 AWS_VERSION ?= 2.18.0
 AWS_DOWNLOAD_DIR := /tmp/aws-cli
+AWS_CLI_PGP_KEY := $(DOTFILE_DIR)/data/aws-cli.key
 AWS_SIG_PATH := $(AWS_DOWNLOAD_DIR)/awscliv2.sig
 AWS_DOWNLOAD_PATH := $(AWS_DOWNLOAD_DIR)/aws.zip
 aws-cli: /usr/local/bin/aws
 
 /usr/local/bin/aws:
 	mkdir -p $(AWS_DOWNLOAD_DIR)
+	import_pgp_key_by_file $(AWS_CLI_PGP_KEY)
 	curl -sSLo $(AWS_DOWNLOAD_PATH) \
 		https://awscli.amazonaws.com/awscli-exe-linux-x86_64-$(AWS_VERSION).zip
 	curl -sSLo $(AWS_SIG_PATH) \
