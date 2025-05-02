@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ../utils/bash-utils.bash
+source ../utils/bash_utils.bash
 
 if [[ $EUID -ne 0 ]]; then
 	echo "[ERROR]: Executable $0 must run as ROOT! But you should inspect it first at: $PWD"
