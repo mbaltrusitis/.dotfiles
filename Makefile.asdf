@@ -24,10 +24,10 @@ all: asdf asdf-plugins
 asdf: $(HOME)/.asdf
 
 # asdf
-$(HOME)/.asdf:
+$(ASDF_INSTALL_PATH):
 	LOG_INFO "Installing asdf and its dependencies"
 	sudo apt-get install curl git
-	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v$(ASDF_VERSION)
+	git clone https://github.com/asdf-vm/asdf.git $(ASDF_INSTALL_PATH) --branch v$(ASDF_VERSION)
 
 # asdf plugins
 ASDF_PLUGINS_LIST := elixir erlang golang nim nodejs php pre-commit rabbitmq rebar zig
