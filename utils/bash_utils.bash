@@ -54,15 +54,18 @@ get_latest_github_release_version() {
 }
 
 download_github_release_artifact() {
-	local download_path="$1"
+	local download_dir="$1/$3"
 	local github_repo="$2"
 	local version=${4:-$(get_latest_github_release_version "$github_repo")}
 	local raw_artifact_name="$3"
+	local download_path_full="$1/$3"
 	# replace instances of $version with the $version variable
 	local artifact_name="${raw_artifact_name//\$version/$version}"
 
-	LOG_INFO "Downloading version $version of $artifact_name"
-	declare -r download_target="$github_repo/releases/download/v$version/$artifact_name"
+	mkdir -p "$download_dir"
+
+	LOG_INFO "Downloading version $version of $artifact_name to $download_path"
+	declare -r download_target="$github_repo/releases/download/$version/$artifact_name"
 
 	if curl -sSLo "$download_path" "$download_target"; then
 		LOG_INFO "Successfully downloaded $artifact_name to $download_path"
