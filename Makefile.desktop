@@ -16,7 +16,7 @@ DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
 all: prepare 1password darktable discord easyeffects firefox flameshot gimp gnome-sushi \
-	gnome-tweaks kitty localsend obsidian reaper signal slack vlc wl-clipboard zen
+	gnome-tweaks kitty localsend mullvad obsidian reaper signal slack vlc wl-clipboard zen
 .PHONY: all
 
 prepare: flatpak
@@ -32,10 +32,8 @@ flatpak: /usr/bin/flatpak
 
 # 1password start
 1password: /usr/bin/1password
-	LOG_DEBUG "i ran"
 
 /usr/bin/1password: /etc/apt/sources.list.d/1password.list
-	LOG_DEBUG "i ran too"
 	sudo apt-get update
 	sudo apt-get install --yes 1password
 
@@ -133,6 +131,20 @@ localsend: /var/lib/flatpak/app/org.localsend.localsend_app
 /var/lib/flatpak/app/org.localsend.localsend_app:
 	sudo flatpak install --noninteractive "org.localsend.localsend_app"
 
+# mullvad start
+mullvad: /usr/bin/mullvad
+
+/usr/bin/mullvad-vpn: /usr/share/keyrings/mullvad-keyring.asc /etc/apt/sources.list.d/mullvad.list
+	sudo apt-get update
+	sudo apt-get install --yes mullvad-vpn
+
+/usr/share/keyrings/mullvad-keyring.asc:
+	sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
+
+/etc/apt/sources.list.d/mullvad.list:
+	echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=amd64] https://repository.mullvad.net/deb/stable noble main" \
+		| sudo tee /etc/apt/sources.list.d/mullvad.list
+# mullvad final
 obsidian: /usr/bin/obsidian
 .PHONY: obsidian
 
