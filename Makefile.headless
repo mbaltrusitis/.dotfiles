@@ -98,27 +98,16 @@ borgmatic: /usr/bin/borgmatic
 /usr/bin/borgmatic:
 	sudo apt-get install --yes borgmatic
 
-DIRENV_VERSION := 2.34.0
 direnv: /usr/local/bin/direnv
-
+DIRENV_VERSION := 2.34.0
 /usr/local/bin/direnv:
-	download_github_release_artifact "/tmp/direnv" \
+	download_github_release_artifact \
+		"/tmp/direnv" \
 		"https://github.com/direnv/direnv" \
 		"direnv.linux-amd64" \
-		"2.34.0"
-	sudo chmod +x /tmp/direnv
-	sudo mv /tmp/direnv /usr/local/bin/direnv
-
-# KUBECTX_VERSION := 0.9.5
-# kubectx: /usr/local/bin/kubectx
-#
-# /usr/local/bin/kubectx:
-# 	download_github_release_artifact "/tmp/kubectx.tar.gz" \
-# 		"https://github.com/ahmetb/kubectx" \
-# 		"kubectx_v$(KUBECTX_VERSION)_linux_x86_64.tar.gz" \
-# 		$(KUBECTX_VERSION)
-# 	tar -xvzf /tmp/kubectx.tar.gz
-# 	sudo mv /tmp/kubectx /usr/local/bin/kubectx
+		"v2.34.0"
+	sudo mv /tmp/direnv/direnv.linux-amd64 /usr/local/bin/direnv
+	sudo chmod +x /usr/local/bin/direnv
 
 eza: /usr/bin/eza
 /usr/bin/eza:

@@ -146,17 +146,15 @@ mullvad: /usr/bin/mullvad
 		| sudo tee /etc/apt/sources.list.d/mullvad.list
 # mullvad final
 obsidian: /usr/bin/obsidian
-.PHONY: obsidian
-
 OBSIDIAN_DOWNLOAD_DIR := /tmp/obsidian
 OBSIDIAN_VERSION := 1.8.10
+OBSIDIAN_DEB_NAME := "obsidian_$(OBSIDIAN_VERSION)_amd64.deb"
 /usr/bin/obsidian:
-	mkdir -p $(OBSIDIAN_DOWNLOAD_DIR)
-	# download_github_release_artifact "$(OBSIDIAN_DIR)/$(@F).deb" "/tmp/$@/$@.deb" \
-	download_github_release_artifact "$(OBSIDIAN_DOWNLOAD_DIR)/$(@F).deb" \
+	download_github_release_artifact \
+		"$(OBSIDIAN_DOWNLOAD_DIR)" \
 		"https://github.com/obsidianmd/obsidian-releases" \
-		'obsidian_$(OBSIDIAN_VERSION)_amd64.deb'
-	sudo dpkg --install "$(OBSIDIAN_DOWNLOAD_DIR)/$(@F).deb"
+		"$(OBSIDIAN_DEB_NAME)"
+	sudo dpkg --install "$(OBSIDIAN_DEB_NAME)"
 	rm -fr $(OBSIDIAN_DOWNLOAD_DIR)
 
 reaper: /var/lib/flatpak/app/fm.reaper.Reaper
