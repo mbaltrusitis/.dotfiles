@@ -27,7 +27,7 @@ OS := $(OS)
 
 # installers
 all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl \
-	flyctl k9s net-tools nvim veracrypt woff-tools z
+	flyctl k9s net-tools nvim veracrypt woff-tools yq z
 .PHONY: all
 
 common:: docker
@@ -274,8 +274,14 @@ woff-tools: /usr/bin/sfnt2woff /usr/bin/woff2sfnt
 .PHONY: woff-tools
 
 yq:
-	sudo add-apt-repository --yes ppa:rmescandon/yq
-	sudo apt-get install --yes yq
+	download_github_release_artifact \
+		"/tmp/yq" \
+		"https://github.com/mikefarah/yq" \
+		"yq_linux_amd64" \
+		"v4.45.2"
+	chmod +x "/tmp/yq/yq_linux_amd64"
+	sudo mv /tmp/yq/yq_linux_amd64 /usr/local/bin/yq
+	rm -rf /tmp/yq
 .PHONY: yq
 
 yt-dl: /usr/local/bin/yt-dl

@@ -54,7 +54,7 @@ get_latest_github_release_version() {
 }
 
 download_github_release_artifact() {
-	local download_dir="$1/$3"
+	local download_dir="$1"
 	local github_repo="$2"
 	local version=${4:-$(get_latest_github_release_version "$github_repo")}
 	local raw_artifact_name="$3"
