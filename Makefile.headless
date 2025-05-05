@@ -25,50 +25,50 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl flyctl k9s \
-	net-tools nvim veracrypt woff-tools z
+# installers
+all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl \
+	flyctl k9s net-tools nvim veracrypt woff-tools z
+.PHONY: all
 
-common:
-	sudo apt-get install --yes \
-		btop \
-		docker-buildx \
-		docker-compose-v2 \
-		docker.io \
-		fzf \
-		ripgrep \
-		tldr \
-		tmux
+common:: docker
+common:: btop
+common:: fzf
+common:: ripgrep
+common:: tldr
+common:: tmux
 .PHONY: common
 
-1password-cli: /usr/bin/op
-.PHONY: 1password-cli
+extras: yt-dl
+.PHONY: yt-dl
 
-/usr/bin/op:
-	LOG_INFO "Installing 1password CLI (op)"
-	curl -sSL https://downloads.1password.com/linux/keys/1password.asc |\
-	sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$$(dpkg --print-architecture) stable main" |\
-		sudo tee /etc/apt/sources.list.d/1password.list
-	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
-	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol |\
-		sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
-	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
-	curl -sS https://downloads.1password.com/linux/keys/1password.asc |\
-		sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
-	sudo apt-get update
-	sudo apt-get install --yes 1password-cli
+btop: /usr/bin/btop
+/usr/bin/btop:
+	sudo apt-get install --yes btop
+
+docker: /usr/bin/docker
+/usr/bin/docker:
+	# installs docker as well as desired plugins
+	sudo apt-get install --yes docker.io docker-compose-v2 docker-buildx
+
+1password-cli: /usr/bin/op
+	if [ -n "$$OP_SERVICE_ACCOUNT_TOKEN" ]; then \
+		LOG_INFO "1PW service account token is set. Continuing."; \
+	else \
+		LOG_ERROR "Set OP_SERVICE_ACCOUNT_TOKEN before continuing. Halting."; \
+		exit 1; \
+	fi
+.PHONY: 1password-cli
 
 asdf:
 	$(MAKE) -f ./Makefile.asdf
 .PHONY: asdf
 
+aws-cli: /usr/local/bin/aws
 AWS_VERSION ?= 2.18.0
 AWS_DOWNLOAD_DIR := /tmp/aws-cli
 AWS_CLI_PGP_KEY := $(DOTFILE_DIR)/data/aws-cli.key
 AWS_SIG_PATH := $(AWS_DOWNLOAD_DIR)/awscliv2.sig
 AWS_DOWNLOAD_PATH := $(AWS_DOWNLOAD_DIR)/aws.zip
-aws-cli: /usr/local/bin/aws
-
 /usr/local/bin/aws:
 	mkdir -p $(AWS_DOWNLOAD_DIR)
 	import_pgp_key_by_file $(AWS_CLI_PGP_KEY)
@@ -81,10 +81,8 @@ aws-cli: /usr/local/bin/aws
 	@sudo $(AWS_DOWNLOAD_DIR)/aws/install
 	rm -fr $(AWS_DOWNLOAD_DIR)
 
-BAT_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/bat/releases/latest' | cut -d'/' -f8)
-
 bat: /usr/bin/bat
-
+BAT_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/bat/releases/latest' | cut -d'/' -f8)
 /usr/bin/bat:
 	curl -Ls -o /tmp/bat.deb \
 		"https://github.com/sharkdp/bat/releases/download/$(BAT_VERSION)/bat_$(BAT_VERSION:v%=%)_amd64.deb"
@@ -129,9 +127,12 @@ fastfetch: /usr/bin/fastfetch ## system information display app
 	sudo apt install --yes fastfetch
 .PHONY: fastfetch
 
-HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/hexyl/releases/latest' | cut -d'/' -f8)
+fzf: /usr/bin/fzf
+/usr/bin/fzf:
+	sudo apt-get install --yes fzf
 
 hexyl: /usr/bin/hexyl
+HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/hexyl/releases/latest' | cut -d'/' -f8)
 /usr/bin/hexyl:
 	LOG_INFO "Installing hexyl version: $(HEXYL_VERSION)"
 	DOWNLOAD_DIR=$(shell mktemp -d)
@@ -139,15 +140,14 @@ hexyl: /usr/bin/hexyl
 		$(DOWNLOAD_DIR) \
 		"https://github.com/sharkdp/hexyl" \
 		"hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb" \
-		$(HEXYL_VERSION)
+		"v$(HEXYL_VERSION)"
 	sudo dpkg -i "$(DOWNLOAD_DIR)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
 
+flyctl: $(FLYCTL_INSTALL_PREFIX)
 FLYCTL_VERSION ?= 0.2.109
 FLYCTL_INSTALL_PREFIX := $(HOME)/.fly
 FLYCTL_INSTALL_SCRIPT_URL := https://fly.io/install.sh
 FLYCTL_DOWNLOAD_DIR := /tmp/flyctl
-flyctl: $(FLYCTL_INSTALL_PREFIX)
-
 $(FLYCTL_INSTALL_PREFIX):
 	mkdir -p $(FLYCTL_DOWNLOAD_DIR)
 	curl -sSLo $(FLYCTL_DOWNLOAD_DIR)/install.sh $(FLYCTL_INSTALL_SCRIPT_URL)
@@ -155,20 +155,21 @@ $(FLYCTL_INSTALL_PREFIX):
 	FLYCTL_INSTALL=$(FLYCTL_INSTALL_PREFIX) $(FLYCTL_DOWNLOAD_DIR)/install.sh
 	rm -fr $(FLYCTL_DOWNLOAD_DIR)
 
-K9S_VERSION := 0.32.5
 k9s: /usr/bin/k9s
-
+K9S_VERSION := 0.32.5
 /usr/bin/k9s:
-	download_github_release_artifact "/tmp/k9s.deb" \
+	download_github_release_artifact \
+		"/tmp/k9s" \
 		"https://github.com/derailed/k9s" \
 		"k9s_linux_amd64.deb" \
-		$(K9S_VERSION)
-	sudo dpkg -i "/tmp/k9s.deb"
+		"v$(K9S_VERSION)"
+	sudo dpkg -i "/tmp/k9s/k9s_linux_amd64.deb"
 
 net-tools:
 	sudo apt-get install net-tools
 .PHONY: net-tools
 
+# neovim start
 NVIM_VERSION := 0.10.0
 nvim: link-nvim
 	LOG_INFO "Setting NeoVim as preferred editor"
@@ -214,13 +215,41 @@ _build/nvim-linux64.tar.gz.sha256sum: _build
 _build/nvim-linux.tar.gz: _build
 	curl -sSLo _build/nvim-linux64.tar.gz \
 		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz'
+# neovim final
 
+/usr/bin/op:
+	LOG_INFO "Installing 1password CLI (op)"
+	curl -sSL https://downloads.1password.com/linux/keys/1password.asc |\
+	sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$$(dpkg --print-architecture) stable main" |\
+		sudo tee /etc/apt/sources.list.d/1password.list
+	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol |\
+		sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc |\
+		sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+	sudo apt-get update
+	sudo apt-get install --yes 1password-cli
+
+ripgrep: /usr/bin/rg
+/usr/bin/rg:
+	sudo apt-get install --yes ripgrep
+
+tldr: /usr/bin/tldr
+/usr/bin/tldr:
+	sudo apt-get install --yes tldr
+
+tmux: /usr/bin/tmux
+/usr/bin/tmux:
+	sudo apt-get install --yes tmux
+
+# veracrypt start
+veracrypt: /usr/bin/veracrypt ## install veracrypt $$(VERACRYPT_VERSION)
 VERACRYPT_DOWNLOAD_DIR := /tmp/veracrypt
 VERACRYPT_PGP_KEY_PATH := $(VERACRYPT_DOWNLOAD_DIR)/veracrypt.deb.sig
 VERACRYPT_DOWNLOAD_PATH := $(VERACRYPT_DOWNLOAD_DIR)/veracrypt.deb
 VERACRYPT_VERSION := 1.26.20
-veracrypt: /usr/bin/veracrypt ## install veracrypt $$(VERACRYPT_VERSION)
-
 /usr/bin/veracrypt:
 	mkdir -p $(VERACRYPT_DOWNLOAD_DIR)
 	# install veracrypt deps
@@ -237,16 +266,7 @@ veracrypt: /usr/bin/veracrypt ## install veracrypt $$(VERACRYPT_VERSION)
 	# install the package
 	sudo dpkg -i $(VERACRYPT_DOWNLOAD_PATH)
 	rm -rf $(VERACRYPT_DOWNLOAD_DIR)
-
-$(HOME)/enc-vol: veracrypt
-	mkdir -p $(HOME)/enc-vol
-
-mount-enc: $(HOME)/enc-vol
-	veracrypt -t -k "" --pim=0 --protect-hidden=no enc/vol.vc $(HOME)/enc-vol
-
-umount-enc:
-	veracrypt -d $(HOME)/enc-vol
-.PHONY: umount-enc
+# veracrypt final
 
 woff-tools:
 	sudo apt-get install woff-tools
@@ -257,10 +277,31 @@ yq:
 	sudo apt-get install --yes yq
 .PHONY: yq
 
-Z_VERSION := v1.12
-z: /usr/local/src/z
+yt-dl: /usr/local/bin/yt-dl
+YT_DL_VERSION := "2025.04.30"
+/usr/local/bin/yt-dl:
+	download_github_release_artifact \
+		"/tmp/yt-dl" \
+		"https://github.com/yt-dlp/yt-dlp" \
+		"yt-dlp_linux" \
+		"2025.04.30"
+	sudo mv /tmp/yt-dl/yt-dlp_linux /usr/local/bin/yt-dl
+	sudo chmod +x /usr/local/bin/yt-dl
 
+z: /usr/local/src/z
+Z_VERSION := v1.12
 /usr/local/src/z:
 	sudo git clone https://github.com/rupa/z.git --branch $(Z_VERSION) /usr/local/src/z 2> /dev/null
 	sudo chmod +x /usr/local/src/z/z.sh
 	sudo ln -s /usr/local/src/z/z.sh /usr/local/bin/z
+
+# procedures
+$(HOME)/enc-vol: veracrypt
+	mkdir -p $(HOME)/enc-vol
+
+mount-enc: $(HOME)/enc-vol
+	veracrypt -t -k "" --pim=0 --protect-hidden=no enc/vol.vc $(HOME)/enc-vol
+
+umount-enc:
+	veracrypt -d $(HOME)/enc-vol
+.PHONY: umount-enc
