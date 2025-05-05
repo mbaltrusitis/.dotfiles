@@ -268,7 +268,8 @@ VERACRYPT_VERSION := 1.26.20
 	rm -rf $(VERACRYPT_DOWNLOAD_DIR)
 # veracrypt final
 
-woff-tools:
+woff-tools: /usr/bin/sfnt2woff /usr/bin/woff2sfnt
+/usr/bin/sfnt2woff /usr/bin/woff2sfnt:
 	sudo apt-get install woff-tools
 .PHONY: woff-tools
 
