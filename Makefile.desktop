@@ -145,6 +145,19 @@ mullvad: /usr/bin/mullvad
 	echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=amd64] https://repository.mullvad.net/deb/stable noble main" \
 		| sudo tee /etc/apt/sources.list.d/mullvad.list
 # mullvad final
+
+# nextcloud start
+nextcloud: nextcloud-desktop nautilus-nextcloud
+
+nautilus-nextcloud: /usr/share/nautilus-python/extensions/syncstate-Nextcloud.py
+/usr/share/nautilus-python/extensions/syncstate-Nextcloud.py:
+	sudo apt-get install --yes nautilus-nextcloud
+
+nextcloud-desktop: /usr/bin/nextcloud
+/usr/bin/nextcloud:
+	sudo apt-get install --yes nextcloud-desktop
+# nextcloud final
+
 obsidian: /usr/bin/obsidian
 OBSIDIAN_DOWNLOAD_DIR := /tmp/obsidian
 OBSIDIAN_VERSION := 1.8.10
