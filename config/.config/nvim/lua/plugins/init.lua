@@ -200,8 +200,11 @@ local plugins = {
 		config = function()
 			require "configs.conform"
 		end
+	},
+	{
+		"editorconfig/editorconfig-vim",
+		event = { "BufReadPre", "BufNewFile" }
 	}
-
 }
 
 return plugins

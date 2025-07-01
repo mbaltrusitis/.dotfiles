@@ -15,12 +15,19 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: prepare darktable discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend \
-	obsidian reaper signal slack vlc wl-clipboard zen
+all: prepare \
+	darktable discord easyeffects kitty flameshot gnome-sushi gnome-tweak-tool localsend \
+	mullvadvpn obsidian reaper signal thunderbird vlc wl-clipboard zen \
+	finalize
 .PHONY: all
 
 prepare: flatpak
+	mkdir -p $(HOME)/.local/share/applications/
 .PHONY: prepare
+
+finalize:
+	update-desktop-database $(HOME)/.local/share/applications
+.PHONY: finalize
 
 flatpak:
 	sudo apt-get install --yes flatpak
@@ -62,9 +69,32 @@ gnome-tweak-tool:
 	sudo apt-get install --yes gnome-tweaks
 .PHONY: gnome-tweak-tool
 
+ledger-live: $(HOME)/.local/bin/ledger-live.AppImage
+.PHONY: ledger-live
+
+$(HOME)/.local/bin/ledger-live.AppImage:
+	mkdir -p /tmp/ledger-live
+	mkdir -p $(HOME)/.local/bin
+	curl -sSL -o /tmp/ledger-live/ledger-live.AppImage "https://download.live.ledger.com/latest/linux"
+	chmod +x /tmp/ledger-live/ledger-live.AppImage
+	mv /tmp/ledger-live/ledger-live.AppImage $(HOME)/.local/bin/
+	# curl -sSL "https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh" | sudo bash
+	sudo -E ./applications/ledger-live.sh
+	rm -fr /tmp/ledger-live
+
 localsend:
 	sudo flatpak install --noninteractive "org.localsend.localsend_app"
 .PHONY: localsend
+
+mullvadvpn:
+	# Download the Mullvad signing key
+	sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
+	# Add the Mullvad repository server to apt
+	echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable $$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mullvad.list
+	# Install the package
+	sudo apt update
+	sudo apt install mullvad-vpn
+.PHONY: mullvadvpn
 
 obsidian: /usr/bin/obsidian
 .PHONY: obsidian
@@ -103,6 +133,9 @@ signal: /usr/bin/signal-desktop
 slack:
 	flatpak install --assumeyes "com.slack.Slack"
 .PHONY: slack
+
+thunderbird:
+	sudo flatpak install --assumeyes "org.mozilla.Thunderbird"
 
 vlc:
 	sudo apt-get install --yes vlc

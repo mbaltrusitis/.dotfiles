@@ -41,8 +41,6 @@ alias dls='docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"
 
 # kube
 alias k='kubectl'
-alias mk='microk8s.kubectl'
-alias kubectx="kubectl config use-context"
 
 # wireguard
 alias wgup='wg-quick up us-ny1'

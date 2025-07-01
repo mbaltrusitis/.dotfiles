@@ -25,8 +25,8 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl flyctl k9s \
-	net-tools nvim veracrypt woff-tools z
+all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl httpie \
+	flyctl k9s net-tools nvim veracrypt woff-tools z
 
 common:
 	sudo apt-get install --yes \
@@ -148,6 +148,20 @@ hexyl: /usr/bin/hexyl
 	curl -sL -o /tmp/hexyl.deb \
 		"https://github.com/sharkdp/hexyl/releases/download/$(HEXYL_VERSION)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
 	sudo dpkg -i /tmp/hexyl.deb
+
+httpie: /usr/bin/http
+
+/usr/bin/http: /etc/apt/sources.list.d/httpie.list /usr/share/keyrings/httpie.gpg
+	sudo apt update
+	sudo apt install httpie
+
+/usr/share/keyrings/httpie.gpg:
+	curl -SsL https://packages.httpie.io/deb/KEY.gpg \
+		| sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
+
+/etc/apt/sources.list.d/httpie.list:
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" \
+		| sudo tee /etc/apt/sources.list.d/httpie.list
 
 FLYCTL_VERSION ?= 0.2.109
 FLYCTL_INSTALL_PREFIX := $(HOME)/.fly

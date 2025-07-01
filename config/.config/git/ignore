@@ -25,3 +25,5 @@ Icon
 coverage.xml
 coverage/
 junit_results.xml
+
+**/.claude/settings.local.json

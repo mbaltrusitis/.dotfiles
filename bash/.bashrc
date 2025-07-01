@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# If not running interactively, don't do anything
+case $- in
+	*i*) ;;
+	*) return;;
+esac
+
 # logger helpers
 LOG_DEBUG() { printf "\e[0;34m[DEBUG] %s\e[0m\n" "$1" ; }
 LOG_INFO() { printf "\e[0;32m[INFO]  %s\e[0m\n" "$1" ; }
@@ -20,12 +26,6 @@ test_and_source() {
 		source "$path"
 	fi
 }
-
-# If not running interactively, don't do anything
-case $- in
-	*i*) ;;
-	*) return;;
-esac
 
 # don't put duplicate lines or lines starting with space in the history
 HISTCONTROL=ignoreboth
@@ -66,8 +66,7 @@ test_and_source "-f" "$HOME/.bash_aliases"
 
 # Default programs
 export EDITOR="nvim"
-export TERMINAL="kitty"
-export BROWSER="zen-browser"
+export BROWSER="firefox"
 
 
 # Keep $HOME clean start
@@ -83,7 +82,7 @@ export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
 export LESSHISTFILE="-"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/}/.z"
-export CDPATH=".:..:$HOME/Projects:$HOME"
+# export CDPATH=".:..:$HOME/Projects:$HOME"
 
 # elixir livebook start
 export LIVEBOOK_PORT="9999"
@@ -119,13 +118,6 @@ export MAILPATH="/var/spool/mail/$USER"
 # private tokens start
 test_and_source "-f" "$HOME/.tokens"
 # private tokens final
-
-# base16 shell start
-BASE16_SHELL="$HOME/.config/base16-shell"
-if [ -n "$PS1" ]; then
-    test_and_source "-s" "$BASE16_SHELL/profile_helper.sh"
-fi
-# base16-shell final
 
 # direnv start
 if hash direnv 2>/dev/null; then
@@ -225,8 +217,37 @@ __python_auto_activate_virtualenv() {
     fi
 }
 
+__load_kube_configs() {
+  # Start with the default config if it exists
+  if [ -f ~/.kube/config ]; then
+    KUBECONFIG=~/.kube/config
+  else
+    KUBECONFIG=""
+  fi
+
+  # Check if the configs directory exists
+  if [ -d ~/.kube/configs ]; then
+    # Iterate through all files in the configs directory
+    for config_file in ~/.kube/configs/*; do
+      # Make sure it's a file (not a directory)
+      if [ -f "$config_file" ]; then
+        # If KUBECONFIG is not empty, add a colon separator
+        if [ -n "$KUBECONFIG" ]; then
+          KUBECONFIG="$KUBECONFIG:$config_file"
+        else
+          KUBECONFIG="$config_file"
+        fi
+      fi
+    done
+  fi
+}
+
+  # Export the environment variable
+  export KUBECONFIG
+
 # prompt formatting start
 test_and_source "-r" "$HOME/.local/src/ps1_setup.sh"
 # prompt formatting final
 
 export PROMPT_COMMAND="$PROMPT_COMMAND __python_auto_activate_virtualenv; __setup_ps1; "
+alias claude="/home/heatmiser/.claude/local/claude"

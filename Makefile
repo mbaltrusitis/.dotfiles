@@ -114,6 +114,10 @@ unstow:
 	stow --delete tmux
 .PHONY: unstow
 
+ledger:
+	$(MAKE) -f ./Makefile.desktop ledger-live
+.PHONY: ledger
+
 help:
 	@echo "help yourself :P"
 .PHONY: help
