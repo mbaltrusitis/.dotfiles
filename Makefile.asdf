@@ -53,7 +53,7 @@ $(ASDF_INSTALL_PATH)/plugins/erlang:
 	LOG_INFO "Installing dependencies for $(notdir $@)"
 	sudo apt-get --yes install build-essential autoconf m4 libwxgtk3.2-dev libwxgtk-webview3.2-dev \
 		libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop \
-		libxml2-utils libncurses-dev openjdk-11-jdk
+		libxml2-utils libncurses5-dev default-jdk
 	LOG_INFO "Adding asdf plugin $(notdir $@)"
 	$(ASDF_CMD) plugin-add $(notdir $@)
 
