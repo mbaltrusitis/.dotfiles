@@ -58,7 +58,7 @@ download_github_release_artifact() {
 	local github_repo="$2"
 	local version=${4:-$(get_latest_github_release_version "$github_repo")}
 	local raw_artifact_name="$3"
-	local download_path_full="$1/$3"
+	local download_path_full="$download_dir/$raw_artifact_name"
 	# replace instances of $version with the $version variable
 	local artifact_name="${raw_artifact_name//\$version/$version}"
 
