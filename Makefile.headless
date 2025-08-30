@@ -26,8 +26,26 @@ DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
 # installers
-all: common 1password-cli asdf aws-cli bat borgmatic direnv eza fastfetch hexyl \
-	flyctl k9s net-tools nvim veracrypt woff-tools yq z
+all:: common
+all:: 1password-cli
+all:: asdf
+all:: aws-cli
+all:: bat
+all:: borgmatic
+all:: deadsnakes
+all:: direnv
+all:: eza
+all:: fastfetch
+all:: hexyl
+all:: flyctl
+all:: k9s
+all:: mkcert
+all:: net-tools
+all:: nvim
+all:: veracrypt
+all:: woff-tools
+all:: yq
+all:: z
 .PHONY: all
 
 common:: docker

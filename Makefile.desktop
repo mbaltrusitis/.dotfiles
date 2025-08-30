@@ -15,9 +15,28 @@ BASH_ENV := $(BASH_ENV)
 DOTFILE_DIR := $(DOTFILE_DIR)
 OS := $(OS)
 
-all: prepare 1password darktable discord easyeffects firefox flameshot gimp \
-	gnome-sushi gnome-tweaks kitty localsend mullvad nextcloud obsidian reaper \
-	signal slack vlc wl-clipboard zen
+all:: prepare
+all:: 1password
+all:: darktable
+all:: discord
+all:: easyeffects
+all:: firefox
+all:: flameshot
+all:: gimp
+all:: gnome-sushi
+all:: gnome-tweaks
+all:: kitty
+all:: localsend
+all:: mullvad
+all:: nextcloud
+all:: obsidian
+all:: reaper
+all:: signal
+all:: slack
+all:: spotify
+all:: vlc
+all:: wl-clipboard
+all:: zen
 .PHONY: all
 
 prepare: flatpak
