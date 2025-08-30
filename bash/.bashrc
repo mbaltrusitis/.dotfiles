@@ -178,6 +178,15 @@ if hash aws 2>/dev/null && [ -f '/usr/local/bin/aws_completer' ]; then
 fi
 # aws cli final
 
+# media // nas start
+if [[ -d "/mnt/heatnas/media/" ]]; then
+	export MEDIA_DIRECTORY="/mnt/heatnas/media/"
+	if [[ -d "/mnt/heatnas/media/video archive" ]]; then
+		export VIDEO_ARCHIVE_ROOT="/mnt/heatnas/media/video archive"
+	fi
+fi
+# media // nas final
+
 __python_auto_activate_virtualenv() {
     # get the first (alphabetically) .venv-* directory
     declare -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
