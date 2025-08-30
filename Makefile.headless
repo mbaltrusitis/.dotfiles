@@ -165,6 +165,20 @@ K9S_VERSION := 0.32.5
 		"v$(K9S_VERSION)"
 	sudo dpkg -i "/tmp/k9s/k9s_linux_amd64.deb"
 
+mkcert: /usr/local/bin/mkcert
+MKCERT_VERSION := 1.4.4
+MKCERT_ARTIFACT := mkcert-v$(MKCERT_VERSION)-linux-amd64
+.PHONY: mkcert
+/usr/local/bin/mkcert:
+	sudo apt-get install libnss3-tools
+	download_github_release_artifact \
+		"/tmp/mkcert" \
+		"https://github.com/FiloSottile/mkcert" \
+		"mkcert-v$(MKCERT_VERSION)-linux-amd64" \
+		"v$(MKCERT_VERSION)"
+	sudo chmod +x /tmp/mkcert/$(MKCERT_ARTIFACT)
+	sudo cp "/tmp/mkcert/$(MKCERT_ARTIFACT)" /usr/local/bin/mkcert
+
 net-tools:
 	sudo apt-get install net-tools
 .PHONY: net-tools
