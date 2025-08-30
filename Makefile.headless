@@ -96,6 +96,10 @@ borgmatic: /usr/bin/borgmatic
 /usr/bin/borgmatic:
 	sudo apt-get install --yes borgmatic
 
+deadsnakes: /etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:
+	sudo add-apt-repository ppa:deadsnakes/ppa
+
 direnv: /usr/local/bin/direnv
 DIRENV_VERSION := 2.34.0
 /usr/local/bin/direnv:
