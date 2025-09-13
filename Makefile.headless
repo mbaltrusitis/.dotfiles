@@ -158,13 +158,17 @@ hexyl: /usr/bin/hexyl
 HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/sharkdp/hexyl/releases/latest' | cut -d'/' -f8)
 /usr/bin/hexyl:
 	LOG_INFO "Installing hexyl version: $(HEXYL_VERSION)"
-	DOWNLOAD_DIR=$(shell mktemp -d)
 	download_github_release_artifact \
-		$(DOWNLOAD_DIR) \
+		"/tmp/hexyl" \
 		"https://github.com/sharkdp/hexyl" \
 		"hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb" \
-		"v$(HEXYL_VERSION)"
-	sudo dpkg -i "$(DOWNLOAD_DIR)/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
+		"$(HEXYL_VERSION)"
+	sudo dpkg -i "/tmp/hexyl/hexyl_$(HEXYL_VERSION:v%=%)_amd64.deb"
+# 	download_github_release_artifact \
+# 		"/tmp/direnv" \
+# 		"https://github.com/direnv/direnv" \
+# 		"direnv.linux-amd64" \
+# 		"v2.34.0"
 
 httpie: /usr/bin/http
 .PHONY: httpie
