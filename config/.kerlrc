@@ -1,0 +1,33 @@
+# .kerlrc - Kerl configuration file
+# This file configures kerl (Erlang/OTP build tool) options
+
+# Always install documentation
+KERL_INSTALL_MANPAGES=yes
+KERL_INSTALL_HTMLDOCS=yes
+
+# Build configuration options
+KERL_BUILD_DOCS=yes
+
+# Configure documentation formats to build
+KERL_DOC_TARGETS="chunks html"
+
+# Debian/Ubuntu optimized configure options for development desktop
+KERL_CONFIGURE_OPTIONS="--enable-smp-support \
+  --enable-threads \
+  --enable-kernel-poll \
+  --enable-hipe \
+  --with-ssl \
+  --enable-dynamic-ssl-lib \
+  --enable-shared-zlib \
+  --disable-silent-rules \
+  --with-microstate-accounting=extra \
+  --enable-jit \
+  --with-assumed-cache-line-size=64 \
+  --enable-dirty-schedulers \
+  --enable-wx \
+  --with-javac \
+  --with-odbc"
+
+# Additional build options
+KERL_BUILD_PLT=yes
+KERL_USE_AUTOCONF=yes
