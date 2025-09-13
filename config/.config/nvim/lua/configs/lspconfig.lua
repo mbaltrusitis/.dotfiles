@@ -20,7 +20,7 @@ local servers = {
 	pyright = {},
 	rust_analyzer = {},
 	tailwindcss = {},
-	tsserver = {},
+	ts_ls = {},
 }
 
 for name, opts in pairs(servers) do

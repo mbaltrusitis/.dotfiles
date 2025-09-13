@@ -178,6 +178,7 @@ if hash aws 2>/dev/null && [ -f '/usr/local/bin/aws_completer' ]; then
 fi
 # aws cli final
 
+<<<<<<< HEAD
 # media // nas start
 if [[ -d "/mnt/heatnas/media/" ]]; then
 	export MEDIA_DIRECTORY="/mnt/heatnas/media/"
@@ -186,6 +187,13 @@ if [[ -d "/mnt/heatnas/media/" ]]; then
 	fi
 fi
 # media // nas final
+=======
+# claude code start
+if [ -x $HOME/.claude/local/claude ]; then
+	alias claude="$HOME/.claude/local/claude"
+fi
+# claude code final
+>>>>>>> fe08914 (chore: 24.04 updates)
 
 __python_auto_activate_virtualenv() {
     # get the first (alphabetically) .venv-* directory

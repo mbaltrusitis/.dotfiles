@@ -19,7 +19,16 @@ ASDF_VERSION := 0.13.1
 ASDF_INSTALL_PATH ?= $(HOME)/.asdf
 ASDF_CMD := $(ASDF_INSTALL_PATH)/bin/asdf
 
-all: asdf asdf-plugins
+# global config options
+ELIXIR_VERSION := 1.18.4-otp-26
+ERLANG_VERSION := 26.2.5.14
+GOLANG_VERSION := 1.24.6
+NIM_VERSION := 2.0.8
+NODEJS_VERSION := 22.19.0
+PRECOMMIT_VERSION := 3.7.1
+REBAR_VERSION := 3.25.1
+
+all: asdf asdf-plugins asdf-global-config
 
 asdf: $(HOME)/.asdf
 
@@ -33,6 +42,21 @@ $(ASDF_INSTALL_PATH):
 ASDF_PLUGINS_LIST := elixir erlang golang nim nodejs php pre-commit rabbitmq rebar zig
 
 asdf-plugins: $(ASDF_PLUGINS_LIST)
+asdf-global-config: asdf-plugins
+	asdf install nodejs $(NODEJS_VERSION)
+	asdf global nodejs $(NODEJS_VERSION)
+	asdf install erlang $(ERLANG_VERSION)
+	asdf global erlang $(ERLANG_VERSION)
+	asdf install elixir $(ELIXIR_VERSION)
+	asdf global elixir $(ELIXIR_VERSION)
+	asdf install nim $(NIM_VERSION)
+	asdf global nim $(NIM_VERSION)
+	asdf install pre-commit $(PRECOMMIT_VERSION)
+	asdf global pre-commit $(PRECOMMIT_VERSION)
+	asdf install rebar $(REBAR_VERSION)
+	asdf global rebar $(REBAR_VERSION)
+	asdf install golang $(GOLANG_VERSION)
+	asdf global golang $(GOLANG_VERSION)
 
 elixir: $(ASDF_INSTALL_PATH)/plugins/elixir
 .PHONY: elixir

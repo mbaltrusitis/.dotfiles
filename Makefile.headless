@@ -42,6 +42,7 @@ all:: k9s
 all:: mkcert
 all:: net-tools
 all:: nvim
+all:: sanoid
 all:: veracrypt
 all:: woff-tools
 all:: yq
@@ -223,7 +224,9 @@ net-tools:
 .PHONY: net-tools
 
 # neovim start
-NVIM_VERSION := 0.10.0
+NVIM_VERSION := 0.11.2
+NVIM_ARCHIVE := nvim-linux-x86_64.tar.gz
+NVIM_HASH := a9b24157672eb218ff3e33ef3f8c08db26f8931c5c04bdb0e471371dd1dfe63e
 nvim: link-nvim
 	LOG_INFO "Setting NeoVim as preferred editor"
 	sudo update-alternatives --install /usr/bin/editor editor \
@@ -239,35 +242,33 @@ unlink-nvim:
 	@maybe_unlink_link "$(HOME)/.local/share/applications/nvim.desktop"
 .PHONY: unlink-nvim
 
-link-nvim: _build/nvim-linux64
-	sudo ln -sf "$$PWD/_build/nvim-linux64/bin/nvim" "/usr/local/bin/nvim"
-	sudo ln -sf "$$PWD/_build/nvim-linux64/lib/nvim" "/usr/local/lib/nvim"
-	sudo ln -sf "$$PWD/_build/nvim-linux64/share/nvim" "/usr/local/share/"
+link-nvim: _build/nvim-linux-x86_64
+	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/bin/nvim" "/usr/local/bin/nvim"
+	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/lib/nvim" "/usr/local/lib/nvim"
+	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/share/nvim" "/usr/local/share/"
 	sudo mkdir -p "/usr/local/share/man/man1"
-	sudo ln -sf "$$PWD/_build/nvim-linux64/share/man/man1/nvim.1" \
+	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/share/man/man1/nvim.1" \
 		"/usr/local/share/man/man1/nvim.1"
 	mkdir -p "$(HOME)/.local/share/applications/"
-	ln -sf "$$PWD/_build/nvim-linux64/share/applications/nvim.desktop" \
+	ln -sf "$$PWD/_build/nvim-linux-x86_64/share/applications/nvim.desktop" \
 		"$(HOME)/.local/share/applications/"
 .PHONY: link-nvim
 
-_build/nvim-linux64: validate-nvim-download
-	pushd ./_build && tar -xzf nvim-linux64.tar.gz
+# _build/nvim-linux-x86_64: validate-nvim-download
+_build/nvim-linux-x86_64: fetch-nvim
+	echo "here"
+	pushd ./_build && tar -xzf $(NVIM_ARCHIVE)
 
-validate-nvim-download: fetch-nvim
-	pushd ./_build && sha256sum -c nvim-linux64.tar.gz.sha256sum || exit 1
-.PHONY: validate-nvim-download
+# validate-nvim-download: fetch-nvim
+# 	$(shell sha256sum --check <(echo "$(NVIM_HASH) _build/$(NVIM_ARCHIVE)"))
+# .PHONY: validate-nvim-download
 
-fetch-nvim: _build/nvim-linux64.tar.gz.sha256sum _build/nvim-linux.tar.gz
+fetch-nvim: _build/$(NVIM_ARCHIVE)
 .PHONY: fetch-nvim
 
-_build/nvim-linux64.tar.gz.sha256sum: _build
-	curl -sSLo _build/nvim-linux64.tar.gz.sha256sum \
-		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz.sha256sum'
-
-_build/nvim-linux.tar.gz: _build
-	curl -sSLo _build/nvim-linux64.tar.gz \
-		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux64.tar.gz'
+_build/$(NVIM_ARCHIVE): _build
+	curl -sSLo _build/nvim-linux-x86_64.tar.gz \
+		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/$(NVIM_ARCHIVE)'
 # neovim final
 
 /usr/bin/op:
@@ -288,6 +289,10 @@ _build/nvim-linux.tar.gz: _build
 ripgrep: /usr/bin/rg
 /usr/bin/rg:
 	sudo apt-get install --yes ripgrep
+
+sanoid: /usr/bin/sanoid
+/usr/bin/sanoid:
+	sudo apt-get install --yes sanoid
 
 tldr: /usr/bin/tldr
 /usr/bin/tldr:

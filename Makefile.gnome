@@ -28,9 +28,13 @@ prepare: pipx gnome-extension-manager gext
 	LOG_WARNING "You will need to manually confirm each GNOME extension install..."
 
 pipx: /usr/bin/pipx
+.PHONY: pipx
+/usr/bin/pipx:
 	sudo apt-get install --yes pipx
 
 gnome-extension-manager: /usr/bin/extension-manager
+.PHONY: gnome-extension-manager
+/usr/bin/extension-manager:
 	sudo apt-get install --yes gnome-shell-extension-manager
 
 gext: $(HOME)/.local/bin/gext

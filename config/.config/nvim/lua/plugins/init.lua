@@ -140,25 +140,25 @@ local plugins = {
 		-- 	require "custom.configs.cmp"
 		-- end
 	},
-	{
-		"jackMort/ChatGPT.nvim",
-		event = "VeryLazy",
-		opts = {
-			chat = {
-				keymaps = {
-					close = { "<C-x>"},
-				},
-			},
-		},
-		config = function(_, opts)
-			require("chatgpt").setup(opts)
-		end,
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim"
-		}
-	},
+	-- {
+	-- 	"jackMort/ChatGPT.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = {
+	-- 		chat = {
+	-- 			keymaps = {
+	-- 				close = { "<C-x>"},
+	-- 			},
+	-- 		},
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		require("chatgpt").setup(opts)
+	-- 	end,
+	-- 	dependencies = {
+	-- 		"MunifTanjim/nui.nvim",
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"nvim-telescope/telescope.nvim"
+	-- 	}
+	-- },
 	{
 		"olexsmir/gopher.nvim",
 		ft = "go",

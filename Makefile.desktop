@@ -36,7 +36,7 @@ all:: slack
 all:: spotify
 all:: vlc
 all:: wl-clipboard
-all:: zen
+all:: zeal
 .PHONY: all
 
 prepare: flatpak
@@ -194,14 +194,15 @@ nextcloud-desktop: /usr/bin/nextcloud
 
 obsidian: /usr/bin/obsidian
 OBSIDIAN_DOWNLOAD_DIR := /tmp/obsidian
-OBSIDIAN_VERSION := 1.8.10
+OBSIDIAN_VERSION := 1.9.12
 OBSIDIAN_DEB_NAME := "obsidian_$(OBSIDIAN_VERSION)_amd64.deb"
 /usr/bin/obsidian:
 	download_github_release_artifact \
 		"$(OBSIDIAN_DOWNLOAD_DIR)" \
 		"https://github.com/obsidianmd/obsidian-releases" \
-		"$(OBSIDIAN_DEB_NAME)"
-	sudo dpkg --install "$(OBSIDIAN_DEB_NAME)"
+		"$(OBSIDIAN_DEB_NAME)" \
+		"v$(OBSIDIAN_VERSION)"
+	sudo dpkg --install "$(OBSIDIAN_DOWNLOAD_DIR)/$(OBSIDIAN_DEB_NAME)"
 	rm -fr $(OBSIDIAN_DOWNLOAD_DIR)
 
 reaper: /var/lib/flatpak/app/fm.reaper.Reaper
@@ -258,9 +259,8 @@ wl-clipboard: /usr/bin/wl-copy /usr/bin/wl-paste
 /usr/bin/wl-copy /usr/bin/wl-paste:
 	sudo apt-get install --yes wl-clipboard
 
-zen: /var/lib/flatpak/app/app.zen_browser.zen
-.PHONY: zen
+zeal: /var/lib/flatpak/app/org.zealdocs.Zeal
+.PHONY: zeal
 
-/var/lib/flatpak/app/app.zen_browser.zen:
-	flatpak install --noninteractive "app.zen_browser.zen"
-	sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser "/var/lib/flatpak/exports/share/applications/app.zen_browser.zen.desktop" 100
+/var/lib/flatpak/app/org.zealdocs.Zeal:
+	flatpak install --noninteractive "org.zealdocs.Zeal"
