@@ -347,7 +347,9 @@ woff-tools: /usr/bin/sfnt2woff /usr/bin/woff2sfnt
 	sudo apt-get install woff-tools
 .PHONY: woff-tools
 
-yq:
+yq: /usr/local/bin/yq
+.PHONY: yq
+/usr/local/bin/yq:
 	download_github_release_artifact \
 		"/tmp/yq" \
 		"https://github.com/mikefarah/yq" \
@@ -356,7 +358,6 @@ yq:
 	chmod +x "/tmp/yq/yq_linux_amd64"
 	sudo mv /tmp/yq/yq_linux_amd64 /usr/local/bin/yq
 	rm -rf /tmp/yq
-.PHONY: yq
 
 yt-dl: /usr/local/bin/yt-dl
 YT_DL_VERSION := "2025.04.30"
