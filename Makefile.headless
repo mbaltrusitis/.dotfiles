@@ -32,6 +32,7 @@ all:: asdf
 all:: aws-cli
 all:: bat
 all:: borgmatic
+all:: cosign
 all:: deadsnakes
 all:: direnv
 all:: eza
@@ -114,6 +115,17 @@ borgbackup: /usr/bin/borgbackup
 borgmatic: /usr/bin/borgmatic
 /usr/bin/borgmatic:
 	sudo apt-get install --yes borgmatic
+
+COSIGN_VERSION := 3.0.2
+cosign: /usr/bin/cosign
+.PHONY: cosign
+/usr/bin/cosign:
+	@download_github_release_artifact \
+		"/tmp/cosign" \
+		"https://github.com/sigstore/cosign" \
+		"cosign_$(COSIGN_VERSION:v%=%)_amd64.deb" \
+		"v$(COSIGN_VERSION)"
+	sudo dpkg -i "/tmp/cosign/cosign_$(COSIGN_VERSION:v%=%)_amd64.deb"
 
 deadsnakes: /etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources
 /etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:
