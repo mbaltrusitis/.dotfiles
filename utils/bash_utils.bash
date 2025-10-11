@@ -65,13 +65,13 @@ download_github_release_artifact() {
 	mkdir -p "$download_dir"
 
 	LOG_INFO "Downloading version $version of $artifact_name to $download_path_full"
-	declare -r download_target="$github_repo/releases/download/$version/$artifact_name"
-	if curl -sSLo "$download_path_full" "$download_target"; then
+	readonly download_target="$github_repo/releases/download/$version/$artifact_name"
+	if curl -fsSLo "$download_path_full" "$download_target"; then
 		LOG_INFO "Successfully downloaded $artifact_name to $download_path"
 		return 0
 	else
-		LOG_ERROR "Failed to download $artifact_name"
-		return 1
+		LOG_ERROR "Failed to download $artifact_name from $download_target"
+		exit 1
 	fi
 }
 
