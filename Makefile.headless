@@ -38,6 +38,7 @@ all:: direnv
 all:: eza
 all:: fastfetch
 all:: hexyl
+all:: fd-find
 all:: flyctl
 all:: k9s
 all:: mkcert
@@ -182,6 +183,7 @@ HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/shar
 # 		"direnv.linux-amd64" \
 # 		"v2.34.0"
 
+
 httpie: /usr/bin/http
 .PHONY: httpie
 
@@ -196,6 +198,11 @@ httpie: /usr/bin/http
 /etc/apt/sources.list.d/httpie.list:
 	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" \
 		| sudo tee /etc/apt/sources.list.d/httpie.list
+
+fd-find: /usr/bin/fd
+/usr/bin/fd:
+	sudo apt-get install --yes fd-find
+
 
 flyctl: $(FLYCTL_INSTALL_PREFIX)
 .PHONY: flyctl
@@ -272,7 +279,6 @@ link-nvim: _build/nvim-linux-x86_64
 
 # _build/nvim-linux-x86_64: validate-nvim-download
 _build/nvim-linux-x86_64: fetch-nvim
-	echo "here"
 	pushd ./_build && tar -xzf $(NVIM_ARCHIVE)
 
 # validate-nvim-download: fetch-nvim

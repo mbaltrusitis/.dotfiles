@@ -3,6 +3,10 @@ if hash nvim 2>/dev/null; then
 	alias vim='nvim'
 fi
 
+if hash fdfind 2>/dev/null; then
+	alias fd='fdfind'
+fi
+
 # git alias shortcuts
 alias ga='git add -p'
 alias gaa='git add '
