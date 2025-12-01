@@ -72,7 +72,8 @@ test_and_source "-f" "$HOME/.bash_aliases"
 
 # Default programs
 export EDITOR="nvim"
-export BROWSER="firefox"
+export TERMINAL="kitty"
+export BROWSER="/usr/bin/firefox --ProfileManager"
 
 # Keep $HOME clean start
 export XDG_CONFIG_HOME="$HOME/.config"
