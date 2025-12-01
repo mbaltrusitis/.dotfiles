@@ -86,6 +86,14 @@ headless:
 	$(MAKE) -f ./Makefile.headless
 .PHONY: headless
 
+asdf:
+	$(MAKE) -f ./Makefile.asdf
+.PHONY: asdf
+
+ai:
+	$(MAKE) -f ./Makefile.ai
+.PHONY: ai
+
 macos:
 	LOG_ERROR "Unsupported platform"
 	exit 1
