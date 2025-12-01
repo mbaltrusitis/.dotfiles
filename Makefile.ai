@@ -1,0 +1,10 @@
+# This file manages the installation of the AI tooling.
+
+.ONESHELL:
+SHELL := /bin/bash
+.SHELLFLAGS := $(DOTSHELLFLAGS)
+
+claude-code: $(HOME)/.claude/local/claude
+	npm install -g @anthropic-ai/claude-code
+	LOG_INFO "You will want to migrate the installer after a fresh install"
+# vim: filetype=make
