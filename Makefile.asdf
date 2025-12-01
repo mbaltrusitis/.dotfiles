@@ -76,81 +76,80 @@ erlang: $(ASDF_INSTALL_PATH)/plugins/erlang
 
 $(ASDF_INSTALL_PATH)/plugins/erlang:
 	# https://github.com/asdf-vm/asdf-erlang
-	LOG_INFO "Installing dependencies for $(notdir $@)"
+	@LOG_INFO "Installing dependencies for $(notdir $@)"
 	sudo apt-get --yes install build-essential autoconf m4 libwxgtk3.2-dev libwxgtk-webview3.2-dev \
 		libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop \
 		libxml2-utils libncurses5-dev default-jdk
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 golang: $(ASDF_INSTALL_PATH)/plugins/golang
 .PHONY: golang
 
 $(ASDF_INSTALL_PATH)/plugins/golang:
 	# https://github.com/asdf-community/asdf-golang
-	LOG_INFO "Installing dependencies for $(notdir $@)"
+	@LOG_INFO "Installing dependencies for $(notdir $@)"
 	sudo apt-get --yes install coreutils curl
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 nim: $(ASDF_INSTALL_PATH)/plugins/nim
 .PHONY: nim
 
 $(ASDF_INSTALL_PATH)/plugins/nim:
 	# https://github.com/asdf-community/asdf-nim
-	LOG_INFO "Installing dependencies for $(notdir $@)"
+	@LOG_INFO "Installing dependencies for $(notdir $@)"
 	sudo apt-get --yes install build-essential xz-utils
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 nodejs: $(ASDF_INSTALL_PATH)/plugins/nodejs
 .PHONY: nodejs
 
 $(ASDF_INSTALL_PATH)/plugins/nodejs:
 	# https://github.com/asdf-vm/asdf-nodejs
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 php: $(ASDF_INSTALL_PATH)/plugins/php
 .PHONY: php
 
 $(ASDF_INSTALL_PATH)/plugins/php:
 	# https://github.com/asdf-community/asdf-php
-	LOG_INFO "Installing dependencies for $(notdir $@)"
+	@LOG_INFO "Installing dependencies for $(notdir $@)"
 	sudo apt-get --yes install autoconf bison build-essential curl gettext git libgd-dev \
 		libcurl4-openssl-dev libedit-dev libicu-dev libjpeg-dev libmysqlclient-dev libonig-dev \
 		libpng-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libzip-dev \
 		openssl pkg-config re2c zlib1g-dev;
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 pre-commit: $(ASDF_INSTALL_PATH)/plugins/pre-commit
 .PHONY: pre-commit
 
 $(ASDF_INSTALL_PATH)/plugins/pre-commit:
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
-rabbitmq: $(ASDF_INSTALL_PATH)/plugins/rabbitmq
+rabbitmq: | $(ASDF_INSTALL_PATH)/plugins/rabbitmq
 .PHONY: rabbitmq
 
-$(ASDF_INSTALL_PATH)/plugins/rabbitmq: $(ASDF_INSTALL_PATH)/plugins/erlang
-	# https://github.com/w-sanches/asdf-rabbitmq
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+$(ASDF_INSTALL_PATH)/plugins/rabbitmq: | $(ASDF_INSTALL_PATH)/plugins/erlang
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 rebar: $(ASDF_INSTALL_PATH)/plugins/rebar
 .PHONY: rebar
 
-$(ASDF_INSTALL_PATH)/plugins/rebar: $(ASDF_INSTALL_PATH)/plugins/erlang
+$(ASDF_INSTALL_PATH)/plugins/rebar: | $(ASDF_INSTALL_PATH)/plugins/erlang
 	# https://github.com/Stratus3D/asdf-rebar
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 zig: $(ASDF_INSTALL_PATH)/plugins/zig
 .PHONY: zig
 
 $(ASDF_INSTALL_PATH)/plugins/zig:
 	# https://github.com/asdf-community/asdf-zig
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@) https://github.com/asdf-community/asdf-zig.git
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@) https://github.com/asdf-community/asdf-zig.git
