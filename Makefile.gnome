@@ -25,126 +25,145 @@ OS := $(OS)
 all: prepare install compile-schemas configure
 
 prepare: pipx gnome-extension-manager gext
-	LOG_WARNING "You will need to manually confirm each GNOME extension install..."
+	@LOG_WARNING "You will need to manually confirm each GNOME extension install..."
 
 pipx: /usr/bin/pipx
 .PHONY: pipx
 /usr/bin/pipx:
-	sudo apt-get install --yes pipx
+	@sudo apt-get install --yes pipx
 
 gnome-extension-manager: /usr/bin/extension-manager
 .PHONY: gnome-extension-manager
 /usr/bin/extension-manager:
-	sudo apt-get install --yes gnome-shell-extension-manager
+	@sudo apt-get install --yes gnome-shell-extension-manager
 
 gext: $(HOME)/.local/bin/gext
 .PHONY: gext
 
 $(HOME)/.local/bin/gext:
-	pipx install gnome-extensions-cli --system-site-packages
+	@pipx install gnome-extensions-cli --system-site-packages
 
 install: blur-my-shell just-perfection tactile
+.PHONY: install
 
 
 configure: blur-my-shell-configure gnome-configure hotkeys-configure just-perfection-configure \
 	tactile-configure
 .PHONY: configure
 
+# schema filenames (must be defined before handlers section)
+BLUR_MY_SHELL_SCHEMA := org.gnome.shell.extensions.blur-my-shell.gschema.xml
+JUST_PERFECTION_SCHEMA := org.gnome.shell.extensions.just-perfection.gschema.xml
+TACTILE_SCHEMA := org.gnome.shell.extensions.tactile.gschema.xml
+
 # handlers start
-compile-schemas:
-	sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+SCHEMA_DIR := /usr/share/glib-2.0/schemas
+COMPILED_SCHEMAS := $(SCHEMA_DIR)/gschemas.compiled
+
+compile-schemas: $(COMPILED_SCHEMAS)
 .PHONY: compile-schemas
+
+$(COMPILED_SCHEMAS): $(SCHEMA_DIR)/$(BLUR_MY_SHELL_SCHEMA) \
+                     $(SCHEMA_DIR)/$(JUST_PERFECTION_SCHEMA) \
+                     $(SCHEMA_DIR)/$(TACTILE_SCHEMA)
+	@sudo glib-compile-schemas $(SCHEMA_DIR)
 # handlers final
 
-blur-my-shell:
-	gext install blur-my-shell@aunetx
-	sudo cp --no-clobber \
-		$(HOME)/.local/share/gnome-shell/extensions/blur-my-shell\@aunetx/schemas/org.gnome.shell.extensions.blur-my-shell.gschema.xml \
-		/usr/share/glib-2.0/schemas/
+BLUR_MY_SHELL_EXT := $(HOME)/.local/share/gnome-shell/extensions/blur-my-shell@aunetx
+
+blur-my-shell: $(BLUR_MY_SHELL_EXT) /usr/share/glib-2.0/schemas/$(BLUR_MY_SHELL_SCHEMA)
 .PHONY: blur-my-shell
 
-blur-my-shell-configure:
-	LOG_INFO "Configuring 'blur-my-shell' settings"
-	gsettings set org.gnome.shell.extensions.blur-my-shell.appfolder blur false
-	gsettings set org.gnome.shell.extensions.blur-my-shell.lockscreen blur false
-	gsettings set org.gnome.shell.extensions.blur-my-shell.screenshot blur false
-	gsettings set org.gnome.shell.extensions.blur-my-shell.window-list blur false
-	gsettings set org.gnome.shell.extensions.blur-my-shell.panel blur false
-	gsettings set org.gnome.shell.extensions.blur-my-shell.overview blur true
-	# gsettings set org.gnome.shell.extensions.blur-my-shell.overview pipeline 'pipeline_default'
-	gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock blur true
-	gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock brightness 0.6
-	gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock sigma 30
-	gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock static-blur true
-	gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock style-dash-to-dock 0
+$(BLUR_MY_SHELL_EXT):
+	@gext install blur-my-shell@aunetx
+
+/usr/share/glib-2.0/schemas/$(BLUR_MY_SHELL_SCHEMA): $(BLUR_MY_SHELL_EXT)/schemas/$(BLUR_MY_SHELL_SCHEMA)
+	@sudo cp $(BLUR_MY_SHELL_EXT)/schemas/$(BLUR_MY_SHELL_SCHEMA) /usr/share/glib-2.0/schemas/
+
+blur-my-shell-configure: blur-my-shell
+	@LOG_DEBUG "Configuring 'blur-my-shell' settings"
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.appfolder blur false
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.lockscreen blur false
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.screenshot blur false
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.window-list blur false
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.panel blur false
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.overview blur true
+	# @gsettings set org.gnome.shell.extensions.blur-my-shell.overview pipeline 'pipeline_default'
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock blur true
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock brightness 0.6
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock sigma 30
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock static-blur true
+	@gsettings set org.gnome.shell.extensions.blur-my-shell.dash-to-dock style-dash-to-dock 0
 .PHONY: blur-my-shell-configure
 
 gnome-configure:
-	# center newly created windows
-	gsettings set org.gnome.mutter center-new-windows true
-	gsettings set org.gnome.desktop.interface monospace-font-name 'PragmataPro Liga 10'
-	# show week numbers in gnome calender widget
-	gsettings set org.gnome.desktop.calendar show-weekdate true
+	@gsettings set org.gnome.mutter center-new-windows true
+	@gsettings set org.gnome.desktop.interface monospace-font-name 'PragmataPro Liga 10'
+	@gsettings set org.gnome.desktop.calendar show-weekdate true
+	@gsettings set org.gnome.desktop.interface clock-show-seconds true
 .PHONY: gnome-configure
 
 hotkeys-configure:
-	LOG_INFO "Setting GNOME hotkeys"
+	@LOG_DEBUG "Setting GNOME hotkeys"
 	# unset dash-to-dock
-	gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
+	@gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
 	# unset favorite applications
-	gsettings set org.gnome.shell.keybindings switch-to-application-1 "[]"
-	gsettings set org.gnome.shell.keybindings switch-to-application-2 "[]"
-	gsettings set org.gnome.shell.keybindings switch-to-application-3 "[]"
-	gsettings set org.gnome.shell.keybindings switch-to-application-4 "[]"
-	gsettings set org.gnome.shell.keybindings switch-to-application-5 "[]"
+	@gsettings set org.gnome.shell.keybindings switch-to-application-1 "[]"
+	@gsettings set org.gnome.shell.keybindings switch-to-application-2 "[]"
+	@gsettings set org.gnome.shell.keybindings switch-to-application-3 "[]"
+	@gsettings set org.gnome.shell.keybindings switch-to-application-4 "[]"
+	@gsettings set org.gnome.shell.keybindings switch-to-application-5 "[]"
 	# window management
-	gsettings set org.gnome.desktop.wm.keybindings always-on-top "['<Ctrl><Alt><Shift><Super>t']"
+	@gsettings set org.gnome.desktop.wm.keybindings always-on-top "['<Ctrl><Alt><Shift><Super>t']"
 	# workspace navigation
-	gsettings set org.gnome.mutter dynamic-workspaces false
-	gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
-	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>1']"
-	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2']"
-	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"
-	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']"
-	gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>5']"
+	@gsettings set org.gnome.mutter dynamic-workspaces false
+	@gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
+	@gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>1']"
+	@gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2']"
+	@gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"
+	@gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']"
+	@gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>5']"
 	# only show windows and apps for active workspace
-	gsettings set org.gnome.shell.window-switcher current-workspace-only true
-	gsettings set org.gnome.shell.app-switcher current-workspace-only true
+	@gsettings set org.gnome.shell.window-switcher current-workspace-only true
+	@gsettings set org.gnome.shell.app-switcher current-workspace-only true
 
 	# move windows to workspace
-	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Super><Shift>1']"
-	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Super><Shift>2']"
-	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Super><Shift>3']"
-	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Super><Shift>4']"
-	gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<Super><Shift>5']"
+	@gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Super><Shift>1']"
+	@gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Super><Shift>2']"
+	@gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Super><Shift>3']"
+	@gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Super><Shift>4']"
+	@gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<Super><Shift>5']"
 .PHONY: hotkeys-configure
 
-just-perfection:
-	gext install just-perfection-desktop@just-perfection
-	sudo cp --no-clobber \
-		$(HOME)/.local/share/gnome-shell/extensions/just-perfection-desktop@just-perfection/schemas/org.gnome.shell.extensions.just-perfection.gschema.xml \
-		/usr/share/glib-2.0/schemas/
+JUST_PERFECTION_EXT := $(HOME)/.local/share/gnome-shell/extensions/just-perfection-desktop@just-perfection
+
+just-perfection: $(JUST_PERFECTION_EXT) /usr/share/glib-2.0/schemas/$(JUST_PERFECTION_SCHEMA)
 .PHONY: just-perfection
 
+$(JUST_PERFECTION_EXT):
+	@gext install just-perfection-desktop@just-perfection
+
+/usr/share/glib-2.0/schemas/$(JUST_PERFECTION_SCHEMA): $(JUST_PERFECTION_EXT)/schemas/$(JUST_PERFECTION_SCHEMA)
+	@sudo cp $< $@
+
 just-perfection-configure: just-perfection
-	LOG_INFO "Configuring 'just-perfection' settings"
-	gsettings set org.gnome.shell.extensions.just-perfection animation 2
+	@LOG_DEBUG "Configuring 'just-perfection' settings"
+	@gsettings set org.gnome.shell.extensions.just-perfection animation 2
 .PHONY: just-perfection-configure
 
-tactile:
-	gext install tactile@lundal.io
-	sudo cp --no-clobber \
-		$(HOME)/.local/share/gnome-shell/extensions/tactile@lundal.io/schemas/org.gnome.shell.extensions.tactile.gschema.xml \
-		/usr/share/glib-2.0/schemas/
+TACTILE_EXT := $(HOME)/.local/share/gnome-shell/extensions/tactile@lundal.io
+
+tactile: $(TACTILE_EXT) /usr/share/glib-2.0/schemas/$(TACTILE_SCHEMA)
 .PHONY: tactile
 
-tactile-configure: tactile
-	LOG_INFO "Configuring 'tactile' settings."
-	gsettings set org.gnome.shell.extensions.tactile show-tiles "['<Alt>t']"
-	gsettings set org.gnome.shell.extensions.tactile gap-size 4
-.PHONY: tactile-config
+$(TACTILE_EXT):
+	@gext install tactile@lundal.io
 
-set-wallpaper:
-	gsettings set org.gnome.desktop.background picture-uri
-	gsettings set org.gnome.desktop.background picture-uri-dark
-	gsettings set org.gnome.desktop.background picture-options 'zoom'
+/usr/share/glib-2.0/schemas/$(TACTILE_SCHEMA): $(TACTILE_EXT)/schemas/$(TACTILE_SCHEMA)
+	@sudo cp $< $@
+
+tactile-configure: tactile
+	@LOG_DEBUG "Configuring 'tactile' settings."
+	@gsettings set org.gnome.shell.extensions.tactile show-tiles "['<Alt>t']"
+	@gsettings set org.gnome.shell.extensions.tactile gap-size 4
+.PHONY: tactile-configure
