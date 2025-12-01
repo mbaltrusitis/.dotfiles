@@ -39,11 +39,11 @@ all:: direnv
 all:: eza
 all:: fastfetch
 all:: hexyl
-all:: fd-find
+all:: fd
 all:: flyctl
 all:: k9s
 all:: mkcert
-all:: net-tools
+all:: networking-tools
 all:: nvim
 all:: sanoid
 all:: veracrypt
@@ -73,8 +73,8 @@ docker: /usr/bin/docker
 	sudo apt-get install --yes docker.io docker-compose-v2 docker-buildx
 
 1password-cli: /usr/bin/op
-	if [ -n "$$OP_SERVICE_ACCOUNT_TOKEN" ]; then \
-		LOG_INFO "1PW service account token is set. Continuing."; \
+	@if [ -n "$$OP_SERVICE_ACCOUNT_TOKEN" ]; then \
+		LOG_DEBUG "1PW service account token is set. Continuing."; \
 	else \
 		LOG_ERROR "Set OP_SERVICE_ACCOUNT_TOKEN before continuing. Halting."; \
 		exit 1; \
@@ -82,7 +82,7 @@ docker: /usr/bin/docker
 .PHONY: 1password-cli
 
 asdf:
-	$(MAKE) -f ./Makefile.asdf
+	@$(MAKE) -f ./Makefile.asdf
 .PHONY: asdf
 
 aws-cli: /usr/local/bin/aws
@@ -189,7 +189,6 @@ HEXYL_VERSION := $(shell curl -s -w '%{redirect_url}\n' 'https://github.com/shar
 # 		"direnv.linux-amd64" \
 # 		"v2.34.0"
 
-
 httpie: /usr/bin/http
 .PHONY: httpie
 
@@ -205,10 +204,11 @@ httpie: /usr/bin/http
 	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" \
 		| sudo tee /etc/apt/sources.list.d/httpie.list
 
-fd-find: /usr/bin/fd
-/usr/bin/fd:
-	sudo apt-get install --yes fd-find
+fd: /usr/bin/fdfind
+.PHONY: fd
 
+/usr/bin/fdfind:
+	sudo apt-get install --yes fd-find
 
 flyctl: $(FLYCTL_INSTALL_PREFIX)
 .PHONY: flyctl
@@ -248,20 +248,17 @@ MKCERT_ARTIFACT := mkcert-v$(MKCERT_VERSION)-linux-amd64
 	sudo chmod +x /tmp/mkcert/$(MKCERT_ARTIFACT)
 	sudo cp "/tmp/mkcert/$(MKCERT_ARTIFACT)" /usr/local/bin/mkcert
 
-net-tools:
-	sudo apt-get install net-tools
-.PHONY: net-tools
+networking-tools: /usr/sbin/arp /usr/sbin/ifconfig /usr/sbin/rarp /usr/sbin/nameif /usr/sbin/route /usr/sbin/plipconfig /usr/sbin/slattach /usr/sbin/mii-tool /usr/sbin/iptunnel /usr/sbin/ipmaddr
+/usr/sbin/arp /usr/sbin/ifconfig /usr/sbin/rarp /usr/sbin/nameif /usr/sbin/route /usr/sbin/plipconfig /usr/sbin/slattach /usr/sbin/mii-tool /usr/sbin/iptunnel /usr/sbin/ipmaddr:
+		sudo apt-get install net-tools
 
 # neovim start
 NVIM_VERSION := 0.11.2
-NVIM_ARCHIVE := nvim-linux-x86_64.tar.gz
+NVIM_ARCHIVE := nvim-$(NVIM_VERSION)-linux-x86_64.tar.gz
+NVIM_DIR := nvim-$(NVIM_VERSION)-linux-x86_64
 NVIM_HASH := a9b24157672eb218ff3e33ef3f8c08db26f8931c5c04bdb0e471371dd1dfe63e
-nvim: link-nvim
-	LOG_INFO "Setting NeoVim as preferred editor"
-	sudo update-alternatives --install /usr/bin/editor editor \
-		/usr/local/bin/nvim 100
-	sudo update-alternatives --set editor /usr/local/bin/nvim
-.PHONY: nvim
+
+nvim: _build/$(NVIM_DIR)/.linked
 
 unlink-nvim:
 	@maybe_unlink_link /usr/local/bin/nvim
@@ -271,32 +268,29 @@ unlink-nvim:
 	@maybe_unlink_link "$(HOME)/.local/share/applications/nvim.desktop"
 .PHONY: unlink-nvim
 
-link-nvim: _build/nvim-linux-x86_64
-	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/bin/nvim" "/usr/local/bin/nvim"
-	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/lib/nvim" "/usr/local/lib/nvim"
-	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/share/nvim" "/usr/local/share/"
+_build/$(NVIM_DIR)/.linked: _build/$(NVIM_DIR)
+	sudo ln -sf "$$PWD/_build/$(NVIM_DIR)/bin/nvim" "/usr/local/bin/nvim"
+	sudo ln -sf "$$PWD/_build/$(NVIM_DIR)/lib/nvim" "/usr/local/lib/nvim"
+	sudo ln -sf "$$PWD/_build/$(NVIM_DIR)/share/nvim" "/usr/local/share/"
 	sudo mkdir -p "/usr/local/share/man/man1"
-	sudo ln -sf "$$PWD/_build/nvim-linux-x86_64/share/man/man1/nvim.1" \
+	sudo ln -sf "$$PWD/_build/$(NVIM_DIR)/share/man/man1/nvim.1" \
 		"/usr/local/share/man/man1/nvim.1"
 	mkdir -p "$(HOME)/.local/share/applications/"
-	ln -sf "$$PWD/_build/nvim-linux-x86_64/share/applications/nvim.desktop" \
+	ln -sf "$$PWD/_build/$(NVIM_DIR)/share/applications/nvim.desktop" \
 		"$(HOME)/.local/share/applications/"
-.PHONY: link-nvim
+	LOG_INFO "Setting NeoVim as preferred editor"
+	sudo update-alternatives --install /usr/bin/editor editor \
+		/usr/local/bin/nvim 100
+	sudo update-alternatives --set editor /usr/local/bin/nvim
+	touch $@
 
-# _build/nvim-linux-x86_64: validate-nvim-download
-_build/nvim-linux-x86_64: fetch-nvim
-	pushd ./_build && tar -xzf $(NVIM_ARCHIVE)
+_build/$(NVIM_DIR): _build/$(NVIM_ARCHIVE)
+	tar -xzf _build/$(NVIM_ARCHIVE) -C _build
+	mv _build/nvim-linux-x86_64 _build/$(NVIM_DIR)
 
-# validate-nvim-download: fetch-nvim
-# 	$(shell sha256sum --check <(echo "$(NVIM_HASH) _build/$(NVIM_ARCHIVE)"))
-# .PHONY: validate-nvim-download
-
-fetch-nvim: _build/$(NVIM_ARCHIVE)
-.PHONY: fetch-nvim
-
-_build/$(NVIM_ARCHIVE): _build
-	curl -sSLo _build/nvim-linux-x86_64.tar.gz \
-		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/$(NVIM_ARCHIVE)'
+_build/$(NVIM_ARCHIVE): | _build
+	curl -sSLo _build/$(NVIM_ARCHIVE) \
+		'https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux-x86_64.tar.gz'
 # neovim final
 
 /usr/bin/op:
@@ -318,8 +312,8 @@ ripgrep: /usr/bin/rg
 /usr/bin/rg:
 	sudo apt-get install --yes ripgrep
 
-sanoid: /usr/bin/sanoid
-/usr/bin/sanoid:
+sanoid: /usr/sbin/sanoid
+/usr/sbin/sanoid:
 	sudo apt-get install --yes sanoid
 
 tldr: /usr/bin/tldr
