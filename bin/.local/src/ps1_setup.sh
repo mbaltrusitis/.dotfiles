@@ -8,7 +8,7 @@
 #       the custom prompt without polluting your shell's namespace
 __setup_ps1() {
 
-    typeset -r default_background="\e[40m"
+    typeset -r default_background="\e[49m"
     typeset -r default_font_color="\e[30m"
     typeset theme_background
     typeset theme_font_color
@@ -34,7 +34,7 @@ __setup_ps1() {
     put_ps1_start() {
         local ps1_start
         ps1_start+="\n"
-        ps1_start+="\[\e[40m\]\[\e[35m\]" # set background to black, set text to purple"
+        ps1_start+="\[\e[49m\]\[\e[35m\]" # set background to default/transparent, set text to purple
         ps1_start+="╭╴"
         printf "%s" "$ps1_start"
     }
