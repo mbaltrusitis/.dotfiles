@@ -32,6 +32,7 @@ all:: asdf
 all:: aws-cli
 all:: bat
 all:: borgmatic
+all:: cbonsai
 all:: cosign
 all:: deadsnakes
 all:: direnv
@@ -116,6 +117,11 @@ borgbackup: /usr/bin/borgbackup
 borgmatic: /usr/bin/borgmatic
 /usr/bin/borgmatic:
 	sudo apt-get install --yes borgmatic
+
+cbonsai: /usr/games/cbonsai
+/usr/games/cbonsai:
+	sudo apt-get install --yes cbonsai
+.PHONY: cbonsai
 
 COSIGN_VERSION := 3.0.2
 cosign: /usr/bin/cosign
