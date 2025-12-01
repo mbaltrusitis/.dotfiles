@@ -95,7 +95,7 @@ easyeffects: /var/lib/flatpak/app/com.github.wwmm.easyeffects
 # firefox start
 firefox: /usr/bin/firefox
 
-/usr/bin/firefox: /etc/apt/keyrings/packages.mozilla.org.asc /etc/apt/sources.list.d/mozilla.list /etc/apt/preferences.d/mozilla
+/usr/bin/firefox: | /etc/apt/keyrings/packages.mozilla.org.asc /etc/apt/sources.list.d/mozilla.list /etc/apt/preferences.d/mozilla
 	sudo apt-get update
 	# adds the `--allow-downgrade` flag to sidestep snap shenanigans
 	sudo apt-get install --yes --allow-downgrades firefox
@@ -170,7 +170,7 @@ gnome-tweaks: /usr/bin/gnome-tweaks
 mullvad: /usr/bin/mullvad
 .PHONY: mullvad
 
-/usr/bin/mullvad: /usr/share/keyrings/mullvad-keyring.asc /etc/apt/sources.list.d/mullvad.list
+/usr/bin/mullvad: | /usr/share/keyrings/mullvad-keyring.asc /etc/apt/sources.list.d/mullvad.list
 	sudo apt-get update
 	sudo apt-get install --yes mullvad-vpn
 
@@ -241,7 +241,7 @@ thunderbird: /var/lib/flatpak/app/org.mozilla.Thunderbird
 	sudo flatpak install --assumeyes "org.mozilla.Thunderbird"
 
 spotify: /usr/bin/spotify
-/usr/bin/spotify: /etc/apt/trusted.gpg.d/spotify.gpg /etc/apt/sources.list.d/spotify.list
+/usr/bin/spotify: | /etc/apt/trusted.gpg.d/spotify.gpg /etc/apt/sources.list.d/spotify.list
 	sudo apt-get update
 	sudo apt-get install --yes spotify-client
 
@@ -251,11 +251,13 @@ spotify: /usr/bin/spotify
 /etc/apt/trusted.gpg.d/spotify.gpg:
 	curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
 
-ticktick:
+ticktick: /usr/bin/ticktick
+.PHONY: ticktick
+
+/usr/bin/ticktick:
 	mkdir -p /tmp/ticktick/
 	curl -sSLo /tmp/ticktick/ticktick.deb 'https://ticktick.com/static/getApp/download?type=linux_deb_x64'
 	sudo dpkg -i /tmp/ticktick/ticktick.deb
-.PHONY: ticktick
 
 vscode: /usr/bin/code
 .PHONY: vscode
