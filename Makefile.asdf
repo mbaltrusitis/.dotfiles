@@ -19,54 +19,56 @@ ASDF_VERSION := 0.13.1
 ASDF_INSTALL_PATH ?= $(HOME)/.asdf
 ASDF_CMD := $(ASDF_INSTALL_PATH)/bin/asdf
 
-# global config options
-ELIXIR_VERSION := 1.18.4-otp-26
-ERLANG_VERSION := 26.2.5.14
-GOLANG_VERSION := 1.24.6
-NIM_VERSION := 2.0.8
-NODEJS_VERSION := 22.19.0
-PRECOMMIT_VERSION := 3.7.1
-REBAR_VERSION := 3.25.1
-
 all: asdf asdf-plugins asdf-global-config
 
 asdf: $(HOME)/.asdf
 
 # asdf
 $(ASDF_INSTALL_PATH):
-	LOG_INFO "Installing asdf and its dependencies"
+	@LOG_INFO "Installing asdf and its dependencies"
 	sudo apt-get install curl git
 	git clone https://github.com/asdf-vm/asdf.git $(ASDF_INSTALL_PATH) --branch v$(ASDF_VERSION)
 
-# asdf plugins
-ASDF_PLUGINS_LIST := elixir erlang golang nim nodejs php pre-commit rabbitmq rebar zig
+asdf-plugins: elixir
+asdf-plugins: erlang
+asdf-plugins: golang
+asdf-plugins: nim
+asdf-plugins: nodejs
+asdf-plugins: php
+asdf-plugins: pre-commit
+asdf-plugins: rabbitmq
+asdf-plugins: rebar
+asdf-plugins: zig
 
-asdf-plugins: $(ASDF_PLUGINS_LIST)
-asdf-global-config: asdf-plugins
-	asdf install nodejs $(NODEJS_VERSION)
-	asdf global nodejs $(NODEJS_VERSION)
-	asdf install erlang $(ERLANG_VERSION)
-	asdf global erlang $(ERLANG_VERSION)
-	asdf install elixir $(ELIXIR_VERSION)
-	asdf global elixir $(ELIXIR_VERSION)
-	asdf install nim $(NIM_VERSION)
-	asdf global nim $(NIM_VERSION)
-	asdf install pre-commit $(PRECOMMIT_VERSION)
-	asdf global pre-commit $(PRECOMMIT_VERSION)
-	asdf install rebar $(REBAR_VERSION)
-	asdf global rebar $(REBAR_VERSION)
-	asdf install golang $(GOLANG_VERSION)
-	asdf global golang $(GOLANG_VERSION)
+# Pattern rules for asdf language installation
+# Uses .SECONDEXPANSION to parse plugin/version from the stem
+.SECONDEXPANSION:
+asdf/%: $(ASDF_INSTALL_PATH)/installs/$$*
+	@
+
+$(ASDF_INSTALL_PATH)/installs/%: | $(ASDF_INSTALL_PATH)/plugins/$$(firstword $$(subst /, ,$$*))
+	$(eval _plugin := $(firstword $(subst /, ,$*)))
+	$(eval _version := $(lastword $(subst /, ,$*)))
+	@$(ASDF_CMD) install $(_plugin) $(_version)
+	@$(ASDF_CMD) global $(_plugin) $(_version)
+
+asdf-global-config: asdf/nodejs/22.19.0
+asdf-global-config: asdf/erlang/26.2.5.14
+asdf-global-config: asdf/elixir/1.18.4-otp-26
+asdf-global-config: asdf/nim/2.0.8
+asdf-global-config: asdf/pre-commit/3.7.1
+asdf-global-config: asdf/rebar/3.25.1
+asdf-global-config: asdf/golang/1.24.6
 
 elixir: $(ASDF_INSTALL_PATH)/plugins/elixir
 .PHONY: elixir
 
 $(ASDF_INSTALL_PATH)/plugins/elixir:
 	# https://github.com/asdf-vm/asdf-elixir
-	LOG_INFO "Installing dependencies for $(notdir $@)"
+	@LOG_INFO "Installing dependencies for $(notdir $@)"
 	sudo apt-get --yes install unzip
-	LOG_INFO "Adding asdf plugin $(notdir $@)"
-	$(ASDF_CMD) plugin-add $(notdir $@)
+	@LOG_INFO "Adding asdf plugin $(notdir $@)"
+	@$(ASDF_CMD) plugin-add $(notdir $@)
 
 
 erlang: $(ASDF_INSTALL_PATH)/plugins/erlang
