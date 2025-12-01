@@ -2,15 +2,15 @@
 
 # If not running interactively, don't do anything
 case $- in
-	*i*) ;;
-	*) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # logger helpers
-LOG_DEBUG() { printf "\e[0;34m[DEBUG] %s\e[0m\n" "$1" ; }
-LOG_INFO() { printf "\e[0;32m[INFO]  %s\e[0m\n" "$1" ; }
-LOG_ERROR() { printf "\e[0;31m[ERROR] %s\e[0m\n" "$1" ; }
-LOG_WARNING() { printf "\e[0;33m[WARN]  %s\e[0m\n" "$1" ; }
+LOG_DEBUG() { printf "\e[0;34m[DEBUG] %s\e[0m\n" "$1"; }
+LOG_INFO() { printf "\e[0;32m[INFO]  %s\e[0m\n" "$1"; }
+LOG_ERROR() { printf "\e[0;31m[ERROR] %s\e[0m\n" "$1"; }
+LOG_WARNING() { printf "\e[0;33m[WARN]  %s\e[0m\n" "$1"; }
 
 # Description: Test a given $path and if true `source` it
 # Note:
@@ -26,6 +26,12 @@ test_and_source() {
 		source "$path"
 	fi
 }
+
+# If not running interactively, don't do anything
+case $- in
+*i*) ;;
+*) return ;;
+esac
 
 # don't put duplicate lines or lines starting with space in the history
 HISTCONTROL=ignoreboth
@@ -53,7 +59,7 @@ fi
 
 # colorize terminal start
 if [[ -x /usr/bin/dircolors ]]; then
-	eval "$(dircolors -b)";
+	eval "$(dircolors -b)"
 fi
 export color_prompt=yes
 export CLICOLOR=1
@@ -67,7 +73,6 @@ test_and_source "-f" "$HOME/.bash_aliases"
 # Default programs
 export EDITOR="nvim"
 export BROWSER="firefox"
-
 
 # Keep $HOME clean start
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -96,7 +101,7 @@ if [ -d "$HOME/.local/share/man" ]; then
 fi
 
 # .local start
-if [ -d "$HOME/.local/bin" ] ; then
+if [ -d "$HOME/.local/bin" ]; then
 	PATH="$HOME/.local/bin:$PATH"
 fi
 # .local final
@@ -104,9 +109,8 @@ fi
 # super user bin start
 export PATH="/usr/local/sbin:$PATH"
 
-
 # rust start
-if [ -d "$HOME/.cargo/bin" ] ; then
+if [ -d "$HOME/.cargo/bin" ]; then
 	PATH="$HOME/.cargo/bin:$PATH"
 fi
 # rust final
@@ -158,17 +162,17 @@ fi
 
 # mason start
 if [ -d "$HOME/.local/share/nvim/mason/bin" ]; then
-    export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+	export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 fi
 # mason final
 
 # fly start
 if [ -d "$HOME/.fly" ]; then
-  export FLYCTL_INSTALL="/home/heatmiser/.fly"
+	export FLYCTL_INSTALL="/home/heatmiser/.fly"
 fi
 
 if [ -d "$HOME/.fly/bin" ]; then
-  export PATH="$FLYCTL_INSTALL/bin:$PATH"
+	export PATH="$FLYCTL_INSTALL/bin:$PATH"
 fi
 # fly final
 
@@ -178,7 +182,6 @@ if hash aws 2>/dev/null && [ -f '/usr/local/bin/aws_completer' ]; then
 fi
 # aws cli final
 
-<<<<<<< HEAD
 # media // nas start
 if [[ -d "/mnt/heatnas/media/" ]]; then
 	export MEDIA_DIRECTORY="/mnt/heatnas/media/"
@@ -187,80 +190,79 @@ if [[ -d "/mnt/heatnas/media/" ]]; then
 	fi
 fi
 # media // nas final
-=======
+
 # claude code start
 if [ -x $HOME/.claude/local/claude ]; then
 	alias claude="$HOME/.claude/local/claude"
 fi
 # claude code final
->>>>>>> fe08914 (chore: 24.04 updates)
 
 __python_auto_activate_virtualenv() {
-    # get the first (alphabetically) .venv-* directory
-    declare -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
-    # disable `activate` from editing PS1
-    # shellcheck disable=SC2034
-    VIRTUAL_ENV_DISABLE_PROMPT=1
+	# get the first (alphabetically) .venv-* directory
+	declare -r first_found_venv="$(find . -maxdepth 1 -type d -name '.venv-*' | sort | head -n 1)"
+	# disable `activate` from editing PS1
+	# shellcheck disable=SC2034
+	VIRTUAL_ENV_DISABLE_PROMPT=1
 
-    if [[ -n "$first_found_venv" ]] && [[ -r "$first_found_venv" ]]; then
-        # a venv has been found, get its name and path
-        declare -r venv_name="$(basename "${first_found_venv}")"
-        declare -r venv_path="$(pwd -P)/${venv_name}"
-        declare -r venv_activate="${venv_path}/bin/activate"
+	if [[ -n "$first_found_venv" ]] && [[ -r "$first_found_venv" ]]; then
+		# a venv has been found, get its name and path
+		declare -r venv_name="$(basename "${first_found_venv}")"
+		declare -r venv_path="$(pwd -P)/${venv_name}"
+		declare -r venv_activate="${venv_path}/bin/activate"
 
-        # deactivate a mismatched venv
-        if [[ -n "$VIRTUAL_ENV" ]] && [[ "$VIRTUAL_ENV" != "$venv_path" ]]; then
-            declare -r old_venv_name="$(basename "$VIRTUAL_ENV")"
+		# deactivate a mismatched venv
+		if [[ -n "$VIRTUAL_ENV" ]] && [[ "$VIRTUAL_ENV" != "$venv_path" ]]; then
+			declare -r old_venv_name="$(basename "$VIRTUAL_ENV")"
 
-            # check for the `deactivate` function and call it
-            if [[ "$(type -t deactivate)" = "function" ]] && deactivate; then
-                LOG_INFO "Deactivated venv ${old_venv_name}"
-            else
-                LOG_ERROR "Failed to deactivate venv ${old_venv_name}"
-                return 1
-            fi
-        fi
+			# check for the `deactivate` function and call it
+			if [[ "$(type -t deactivate)" = "function" ]] && deactivate; then
+				LOG_INFO "Deactivated venv ${old_venv_name}"
+			else
+				LOG_ERROR "Failed to deactivate venv ${old_venv_name}"
+				return 1
+			fi
+		fi
 
-        # if a venv is not activated, activate the one we found
-        if [[ -z "$VIRTUAL_ENV" ]] && [[ -r "$venv_activate" ]]; then
-            # shellcheck disable=SC1090
-            if test_and_source "-r" "$venv_activate"; then
-                LOG_INFO "Activated venv ${venv_name}"
-            else
-                LOG_ERROR "Failed to activate venv ${venv_name}"
-                return 1
-            fi
-        fi
-    fi
+		# if a venv is not activated, activate the one we found
+		if [[ -z "$VIRTUAL_ENV" ]] && [[ -r "$venv_activate" ]]; then
+			# shellcheck disable=SC1090
+			if test_and_source "-r" "$venv_activate"; then
+				LOG_INFO "Activated venv ${venv_name}"
+			else
+				LOG_ERROR "Failed to activate venv ${venv_name}"
+				return 1
+			fi
+		fi
+	fi
 }
 
 __load_kube_configs() {
-  # Start with the default config if it exists
-  if [ -f ~/.kube/config ]; then
-    KUBECONFIG=~/.kube/config
-  else
-    KUBECONFIG=""
-  fi
+	# Start with the default config if it exists
+	if [ -f ~/.kube/config ]; then
+		KUBECONFIG=~/.kube/config
+	else
+		KUBECONFIG=""
+	fi
 
-  # Check if the configs directory exists
-  if [ -d ~/.kube/configs ]; then
-    # Iterate through all files in the configs directory
-    for config_file in ~/.kube/configs/*; do
-      # Make sure it's a file (not a directory)
-      if [ -f "$config_file" ]; then
-        # If KUBECONFIG is not empty, add a colon separator
-        if [ -n "$KUBECONFIG" ]; then
-          KUBECONFIG="$KUBECONFIG:$config_file"
-        else
-          KUBECONFIG="$config_file"
-        fi
-      fi
-    done
-  fi
+	# Check if the configs directory exists
+	if [ -d ~/.kube/configs ]; then
+		# Iterate through all files in the configs directory
+		for config_file in ~/.kube/configs/*; do
+			# Make sure it's a file (not a directory)
+			if [ -f "$config_file" ]; then
+				# If KUBECONFIG is not empty, add a colon separator
+				if [ -n "$KUBECONFIG" ]; then
+					KUBECONFIG="$KUBECONFIG:$config_file"
+				else
+					KUBECONFIG="$config_file"
+				fi
+			fi
+		done
+	fi
 }
 
-  # Export the environment variable
-  export KUBECONFIG
+# Export the environment variable
+export KUBECONFIG
 
 # prompt formatting start
 test_and_source "-r" "$HOME/.local/src/ps1_setup.sh"
