@@ -22,6 +22,7 @@
 	spush = stash push
 	st = status -sb
 	type = cat-file -t
+	fixup-interactive = !git log --oneline -20 | fzf | cut -d\" \" -f1 | xargs git commit --fixup
 [branch]
 	autoSetupRebase = always
 [color]
