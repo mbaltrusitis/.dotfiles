@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "neovim": {
+      "type": "ws",
+      "url": "ws://127.0.0.1:14529",
+      "headers": {
+        "x-claude-code-ide-authorization": "2e6b0366-154a-4f5a-ba7e-b3622eb73553"
+      }
+    }
+  }
+}
