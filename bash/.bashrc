@@ -103,7 +103,7 @@ fi
 
 # .local start
 if [ -d "$HOME/.local/bin" ]; then
-	PATH="$HOME/.local/bin:$PATH"
+	export PATH="$HOME/.local/bin:$PATH"
 fi
 # .local final
 
@@ -191,12 +191,6 @@ if [[ -d "/mnt/heatnas/media/" ]]; then
 	fi
 fi
 # media // nas final
-
-# claude code start
-if [ -x $HOME/.claude/local/claude ]; then
-	alias claude="$HOME/.claude/local/claude"
-fi
-# claude code final
 
 __python_auto_activate_virtualenv() {
 	# get the first (alphabetically) .venv-* directory
