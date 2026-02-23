@@ -64,4 +64,4 @@ alias tns='ts'
 alias zen-browser='flatpak run io.github.zen_browser.zen'
 alias zen='zen-browser'
 
-alias tsup='sudo tailscale up --accept-dns=true --accept-routes=true'
+alias tsup="sudo tailscale up --accept-dns=true --accept-routes=true --operator=$USER"
