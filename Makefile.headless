@@ -224,15 +224,18 @@ $(FLYCTL_INSTALL_PREFIX):
 	FLYCTL_INSTALL=$(FLYCTL_INSTALL_PREFIX) $(FLYCTL_DOWNLOAD_DIR)/install.sh
 	rm -fr $(FLYCTL_DOWNLOAD_DIR)
 
-k9s: /usr/bin/k9s
-K9S_VERSION := 0.32.5
-/usr/bin/k9s:
+K9S_VERSION := 0.50.18
+k9s: _build/.k9s-$(K9S_VERSION)
+.PHONY: k9s
+_build/.k9s-$(K9S_VERSION): | _build
 	download_github_release_artifact \
 		"/tmp/k9s" \
 		"https://github.com/derailed/k9s" \
 		"k9s_linux_amd64.deb" \
 		"v$(K9S_VERSION)"
 	sudo dpkg -i "/tmp/k9s/k9s_linux_amd64.deb"
+	rm -f _build/.k9s-*
+	touch $@
 
 mkcert: /usr/local/bin/mkcert
 MKCERT_VERSION := 1.4.4
