@@ -19,6 +19,20 @@ end, { desc = "buffer new" })
 
 map("n", "<leader><leader>", "<C-^>", { desc = "Toggle alternate file" })
 
+map("n", "<leader>ft", function()
+  local filetypes = {
+    "markdown", "lua", "python", "bash", "go", "json", "yaml",
+    "javascript", "typescript", "html", "css", "sql", "rust",
+    "elixir", "dockerfile",
+  }
+  vim.ui.select(filetypes, { prompt = "Set filetype:" }, function(choice)
+    if choice then
+      vim.bo.filetype = choice
+      vim.notify("Filetype set to " .. choice, vim.log.levels.INFO)
+    end
+  end)
+end, { desc = "Set buffer filetype" })
+
 -- quickfix list
 map("n", "<leader>ql", function()
   local qf_winid = vim.fn.getqflist({ winid = 0 }).winid
