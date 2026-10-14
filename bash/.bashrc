@@ -114,6 +114,9 @@ export PATH="/usr/local/sbin:$PATH"
 if [ -d "$HOME/.cargo/bin" ]; then
 	PATH="$HOME/.cargo/bin:$PATH"
 fi
+if [ -d "$HOME/.local/share/cargo/bin" ]; then
+	export PATH="$HOME/.local/share/cargo/bin:$PATH"
+fi
 # rust final
 
 # mail
@@ -259,9 +262,50 @@ __load_kube_configs() {
 # Export the environment variable
 export KUBECONFIG
 
+# Description: Turn off any mouse/focus reporting modes left enabled by a
+# program that died without restoring the terminal (dropped SSH session,
+# suspend/resume, killed tmux or $EDITOR). Without this the terminal keeps
+# emitting SGR mouse reports and the shell echoes them as garbage.
+__disable_mouse_reporting() {
+	# only talk to a real terminal
+	[[ -t 1 ]] || return 0
+
+	# X10, normal, hilite, button-event and any-event tracking
+	printf '\e[?9l\e[?1000l\e[?1001l\e[?1002l\e[?1003l'
+	# focus reporting, and the UTF-8/SGR/urxvt/pixel report encodings
+	printf '\e[?1004l\e[?1005l\e[?1006l\e[?1015l\e[?1016l'
+}
+
+# Description: Heavier recovery for a terminal left in a bad state. Does what
+# __disable_mouse_reporting does, then leaves the alternate screen, restores
+# the cursor and re-enables line wrap.
+fixterm() {
+	__disable_mouse_reporting
+	# show cursor, re-enable autowrap, leave the alternate screen
+	printf '\e[?25h\e[?7h\e[?1049l'
+	# reset character sets and attributes without a full screen-clearing reset
+	printf '\e(B\e[m'
+	# restore sane line discipline (echo, canonical mode) if a program left it off
+	stty sane
+}
+
 # prompt formatting start
 test_and_source "-r" "$HOME/.local/src/ps1_setup.sh"
 # prompt formatting final
 
-export PROMPT_COMMAND="$PROMPT_COMMAND __python_auto_activate_virtualenv; __setup_ps1; "
-alias claude="/home/heatmiser/.claude/local/claude"
+export PROMPT_COMMAND="$PROMPT_COMMAND __disable_mouse_reporting; __python_auto_activate_virtualenv; __setup_ps1; "
+
+# claude code start
+if [ -x "$HOME/.local/bin/claude" ]; then
+	# Description: Run claude, then restore the terminal. The TUI turns on mouse
+	# tracking at startup and only turns it back off in its own exit handler, so
+	# anything that skips that handler (SIGKILL, a dropped SSH session, a suspend
+	# that kills the process) leaves the terminal reporting every mouse move.
+	claude() {
+		"$HOME/.local/bin/claude" "$@"
+		local rc=$?
+		__disable_mouse_reporting
+		return $rc
+	}
+fi
+# claude code final
